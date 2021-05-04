@@ -1,6 +1,6 @@
+import 'package:autofy_warranty_app/pages/signIn/signinPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:autofy_warranty_app/pages/homepage.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,7 +12,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Autofy',
-      home: Scaffold(body: HomePage()),
+      home: GetDesign(),
+    );
+  }
+}
+
+class GetDesign extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(child: SignInPage()),
     );
   }
 }
