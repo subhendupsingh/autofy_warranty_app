@@ -1,6 +1,7 @@
-import 'package:autofy_warranty_app/pages/signIn/signinPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+
+import 'pages/signIn/signInPage.dart';
 
 void main() {
   runApp(MyApp());
