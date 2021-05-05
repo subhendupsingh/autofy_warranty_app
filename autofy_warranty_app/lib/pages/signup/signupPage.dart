@@ -3,11 +3,9 @@ import 'dart:ui';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:wave/config.dart';
-import 'package:wave/wave.dart';
+
 import '../widgets/btn.dart';
 import '../widgets/link.dart';
-import '../widgets/textField.dart';
 import '../widgets/textField.dart';
 import '../widgets/wave.dart';
 
@@ -52,7 +50,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/images/logo.png',
+                    'assets/images/autofy_logo.png',
                     width: 150,
                   ),
                   Text(
