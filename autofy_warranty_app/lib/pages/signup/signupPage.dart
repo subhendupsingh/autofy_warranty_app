@@ -1,8 +1,10 @@
 import 'dart:ui';
 
+import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../widgets/btn.dart';
 import '../widgets/link.dart';
@@ -80,7 +82,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   Center(
                       child: GetLink(
                     linkText: "Already Have An Account? Sign In",
-                    onTapped: () {},
+                    onTapped: () => Get.to(SignInPage()),
                   )),
                 ],
               ),
