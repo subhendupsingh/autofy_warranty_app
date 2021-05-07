@@ -29,7 +29,10 @@ class _SignUpPageState extends State<SignUpPage> {
     String labelText = "",
   }) {
     return GetTextField(
-        textFieldController: textEditingController, lableText: labelText);
+      textFieldController: textEditingController,
+      lableText: labelText,
+      validatorFun: (_) {},
+    );
   }
 
   submitButton() {
