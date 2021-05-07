@@ -5,9 +5,11 @@ class GetTextField extends StatelessWidget {
   final TextEditingController textFieldController;
   final bool hasShadow, isPassword;
   final String lableText;
+  String? Function(String?) validatorFun;
   GetTextField({
     required this.textFieldController,
     required this.lableText,
+    required this.validatorFun,
     this.hasShadow = false,
     this.isPassword = false,
   });
@@ -15,26 +17,29 @@ class GetTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
+      height: 70,
       child: Card(
         elevation: hasShadow ? 10 : 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.commonRadius),
         ),
         shadowColor: Colors.white70,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          child: TextFormField(
-            controller: textFieldController,
-            decoration: InputDecoration(
-              hintText: lableText,
-              border: InputBorder.none,
-              hintStyle: TextStyle(
-                fontSize: AppTexts.inputFieldTextSize,
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: TextFormField(
+              controller: textFieldController,
+              validator: validatorFun,
+              decoration: InputDecoration(
+                hintText: lableText,
+                border: InputBorder.none,
+                hintStyle: TextStyle(
+                  fontSize: AppTexts.inputFieldTextSize,
+                ),
               ),
+              cursorColor: AppColors.primaryColor,
+              obscureText: isPassword,
             ),
-            cursorColor: AppColors.primaryColor,
-            obscureText: isPassword,
           ),
         ),
       ),

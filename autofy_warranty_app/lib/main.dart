@@ -21,8 +21,6 @@ class MyApp extends StatelessWidget {
 class GetDesign extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(child: SignInPage()),
-    );
+    return SignInPage();
   }
 }
