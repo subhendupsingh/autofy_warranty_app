@@ -45,6 +45,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   GetTextField buildNameField() {
     return GetTextField(
+      hasShadow: true,
       textFieldController: nameController,
       lableText: "Name",
       validatorFun: (value) {
@@ -63,6 +64,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   GetTextField buildEmailField() {
     return GetTextField(
+      hasShadow: true,
       textFieldController: emailController,
       lableText: "Email",
       validatorFun: (value) {
@@ -79,6 +81,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   GetTextField buildPhoneNumField() {
     return GetTextField(
+      hasShadow: true,
       textFieldController: phoneController,
       lableText: "Phone Number",
       validatorFun: (value) {
@@ -95,6 +98,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
   GetTextField buildPasswordField() {
     return GetTextField(
+      isPassword: true,
+      hasShadow: true,
       textFieldController: passwordController,
       lableText: "Password",
       validatorFun: (value) {
@@ -111,8 +116,9 @@ class _SignUpPageState extends State<SignUpPage> {
 
   GetBtn buildSubmitButton() {
     return GetBtn(
-        btnText: "SignUp",
+        btnText: isRegistering ? "Please Wait..." : "SignUp",
         onPressed: () async {
+          if (isRegistering) return;
           if (_formKey.currentState!.validate()) {
             setState(() {
               isRegistering = true;
@@ -141,41 +147,50 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: AbsorbPointer(
-        absorbing: isRegistering,
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: Color.fromRGBO(248, 248, 248, 1),
-          body: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      logo,
-                      autofyTitle,
-                      emptyVerticalBox(height: 40),
-                      buildNameField(),
-                      emptyVerticalBox(),
-                      buildEmailField(),
-                      emptyVerticalBox(),
-                      buildPhoneNumField(),
-                      emptyVerticalBox(),
-                      buildPasswordField(),
-                      emptyVerticalBox(),
-                      buildSubmitButton(),
-                      emptyVerticalBox(),
-                      signInLink,
-                    ],
-                  ),
+      child: Scaffold(
+        backgroundColor: Color.fromRGBO(248, 248, 248, 1),
+        body: SingleChildScrollView(
+          physics: ScrollPhysics(),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                emptyVerticalBox(),
+                logo,
+                autofyTitle,
+                emptyVerticalBox(height: 40),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: buildNameField(),
                 ),
-              ),
-              GetWave(),
-            ],
+                emptyVerticalBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: buildEmailField(),
+                ),
+                emptyVerticalBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: buildPhoneNumField(),
+                ),
+                emptyVerticalBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: buildPasswordField(),
+                ),
+                emptyVerticalBox(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: buildSubmitButton(),
+                ),
+                emptyVerticalBox(),
+                signInLink,
+                emptyVerticalBox(),
+              ],
+            ),
           ),
         ),
       ),
