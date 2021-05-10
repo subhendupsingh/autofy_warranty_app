@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart' as pathProvider;
 import 'pages/signIn/signInPage.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final directory = await pathProvider.getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
+  await Hive.openBox('UserData');
   runApp(MyApp());
 }
 

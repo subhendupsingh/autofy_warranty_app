@@ -31,6 +31,10 @@ dependencies:
   get:
   wave:
   email_validator:
+  dio:
+  pin_code_fields:
+  hive:
+  path_provider:
 
 dev_dependencies:
   flutter_test:
