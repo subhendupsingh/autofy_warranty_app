@@ -27,7 +27,10 @@ dependencies:
   get:
   wave:
   email_validator:
-  dio: ^4.0.0
+  pin_code_fields:
+  hive:
+  path_provider:
+  dio: 
   flutter_easyloading: ^3.0.0
 
 
