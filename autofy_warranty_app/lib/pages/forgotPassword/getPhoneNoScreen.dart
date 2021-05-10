@@ -2,13 +2,10 @@ import 'package:autofy_warranty_app/pages/forgotPassword/forgotScrController.dar
 import 'package:autofy_warranty_app/pages/widgets/textField.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ForgotPasswordEmailScreen extends StatelessWidget {
-  final TextEditingController forgotPasswordEmailController =
-      TextEditingController();
+class ForgotPasswordPhoneNoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -25,7 +22,7 @@ class ForgotPasswordEmailScreen extends StatelessWidget {
         ),
         emptyVerticalBox(height: 10),
         Text(
-          "Enter the email associated with your account\nand we'll verify and give you privilege to\nchange password.",
+          "Enter the mobile number associated with your account and we'll verify and give you privilege \n to change password.",
           style: TextStyle(
             color: AppColors.greyTextColor,
             fontSize: AppTexts.inputFieldTextSize,
@@ -35,19 +32,20 @@ class ForgotPasswordEmailScreen extends StatelessWidget {
         GetBuilder<ResetScrController>(
           init: ResetScrController(),
           builder: (val) => Form(
-            key: val.forgotEmailScrFormKey,
+            key: val.forgotPhoneNoScrFormKey,
             child: GetTextField(
-              textFieldController: forgotPasswordEmailController,
-              lableText: "Email Address",
-              validatorFun: (email) {
-                if (email == "") {
-                  return "Please Enter Email...";
-                } else if (!EmailValidator.validate(email!)) {
-                  return "Please Enter Valid Email...";
+              textFieldController: val.forgotPasswordPhoneNoController,
+              lableText: "Mobile No",
+              validatorFun: (mobileNo) {
+                if (mobileNo == "") {
+                  return "Please Enter phone number...";
+                } else if (mobileNo!.length != 10) {
+                  return "Please enter valid mobile no.";
                 }
               },
               hasShadow: true,
               isPassword: false,
+              inputType: TextInputType.phone,
             ),
           ),
         ),

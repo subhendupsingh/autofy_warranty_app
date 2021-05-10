@@ -2,7 +2,6 @@ import 'package:autofy_warranty_app/pages/forgotPassword/forgotScrController.dar
 import 'package:autofy_warranty_app/pages/widgets/textField.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -48,7 +47,7 @@ class ChangePasswordScreen extends StatelessWidget {
                 }
               },
               hasShadow: true,
-              isPassword: false,
+              isPassword: true,
             ),
             GetTextField(
               textFieldController: confirmPasswordController,
@@ -60,9 +59,10 @@ class ChangePasswordScreen extends StatelessWidget {
                     confirmPasswordController.text) {
                   return "Both password must be same.";
                 }
+                val.passwordForReset = password.toString();
               },
               hasShadow: true,
-              isPassword: false,
+              isPassword: true,
             ),
           ],
         ),
