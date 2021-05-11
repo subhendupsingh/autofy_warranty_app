@@ -2,7 +2,7 @@ import 'package:autofy_warranty_app/pages/forgotPassword/forgotScrController.dar
 import 'package:autofy_warranty_app/pages/forgotPassword/getChangePasswordScr.dart';
 import 'package:autofy_warranty_app/pages/forgotPassword/getPhoneNoScreen.dart';
 import 'package:autofy_warranty_app/pages/forgotPassword/otpScreen.dart';
-import 'package:autofy_warranty_app/pages/signIn/signinPage.dart';
+import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
 import 'package:autofy_warranty_app/pages/widgets/backBtn.dart';
 import 'package:autofy_warranty_app/pages/widgets/btn.dart';
 import 'package:autofy_warranty_app/services/resetPasswordService.dart';

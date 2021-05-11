@@ -1,8 +1,8 @@
 import 'package:autofy_warranty_app/controllers/authController.dart';
+import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
 import 'package:autofy_warranty_app/pages/signup/signupPage.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
@@ -17,7 +17,6 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -26,7 +25,6 @@ class MyApp extends StatelessWidget {
       }),
       title: 'Autofy',
       home: GetDesign(),
-      builder: EasyLoading.init(),
     );
   }
 }
@@ -34,6 +32,6 @@ class MyApp extends StatelessWidget {
 class GetDesign extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SignUpPage();
+    return SignInPage();
   }
 }
