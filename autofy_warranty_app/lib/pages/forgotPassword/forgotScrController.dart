@@ -11,7 +11,7 @@ class ResetScrController extends GetxController {
   final TextEditingController forgotPasswordPhoneNoController =
       TextEditingController();
   String otpByUser = "";
-  int start = 5;
+  int start = 180;
   bool _isLoading = false;
   String pageFinder = "phoneNoScreen", passwordForReset = "";
   PageController get pageController => this._pageController;

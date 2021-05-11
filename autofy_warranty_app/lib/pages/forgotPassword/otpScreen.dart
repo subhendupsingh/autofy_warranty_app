@@ -73,7 +73,7 @@ class OtpScreen extends StatelessWidget {
                     );
                     val.updateIsLoading();
                     if (res == "OTP Send Successfully") {
-                      val.start = 5;
+                      val.start = 180;
                       Get.snackbar(
                         "OTP successfully send",
                         "Please enter new OTP.",

@@ -20,6 +20,7 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Form(
           key: _signInFormKey,
@@ -40,7 +41,7 @@ class SignInPage extends StatelessWidget {
                           color: AppColors.primaryColor,
                         ),
                       ),
-                      emptyVerticalBox(height: 30),
+                      emptyVerticalBox(height: 50),
                       GetTextField(
                         textFieldController: emailController,
                         lableText: "Email Address",
@@ -89,11 +90,13 @@ class SignInPage extends StatelessWidget {
                                   val.updateLoading();
                                   if (res == "SuccessFully Logged in") {
                                     Get.snackbar("$res", "Thank you");
-                                    Get.to(() => Homepage());
+                                    Get.offAll(() => Homepage());
                                   } else if (res == "Something want wrong" ||
                                       res == "Internal server error") {
                                     Get.snackbar(
-                                        "$res", "Please try after sometime.");
+                                      "$res",
+                                      "Please try after sometime.",
+                                    );
                                   } else {
                                     Get.snackbar("$res", "Thank you");
                                   }
