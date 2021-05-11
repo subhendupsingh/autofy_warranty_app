@@ -1,4 +1,5 @@
 import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
+import 'package:autofy_warranty_app/services/localStorageService.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as getx;
@@ -14,17 +15,20 @@ class AuthController extends GetxController {
     try {
       Response response =
           await _dio.post<Map>("$baseUrl/api/v1/register", data: data);
-      print(response.data);
+
       if (response.statusCode == 200) {
+        LocalStoragaeService.updateUserData(response.data);
+
+        getx.Get.off(SignInPage());
         getx.Get.snackbar("Registraion Successful", "Please log in",
             colorText: Colors.green);
-        getx.Get.to(SignInPage());
+
         isRegistrationSuccess = true;
       }
     } on DioError catch (e) {
       //TODO: Remove these print statement, instead use debug prints
       print(e.response!.data["message"]);
-      getx.Get.snackbar("Registraion Failed", e.response!.data["message"],
+      getx.Get.snackbar("User already registered", e.response!.data["message"],
           colorText: Colors.red, backgroundColor: Colors.white);
     } catch (e) {
       print(e);

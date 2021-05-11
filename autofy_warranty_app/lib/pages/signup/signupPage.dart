@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:autofy_warranty_app/controllers/authController.dart';
 import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
+import 'package:autofy_warranty_app/services/localStorageService.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
 import 'package:flutter/material.dart';
@@ -31,17 +32,18 @@ class _SignUpPageState extends State<SignUpPage> {
 
   bool isRegistering = false;
 
-  Image logo = Image.asset(
-    'assets/images/autofy_logo.png',
-    width: 150,
-  );
+  // Image logo = Image.asset(
+  //   'assets/images/autofy_logo.png',
+  //   width: 150,
+  // );
 
-  Text autofyTitle = Text(
-    "AUTOFY",
-    style: TextStyle(
-        color: AppColors.primaryColor,
-        fontSize: AppTexts.primaryHeadingTextSize),
-  );
+  Text buildSignUpText() => Text(
+        "Sign Up",
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: AppColors.primaryColor,
+            fontSize: AppTexts.primaryHeadingTextSize),
+      );
 
   GetTextField buildNameField() {
     return GetTextField(
@@ -153,43 +155,30 @@ class _SignUpPageState extends State<SignUpPage> {
           physics: ScrollPhysics(),
           child: Form(
             key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                emptyVerticalBox(),
-                logo,
-                autofyTitle,
-                emptyVerticalBox(height: 40),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: buildNameField(),
-                ),
-                emptyVerticalBox(height: 15),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: buildEmailField(),
-                ),
-                emptyVerticalBox(height: 15),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: buildPhoneNumField(),
-                ),
-                emptyVerticalBox(height: 15),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: buildPasswordField(),
-                ),
-                emptyVerticalBox(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: buildSubmitButton(),
-                ),
-                emptyVerticalBox(),
-                signInLink,
-                emptyVerticalBox(),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  emptyVerticalBox(height: 100),
+                  buildSignUpText(),
+                  emptyVerticalBox(height: 40),
+                  buildNameField(),
+                  emptyVerticalBox(height: 15),
+                  buildEmailField(),
+                  emptyVerticalBox(height: 15),
+                  buildPhoneNumField(),
+                  emptyVerticalBox(height: 15),
+                  buildPasswordField(),
+                  emptyVerticalBox(),
+                  buildSubmitButton(),
+                  emptyVerticalBox(),
+                  signInLink,
+                  emptyVerticalBox(),
+                ],
+              ),
             ),
           ),
         ),
