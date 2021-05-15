@@ -1,6 +1,5 @@
 import 'package:autofy_warranty_app/controllers/authController.dart';
 import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
-import 'package:autofy_warranty_app/pages/signup/signupPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:hive/hive.dart';
@@ -19,9 +18,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialBinding: BindingsBuilder(() {
-        Get.put(AuthController());
-      }),
+      initialBinding: BindingsBuilder(
+        () {
+          Get.put(
+            AuthController(),
+          );
+        },
+      ),
       title: 'Autofy',
       home: GetDesign(),
     );
