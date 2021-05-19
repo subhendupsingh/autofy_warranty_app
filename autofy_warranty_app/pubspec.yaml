@@ -31,6 +31,8 @@ dependencies:
   hive:
   path_provider:
   dio: 
+  image_picker:
+  google_ml_vision:
 
 
 dev_dependencies:
