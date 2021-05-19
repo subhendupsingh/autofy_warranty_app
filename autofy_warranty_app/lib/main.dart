@@ -1,5 +1,6 @@
 import 'package:autofy_warranty_app/controllers/authController.dart';
 import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
+import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:hive/hive.dart';
@@ -31,9 +32,22 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class GetDesign extends StatelessWidget {
+class GetDesign extends StatefulWidget {
+  @override
+  _GetDesignState createState() => _GetDesignState();
+}
+
+class _GetDesignState extends State<GetDesign> {
+  bool alreadyLoggedIn = false;
+  @override
+  void initState() {
+    var userBox = Hive.box('userData');
+    alreadyLoggedIn = userBox.get("token") != null ? true : false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SignInPage();
+    return alreadyLoggedIn ? UploadInvoiceScreen() : SignInPage();
   }
 }

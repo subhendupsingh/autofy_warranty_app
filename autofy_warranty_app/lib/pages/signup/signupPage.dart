@@ -85,6 +85,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return GetTextField(
       hasShadow: true,
       textFieldController: phoneController,
+      inputType: TextInputType.phone,
       lableText: "Phone Number",
       validatorFun: (value) {
         if (value == null) {

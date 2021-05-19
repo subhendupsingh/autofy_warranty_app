@@ -128,7 +128,9 @@ class ResetPassword extends StatelessWidget {
                                   "Password Change",
                                   "Your password request served successfully",
                                 );
-                                Get.offAll(() => SignInPage());
+                                Get.offAll(
+                                  () => SignInPage(),
+                                );
                               }
                             }
                           },
