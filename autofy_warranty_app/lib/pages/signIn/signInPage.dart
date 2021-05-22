@@ -2,6 +2,7 @@ import 'package:autofy_warranty_app/pages/forgotPassword/forgotPassword.dart';
 import 'package:autofy_warranty_app/pages/homepage/homepage.dart';
 import 'package:autofy_warranty_app/pages/signIn/signInController.dart';
 import 'package:autofy_warranty_app/pages/signup/signupPage.dart';
+import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceScreen.dart';
 import 'package:autofy_warranty_app/pages/widgets/btn.dart';
 import 'package:autofy_warranty_app/pages/widgets/link.dart';
 import 'package:autofy_warranty_app/pages/widgets/textField.dart';
@@ -90,7 +91,7 @@ class SignInPage extends StatelessWidget {
                                   val.updateLoading();
                                   if (res == "SuccessFully Logged in") {
                                     Get.snackbar("$res", "Thank you");
-                                    Get.offAll(() => Homepage());
+                                    Get.offAll(() => UploadInvoiceScreen());
                                   } else if (res == "Something want wrong" ||
                                       res == "Internal server error") {
                                     Get.snackbar(

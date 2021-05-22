@@ -4,17 +4,23 @@ import 'package:flutter/material.dart';
 class GetBtn extends StatelessWidget {
   final String btnText;
   final void Function() onPressed;
-
-  GetBtn({required this.btnText, required this.onPressed});
+  final Color? btnColor;
+  final double width, height;
+  GetBtn(
+      {required this.btnText,
+      required this.onPressed,
+      this.btnColor,
+      this.height = 0,
+      this.width = 0});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
-      height: 55,
+      width: width == 0 ? double.infinity : width,
+      height: height == 0 ? 55 : height,
       child: MaterialButton(
         onPressed: onPressed,
-        color: AppColors.primaryColor,
+        color: btnColor == null ? AppColors.primaryColor : btnColor,
         child: Text(
           btnText,
           style: TextStyle(
