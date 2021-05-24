@@ -143,7 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Center signInLink = Center(
     child: GetLink(
       linkText: "Already Have An Account? Sign In",
-      onTapped: () => Get.to(SignInPage()),
+      onTapped: () => Get.off(SignInPage()),
     ),
   );
 
