@@ -1,3 +1,4 @@
+import 'package:autofy_warranty_app/services/localStorageService.dart';
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 
@@ -6,8 +7,6 @@ class SignInServices {
 
   static Future<String> authenticateUser(
       {required String email, required String password}) async {
-    Hive.box('userData');
-    var userBox = Hive.box('userData');
     Response<Map<String, dynamic>> response;
     try {
       response = await dio.post(
@@ -15,12 +14,18 @@ class SignInServices {
         data: {"username": email, "password": password},
       );
       if (response.statusCode == 200) {
-        userBox.put("token", response.data!["token"]);
+        LocalStoragaeService.updateUserData(
+          {
+            UserField.Token: response.data!["token"],
+            UserField.Id: response.data!["id"].toString(),
+            UserField.Address: response.data!["email"],
+            UserField.Phone: response.data!["phone"],
+          },
+        );
         return "SuccessFully Logged in";
       }
     } catch (e) {
       String res = e.toString().substring(53, 56);
-      print(e.toString());
       if (res == "401") {
         return "Invalid email or password";
       } else if (res == "500") {

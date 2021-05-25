@@ -33,7 +33,8 @@ dependencies:
   dio: 
   image_picker:
   google_ml_vision:
-
+  file_picker: ^3.0.1
+  http:
 
 dev_dependencies:
   flutter_test:

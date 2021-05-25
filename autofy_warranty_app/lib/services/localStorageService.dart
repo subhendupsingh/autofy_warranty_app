@@ -44,14 +44,13 @@ extension UserFieldExtension on UserField {
 class LocalStoragaeService {
   static var userDataBox = Hive.box(kUserDataBoxName);
 
-  static void updateUserData(Map<String, dynamic> userData) {
+  static void updateUserData(Map<UserField, dynamic> userData) {
     userData.forEach((key, value) async {
-      await userDataBox.put(key, value ?? "");
+      await userDataBox.put(key.asString, value ?? "");
     });
   }
-  
+
   static String getUserValue(UserField userField) {
     return userDataBox.get(userField.asString);
   }
-
 }
