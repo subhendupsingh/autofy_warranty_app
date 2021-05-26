@@ -1,6 +1,5 @@
 import 'package:autofy_warranty_app/controllers/apiController.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/productSearchScreen.dart';
-import 'package:autofy_warranty_app/pages/uploadInvoice/productTileWidget.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceController.dart';
 import 'package:autofy_warranty_app/pages/widgets/btn.dart';
 import 'package:autofy_warranty_app/pages/widgets/textField.dart';
@@ -33,7 +32,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     String kNotFound = "NOTFOUND";
     UploadInvoiceController invoiceController =
         Get.find<UploadInvoiceController>();
-    warrantyCode = invoiceController.warrentyCode;
+    warrantyCode = invoiceController.warrantyCode;
     Map<String, dynamic> extractedData = invoiceController.invoiceData;
     if (extractedData == {}) return;
     for (String key in extractedData.keys) {

@@ -91,10 +91,13 @@ class _UploadInvoiceScreenState extends State<UploadInvoiceScreen> {
               ? buildCircularProgcessIndicator()
               : buildSerialCodeInputField(context, controller),
           emptyVerticalBox(height: 25),
-          controller.showValidateWarrentyMsg
+          controller.showValidateWarrantyMsg
               ? controller.validatedSuccessfully
                   ? buildSuccessMsg("Warranty code is validated")
-                  : buildDangerMsg("Warranty code is not valid")
+                  : controller.isCodeLenError
+                      ? buildDangerMsg(
+                          "Warranty code should be of 16 Characters")
+                      : buildDangerMsg("Warranty code is not validated")
               : Container()
         ],
       ),
@@ -124,7 +127,8 @@ class _UploadInvoiceScreenState extends State<UploadInvoiceScreen> {
             );
           else {
             controller.showValidateFileMsg = true;
-            controller.showValidateWarrentyMsg = true;
+            controller.showValidateWarrantyMsg = true;
+            controller.isFileSelected = false;
           }
         },
       ),
@@ -147,7 +151,7 @@ class _UploadInvoiceScreenState extends State<UploadInvoiceScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          "Enter/Scan Warrenty Code",
+          "Enter/Scan Warranty Code",
           style: TextStyle(
             fontSize: AppTexts.normalTextSize,
             fontWeight: FontWeight.bold,
@@ -160,29 +164,28 @@ class _UploadInvoiceScreenState extends State<UploadInvoiceScreen> {
           ),
           onPressed: () async {
             String msg = await imageServices.captureAndProcessImage();
+            controller.showValidateWarrantyMsg = true;
             if (msg == "Not Found") {
               Get.snackbar(
-                "Warrenty Code Not Found",
+                "Warranty Code Not Found",
                 "Please Enter It Manually",
               );
             } else if (msg == "No Image Selected") {
               Get.snackbar(msg, "Please Select A Image To Scan Code");
             } else if (msg == "Warranty code is valid.") {
-              String code = controller.warrentyCode;
-              firstTextEditingController.text = code.substring(0, 4);
-              secondTextEditingController.text = code.substring(5, 9);
-              thirdTextEditingController.text = code.substring(10, 14);
-              fourthTextEditingController.text = code.substring(15);
               controller.validatedSuccessfully = true;
-              controller.showValidateWarrentyMsg = true;
-            } else {
-              String code = controller.warrentyCode;
+              String code = controller.warrantyCode;
               firstTextEditingController.text = code.substring(0, 4);
               secondTextEditingController.text = code.substring(5, 9);
               thirdTextEditingController.text = code.substring(10, 14);
               fourthTextEditingController.text = code.substring(15);
+            } else {
               controller.validatedSuccessfully = false;
-              controller.showValidateWarrentyMsg = true;
+              String code = controller.warrantyCode;
+              firstTextEditingController.text = code.substring(0, 4);
+              secondTextEditingController.text = code.substring(5, 9);
+              thirdTextEditingController.text = code.substring(10, 14);
+              fourthTextEditingController.text = code.substring(15);
             }
           },
         )
@@ -195,7 +198,7 @@ class _UploadInvoiceScreenState extends State<UploadInvoiceScreen> {
     return Row(
       children: [
         Expanded(
-          child: WarrentyCodeTextField(
+          child: WarrantyCodeTextField(
             lableText: 'xxxx',
             textFieldController: firstTextEditingController,
             maxLength: 4,
@@ -209,7 +212,7 @@ class _UploadInvoiceScreenState extends State<UploadInvoiceScreen> {
           ),
         ),
         Expanded(
-          child: WarrentyCodeTextField(
+          child: WarrantyCodeTextField(
             lableText: 'xxxx',
             textFieldController: secondTextEditingController,
             maxLength: 4,
@@ -225,7 +228,7 @@ class _UploadInvoiceScreenState extends State<UploadInvoiceScreen> {
           ),
         ),
         Expanded(
-          child: WarrentyCodeTextField(
+          child: WarrantyCodeTextField(
             lableText: 'xxxx',
             textFieldController: thirdTextEditingController,
             maxLength: 4,
@@ -241,7 +244,7 @@ class _UploadInvoiceScreenState extends State<UploadInvoiceScreen> {
           ),
         ),
         Expanded(
-          child: WarrentyCodeTextField(
+          child: WarrantyCodeTextField(
             lableText: 'xxxx',
             textFieldController: fourthTextEditingController,
             maxLength: 4,
@@ -251,6 +254,8 @@ class _UploadInvoiceScreenState extends State<UploadInvoiceScreen> {
               if (val.length == 0) {
                 FocusScope.of(context).requestFocus(thirdFocusNode);
               } else if (val.length == 4) {
+                controller.isCodeLenError = false;
+                controller.showValidateWarrantyMsg = false;
                 String code = firstTextEditingController.text.toString() +
                     "-" +
                     secondTextEditingController.text.toString() +
@@ -264,15 +269,16 @@ class _UploadInvoiceScreenState extends State<UploadInvoiceScreen> {
 
                 if (msg == "Warranty code is valid.") {
                   controller.validatedSuccessfully = true;
-                  controller.showValidateWarrentyMsg = true;
-                  controller.warrentyCode = code;
+                  controller.showValidateWarrantyMsg = true;
+                  controller.warrantyCode = code;
                 } else {
                   controller.validatedSuccessfully = false;
-                  controller.showValidateWarrentyMsg = true;
+                  controller.showValidateWarrantyMsg = true;
                 }
                 controller.isLoading = false;
               } else if (val.length < 4) {
                 controller.validatedSuccessfully = false;
+                controller.isCodeLenError = true;
               }
             },
           ),
@@ -304,12 +310,14 @@ class _UploadInvoiceScreenState extends State<UploadInvoiceScreen> {
                     controller.isFileIncorrect = false;
                     controller.isFileSizeExceed = false;
                     controller.isFileUploaded = false;
-                    if (controller.warrentyCode.isNotEmpty &&
+
+                    if (controller.warrantyCode.isNotEmpty &&
                         controller.validatedSuccessfully) {
+                      controller.isFileSelected = true;
                       controller.showValidateFileMsg = true;
                       await controller.filePicker(imageServices);
                     } else {
-                      controller.showValidateWarrentyMsg = true;
+                      controller.showValidateWarrantyMsg = true;
                     }
                   },
                 ),
@@ -337,7 +345,7 @@ class _UploadInvoiceScreenState extends State<UploadInvoiceScreen> {
         return buildDangerMsg("Only JPG, PNG & PDF is allowed");
       } else if (controller.isFileSizeExceed) {
         return buildDangerMsg("File size exceed(10 MB Max)");
-      } else {
+      } else if (!controller.isFileSelected) {
         return buildDangerMsg("Please upload the file.");
       }
     }

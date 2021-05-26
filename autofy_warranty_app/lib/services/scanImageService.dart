@@ -9,7 +9,7 @@ class ScanImageServices {
   final ImagePicker picker = ImagePicker();
   UploadInvoiceController _uploadInvoiceController = Get.find();
   Map<String, String> invoiceData = {};
-  // this two methods is use for capture warrenty code from image and validate it.
+  // this two methods is use for capture warranty code from image and validate it.
   // Method 1 :
   Future captureAndProcessImage() async {
     _uploadInvoiceController.isLoading = true;
@@ -17,13 +17,13 @@ class ScanImageServices {
       File image = await getImage();
       VisionText scanText = await scanImage(image);
       String txt = scanTextFromVisionText(scanText);
-      String result = scanWarrentyCode(txt);
+      String result = scanWarrantyCode(txt);
       _uploadInvoiceController.isLoading = false;
 
       if (result.isNotEmpty) {
-        _uploadInvoiceController.warrentyCode = result;
+        _uploadInvoiceController.warrantyCode = result;
         String res = await ValidateSerialCode.validateSerialCode(
-          code: _uploadInvoiceController.warrentyCode,
+          code: _uploadInvoiceController.warrantyCode,
         );
         return res;
       } else {
@@ -75,8 +75,8 @@ class ScanImageServices {
     return text;
   }
 
-  //In this method we have to pass our string and it will check if warrenty code exists or not.
-  String scanWarrentyCode(String scanText) {
+  //In this method we have to pass our string and it will check if warranty code exists or not.
+  String scanWarrantyCode(String scanText) {
     String myCode;
     RegExp regExp = RegExp(
       r"[a-zA-Z0-9]{4}[\-][a-zA-Z0-9]{4}[\-][a-zA-Z0-9]{4}[\-][a-zA-Z0-9]{4}",
