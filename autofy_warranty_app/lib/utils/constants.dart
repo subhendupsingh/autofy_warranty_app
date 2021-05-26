@@ -14,6 +14,7 @@ class AppColors {
   static final Color greyTextColor = Colors.grey;
   static final Color lightGreyTextColor = Colors.grey.shade300;
   static final Color successColor = Colors.green;
+  static final Color dangerColor = Colors.red;
 }
 
 class AppRadius {

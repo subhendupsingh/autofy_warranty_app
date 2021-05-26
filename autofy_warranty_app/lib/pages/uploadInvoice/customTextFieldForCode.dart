@@ -6,7 +6,6 @@ class WarrentyCodeTextField extends StatelessWidget {
   final TextEditingController? textFieldController;
   final String? lableText;
   final void Function(String)? onChanged;
-  final String? Function(String?)? validatorFun;
   final int? maxLength;
   final FocusNode? focusNode;
   final bool border;
@@ -18,13 +17,12 @@ class WarrentyCodeTextField extends StatelessWidget {
     this.maxLength,
     this.onChanged,
     this.border = false,
-    required this.validatorFun,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 15, bottom: 0),
+      padding: EdgeInsets.only(left: 12, bottom: 0),
       margin: EdgeInsets.symmetric(horizontal: 5),
       height: 45,
       decoration: BoxDecoration(
@@ -47,7 +45,6 @@ class WarrentyCodeTextField extends StatelessWidget {
       child: Center(
         child: TextFormField(
           controller: textFieldController,
-          validator: validatorFun,
           maxLength: maxLength,
           focusNode: focusNode,
           onChanged: onChanged,

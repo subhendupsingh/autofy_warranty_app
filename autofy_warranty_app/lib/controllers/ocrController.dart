@@ -8,36 +8,35 @@ import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:path/path.dart' as p;
 
 class OcrController extends GetxController {
-  
   // To pick file from the device
-  Future<List<dynamic>> pickFileFromDevice() async {
-    List<dynamic> result = [];
-    FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ["pdf", "jpg", "png", "jpeg"],
-    );
-    if (pickedFile != null) {
-      PlatformFile file = pickedFile.files.first;
-      print(file.extension);
-      if (file.size! < 10000000) {
-        //checking if size is less than 10MB
-        File myFile = File(file.path!);
-        result.add(myFile);
-        result.add(myFile.path);
-      } else {
-        Get.snackbar(
-            "PDF size is greater than 10MB", "Please select another file",
-            colorText: Colors.red, backgroundColor: Colors.white);
-      }
-    }
-    return result;
-  }
+  // Future<List<dynamic>> pickFileFromDevice() async {
+  //   List<dynamic> result = [];
+  //   FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
+  //     type: FileType.custom,
+  //     allowedExtensions: ["pdf", "jpg", "png", "jpeg"],
+  //   );
+  //   if (pickedFile != null) {
+  //     PlatformFile file = pickedFile.files.first;
+  //     print(file.extension);
+  //     if (file.size! < 10000000) {
+  //       //checking if size is less than 10MB
+  //       File myFile = File(file.path!);
+  //       result.add(myFile);
+  //       result.add(myFile.path);
+  //     } else {
+  //       Get.snackbar(
+  //           "PDF size is greater than 10MB", "Please select another file",
+  //           colorText: Colors.red, backgroundColor: Colors.white);
+  //     }
+  //   }
+  //   return result;
+  // }
 
-  extractDataFromFile({List<dynamic>? fileData}) async {
-    extractionLogicForPdf(file: fileData?[1]);
-  }
+  // extractDataFromFile({List<dynamic>? fileData}) async {
+  //   extractionLogicForPdf(file: fileData?[1]);
+  // }
 
-  extractionLogicForPdf({String? file}) {
+  extractionLogicForPdf({String? filePath}) {
     print("what????");
     //final results
     String? portal;
@@ -46,6 +45,7 @@ class OcrController extends GetxController {
     String? pinCode;
     String? name;
     String? invoiceDate;
+    String? state;
     //Regex
     String? fkOIRegex = r"OD[0-9]{18}";
     String? aOIRegex = r"[0-9]{3}[\-][0-9]{7}[\-][0-9]{7}";
@@ -58,8 +58,9 @@ class OcrController extends GetxController {
     String? kNotFound = "NOTFOUND";
 
     //logic
-    File myFile = File(file!);
-    print(p.extension(file));
+    File myFile = File(filePath!);
+    print(p.extension(filePath));
+    if (p.extension(filePath) != ".pdf") return {};
     PdfDocument pdfDocument = PdfDocument(inputBytes: myFile.readAsBytesSync());
 
     PdfTextExtractor extractor = PdfTextExtractor(pdfDocument);
@@ -114,11 +115,12 @@ class OcrController extends GetxController {
 
     var result = {
       "portal": portal ?? kNotFound,
-      "invoice": invoiceDate ?? kNotFound,
+      "invoiceDate": invoiceDate ?? kNotFound,
       "orderNumber": orderNumber ?? kNotFound,
-      "pincode": pinCode ?? kNotFound,
+      "postalCode": pinCode ?? kNotFound,
       "name": name ?? kNotFound,
-      "address": address ?? kNotFound,
+      "shippingAddress": address ?? kNotFound,
+      "state": state ?? kNotFound,
     };
     return result;
   }

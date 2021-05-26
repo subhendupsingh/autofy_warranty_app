@@ -1,5 +1,4 @@
 import 'package:autofy_warranty_app/pages/forgotPassword/forgotPassword.dart';
-import 'package:autofy_warranty_app/pages/homepage/homepage.dart';
 import 'package:autofy_warranty_app/pages/signIn/signInController.dart';
 import 'package:autofy_warranty_app/pages/signup/signupPage.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceScreen.dart';
@@ -18,6 +17,9 @@ class SignInPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _signInFormKey = GlobalKey<FormState>();
+
+  SignInPage();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
