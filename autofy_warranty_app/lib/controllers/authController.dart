@@ -1,4 +1,3 @@
-import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
 import 'package:autofy_warranty_app/services/localStorageService.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +24,7 @@ class AuthController extends GetxController {
         isRegistrationSuccess = true;
       }
     } on DioError catch (e) {
-      //TODO: Remove these print statement, instead use debug prints
-      print(e.response!.data["message"]);
+      debugPrint("${e.response!.data["message"]}");
       getx.Get.snackbar("User already registered", e.response!.data["message"],
           colorText: Colors.red, backgroundColor: Colors.white);
     } catch (e) {

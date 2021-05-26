@@ -13,24 +13,24 @@ class GetTextField extends StatelessWidget {
   final double height;
   final FocusNode? focusNode;
   final IconData? suffixIcon;
+  final int maxLines;
   GetTextField(
-{
-    required this.textFieldController,
-    required this.lableText,
-    required this.validatorFun,
-    this.hasShadow = false,
-    this.isPassword = false,
-    this.inputType = TextInputType.text,
-    this.isEnabled = true,
-    this.isPassVisible = false,
-    this.isEyeVisible = false,
-    this.onPressed,
-    this.maxLength = 0,
-    this.focusNode,
-    this.height = 65.0,
-    this.onChanged,
-    this.suffixIcon
-  });
+      {required this.textFieldController,
+      required this.lableText,
+      required this.validatorFun,
+      this.hasShadow = false,
+      this.isPassword = false,
+      this.inputType = TextInputType.text,
+      this.isEnabled = true,
+      this.isPassVisible = false,
+      this.isEyeVisible = false,
+      this.onPressed,
+      this.maxLength = 0,
+      this.focusNode,
+      this.height = 65.0,
+      this.onChanged,
+      this.suffixIcon,
+      this.maxLines = 1});
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -43,10 +43,11 @@ class GetTextField extends StatelessWidget {
         shadowColor: Colors.white70,
         child: ListTile(
           title: TextFormField(
+            maxLines: maxLines,
             controller: textFieldController,
             validator: validatorFun,
             decoration: InputDecoration(
-              suffixIcon: suffixIcon == null ?  Text("") : Icon(suffixIcon),
+              suffixIcon: suffixIcon == null ? Text("") : Icon(suffixIcon),
               hintText: lableText,
               border: InputBorder.none,
               counterText: "",

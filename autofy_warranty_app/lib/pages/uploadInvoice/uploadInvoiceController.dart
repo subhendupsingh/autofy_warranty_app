@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:autofy_warranty_app/controllers/ocrController.dart';
 import 'package:autofy_warranty_app/services/scanImageService.dart';
 import 'package:autofy_warranty_app/services/uploadFile.dart';
 import 'package:file_picker/file_picker.dart';
@@ -15,7 +16,7 @@ class UploadInvoiceController extends GetxController {
       _showValidateFileMsg = false,
       _showValidateWarrentyMsg = false;
 
-  late Map<String, String> invoiceData;
+  late Map<String, String> invoiceData = {};
   String _warrentyCode = "";
 
   late File _invoiceFile;
@@ -54,6 +55,11 @@ class UploadInvoiceController extends GetxController {
           }
         } else if (platformFile.extension == "pdf") {
           //@Vamsi PDF READER FUNCTION CALL FROM HERE AND DATA WILL BE STORE IN INVOICEDATA MAP
+          OcrController ocrController = Get.find<OcrController>();
+
+          invoiceData = await ocrController.extractionLogicForPdf(
+              filePath: platformFile.path);
+
           isFileUploaded = true;
           print("PDF file");
           print("File Uploaded Successfully");
