@@ -5,6 +5,9 @@ import 'package:autofy_warranty_app/services/scanImageService.dart';
 import 'package:autofy_warranty_app/services/uploadFile.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:path/path.dart' as path;
+import 'package:http_parser/http_parser.dart';
 
 class UploadInvoiceController extends GetxController {
   bool _isLoading = false,
@@ -12,12 +15,14 @@ class UploadInvoiceController extends GetxController {
       _isFileIncorrect = false,
       _isFileUploaded = false,
       _isFileUploading = false,
+      _isFileSelected = true,
       _validatedSuccessfully = false,
+      _isCodeLenError = false,
       _showValidateFileMsg = false,
-      _showValidateWarrentyMsg = false;
+      _showValidateWarrantyMsg = false;
 
   late Map<String, String> invoiceData = {};
-  String _warrentyCode = "";
+  String _warrantyCode = "";
 
   late File _invoiceFile;
 
@@ -43,7 +48,8 @@ class UploadInvoiceController extends GetxController {
         if (platformFile.extension == "jpg" ||
             platformFile.extension == "png" ||
             platformFile.extension == "jpeg") {
-          msg = await UploadFile.uploadInvoice(invoiceFile, warrentyCode);
+          msg = await callUploadService(
+              invoiceFile, warrantyCode, 'api/v1/file/upload');
           if (msg == "File uploaded sucessfully") {
             invoiceData = await imageServices.scanInvoice(invoiceFile);
             isFileUploaded = true;
@@ -55,12 +61,20 @@ class UploadInvoiceController extends GetxController {
           }
         } else if (platformFile.extension == "pdf") {
           //@Vamsi PDF READER FUNCTION CALL FROM HERE AND DATA WILL BE STORE IN INVOICEDATA MAP
-          OcrController ocrController = Get.find<OcrController>();
+          msg = await callUploadService(
+              invoiceFile, warrantyCode, 'api/v1/file/upload');
+          if (msg == "File uploaded sucessfully") {
+            OcrController ocrController = Get.find<OcrController>();
 
-          invoiceData = await ocrController.extractionLogicForPdf(
-              filePath: platformFile.path);
-
-          isFileUploaded = true;
+            invoiceData = await ocrController.extractionLogicForPdf(
+                filePath: platformFile.path);
+            isFileUploaded = true;
+          } else if (msg ==
+              "Only JPG, JPEG, PNG & PDF file types are allowed") {
+            isFileIncorrect = true;
+          } else {
+            isFileUploaded = false;
+          }
           print("PDF file");
           print("File Uploaded Successfully");
         } else {
@@ -69,9 +83,37 @@ class UploadInvoiceController extends GetxController {
       } else
         isFileSizeExceed = true;
     } else
-      isFileUploaded = false;
+      isFileSelected = false;
 
     isFileUploading = false;
+  }
+
+  Future<String> callUploadService(
+      File file, String warrantyCode, String url) async {
+    late MediaType contentType;
+    String fileName = path.basename(file.path);
+    List<String> tm = fileName.split('.');
+    if (tm[tm.length - 1] == "jpg" || tm[tm.length - 1] == "jpeg") {
+      contentType = MediaType("image", "jpeg");
+    } else if (tm[tm.length - 1] == "png") {
+      contentType = MediaType("image", "jpeg");
+    } else if (tm[tm.length - 1] == "pdf") {
+      contentType = MediaType("application", "pdf");
+    }
+    String msg = "";
+    var formData = dio.FormData.fromMap(
+      {
+        "warranty_code": warrantyCode,
+        "file": await dio.MultipartFile.fromFile(
+          file.path,
+          filename: fileName,
+          contentType: contentType,
+        ),
+      },
+    );
+    msg = await UploadFile.uploadInvoice('api/v1/file/upload', formData);
+    print("kunj" + msg);
+    return msg;
   }
 
   bool get showValidateFileMsg => _showValidateFileMsg;
@@ -81,17 +123,31 @@ class UploadInvoiceController extends GetxController {
     update();
   }
 
-  bool get showValidateWarrentyMsg => _showValidateWarrentyMsg;
+  bool get isFileSelected => _isFileSelected;
 
-  set showValidateWarrentyMsg(bool val) {
-    _showValidateWarrentyMsg = val;
+  set isFileSelected(bool val) {
+    _isFileSelected = val;
     update();
   }
 
-  String get warrentyCode => _warrentyCode;
+  bool get isCodeLenError => _isCodeLenError;
 
-  set warrentyCode(String val) {
-    _warrentyCode = val;
+  set isCodeLenError(bool val) {
+    _isCodeLenError = val;
+    update();
+  }
+
+  bool get showValidateWarrantyMsg => _showValidateWarrantyMsg;
+
+  set showValidateWarrantyMsg(bool val) {
+    _showValidateWarrantyMsg = val;
+    update();
+  }
+
+  String get warrantyCode => _warrantyCode;
+
+  set warrantyCode(String val) {
+    _warrantyCode = val;
     update();
   }
 

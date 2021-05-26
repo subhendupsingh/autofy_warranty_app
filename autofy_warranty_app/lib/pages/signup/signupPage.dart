@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:autofy_warranty_app/controllers/authController.dart';
 import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
-import 'package:autofy_warranty_app/services/localStorageService.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,6 @@ import 'package:get/get.dart';
 import '../widgets/btn.dart';
 import '../widgets/link.dart';
 import '../widgets/textField.dart';
-import '../widgets/wave.dart';
 
 class SignUpPage extends StatefulWidget {
   @override

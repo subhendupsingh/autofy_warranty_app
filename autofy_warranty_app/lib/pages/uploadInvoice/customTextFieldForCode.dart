@@ -2,7 +2,7 @@ import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class WarrentyCodeTextField extends StatelessWidget {
+class WarrantyCodeTextField extends StatelessWidget {
   final TextEditingController? textFieldController;
   final String? lableText;
   final void Function(String)? onChanged;
@@ -10,7 +10,7 @@ class WarrentyCodeTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final bool border;
 
-  WarrentyCodeTextField({
+  WarrantyCodeTextField({
     this.textFieldController,
     this.focusNode,
     this.lableText,

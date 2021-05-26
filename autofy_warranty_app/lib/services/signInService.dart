@@ -1,6 +1,5 @@
 import 'package:autofy_warranty_app/services/localStorageService.dart';
 import 'package:dio/dio.dart';
-import 'package:hive/hive.dart';
 
 class SignInServices {
   static final Dio dio = Dio();

@@ -3,7 +3,6 @@ import 'package:autofy_warranty_app/controllers/authController.dart';
 import 'package:autofy_warranty_app/controllers/ocrController.dart';
 import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceScreen.dart';
-import 'package:autofy_warranty_app/pages/uploadInvoice/userDetailsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -53,7 +52,7 @@ class _GetDesignState extends State<GetDesign> {
 
   @override
   Widget build(BuildContext context) {
-    alreadyLoggedIn = false;
+    alreadyLoggedIn = true;
     return alreadyLoggedIn ? UploadInvoiceScreen() : SignInPage();
   }
 }

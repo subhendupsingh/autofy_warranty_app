@@ -6,10 +6,9 @@ class ValidateSerialCode {
 
   static Future<String> validateSerialCode({String code = ""}) async {
     String token = LocalStoragaeService.getUserValue(UserField.Token);
-    // int userId = LocalStoragaeService.getUserValue(UserField.Id) as int;
+    int userId = LocalStoragaeService.getUserValue(UserField.Id);
 
-    print(LocalStoragaeService.getUserValue(UserField.Id).toString());
-    FormData formData = FormData.fromMap({"code": code, "user_id": 1});
+    FormData formData = FormData.fromMap({"code": code, "user_id": userId});
 
     Response<Map<String, dynamic>> response;
     try {
