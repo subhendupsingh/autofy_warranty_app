@@ -7,21 +7,15 @@ class SignInServices {
 
   static Future<String> authenticateUser(
       {required String email, required String password}) async {
-    Response<Map<String, dynamic>> response;
+    Response response;
     try {
       response = await dio.post(
         "https://wapi.autofystore.com/api/v1/authenticate",
         data: {"username": email, "password": password},
       );
+      print(response.data);
       if (response.statusCode == 200) {
-        LocalStoragaeService.updateUserData(
-          {
-            UserField.Token: response.data!["token"],
-            UserField.Id: response.data!["id"].toString(),
-            UserField.Address: response.data!["email"],
-            UserField.Phone: response.data!["phone"],
-          },
-        );
+        LocalStoragaeService.updateUserData(response.data);
         return "SuccessFully Logged in";
       }
     } catch (e) {

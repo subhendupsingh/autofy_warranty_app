@@ -27,8 +27,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
 
   fetchInvoiceData() {
     phoneNumberController.text =
-        LocalStoragaeService.getUserValue(UserField.Phone);
-    emailController.text = LocalStoragaeService.getUserValue(UserField.Email);
+        LocalStoragaeService.getUserValue(UserField.Phone) ?? "";
+    emailController.text =
+        LocalStoragaeService.getUserValue(UserField.Email) ?? "";
     String kNotFound = "NOTFOUND";
     UploadInvoiceController invoiceController =
         Get.find<UploadInvoiceController>();
