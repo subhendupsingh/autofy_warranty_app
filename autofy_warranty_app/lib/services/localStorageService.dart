@@ -50,7 +50,7 @@ class LocalStoragaeService {
     });
   }
 
-  static String getUserValue(UserField userField) {
+  static dynamic getUserValue(UserField userField) {
     return userDataBox.get(userField.asString);
   }
 }

@@ -52,7 +52,7 @@ class UploadFile {
     } on DioError catch (e) {
       return e.response!.data["message"];
     } catch (e) {
-      return "Something want";
+      return "Something went";
     }
   }
 }
