@@ -24,16 +24,17 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  get:
-  wave:
-  email_validator:
-  pin_code_fields:
-  hive:
-  path_provider:
-  dio: 
-  image_picker:
-  google_ml_vision:
-
+  dio: null
+  email_validator: null
+  file_picker: ^3.0.1
+  get: null
+  google_ml_vision: null
+  hive: null
+  image_picker: null
+  path_provider: null
+  pin_code_fields: null
+  syncfusion_flutter_pdf: ^19.1.65-beta
+  wave: null
 
 dev_dependencies:
   flutter_test:
@@ -48,7 +49,6 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - assets/images/
