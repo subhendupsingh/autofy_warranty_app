@@ -38,7 +38,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     for (String key in extractedData.keys) {
       print(key);
       if (key.contains("name")) {
-        nameController.text = extractedData[key];
+        nameController.text =
+            extractedData[key] == kNotFound ? "" : extractedData[key];
       } else if (key.contains("shippingAddress")) {
         addressController.text =
             extractedData[key] == kNotFound ? "" : extractedData[key];
@@ -75,7 +76,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
       productController = TextEditingController();
   final dropDownKey = GlobalKey();
 
-  String portal = "Amazon";
+  String? portal;
   Map<String, dynamic>? product;
   String? invoiceDate = "";
   String? warrantyCode;
@@ -97,7 +98,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
               TextFormField(
                 controller: portalController,
                 decoration: InputDecoration(
-                  hintText: portal,
+                  hintText: portal ?? "Select Portal",
                   border: InputBorder.none,
                   counterText: "",
                   enabled: false,
@@ -166,13 +167,16 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                   Get.snackbar("No Product Selected",
                       "Please select a product to proceed further",
                       colorText: Colors.red, backgroundColor: Colors.white);
-                  return "Please select a product";
+                  // return "";
+                  return;
                 }
+
                 return null;
               },
               controller: productController,
               enabled: false,
               decoration: InputDecoration(
+                enabled: false,
                 hintText: "Tap to select product",
                 border: InputBorder.none,
                 hintStyle: TextStyle(
