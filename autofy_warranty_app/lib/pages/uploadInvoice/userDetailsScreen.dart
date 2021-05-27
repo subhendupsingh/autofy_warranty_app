@@ -51,9 +51,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
         portalController.text =
             extractedData[key] == kNotFound ? "" : extractedData[key];
       } else if (key.contains("invoiceDate")) {
-        invoiceDate =
-            extractedData[key] == kNotFound ? null : extractedData[key];
-        print(invoiceDate);
+        invoiceDateController.text = extractedData[key] == kNotFound
+            ? ""
+            : extractedData[key]?.replaceAll(".", "-");
       } else if (key.contains("orderNumber")) {
         orderController.text =
             extractedData[key] == kNotFound ? "" : extractedData[key];
@@ -79,7 +79,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
 
   String? portal;
   Map<String, dynamic>? product;
-  String? invoiceDate = "";
   String? warrantyCode;
 
   void unfocusTextField() => FocusScope.of(context).unfocus();
@@ -168,10 +167,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                   Get.snackbar("No Product Selected",
                       "Please select a product to proceed further",
                       colorText: Colors.red, backgroundColor: Colors.white);
-                  // return "";
                   return;
                 }
-
                 return null;
               },
               controller: productController,
@@ -199,7 +196,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
         firstDate: DateTime(2015, 8),
         lastDate: DateTime(2101));
     if (picked != null) {
-      invoiceDate = formatDate(picked);
+      invoiceDateController.text = formatDate(picked);
       setState(() {});
     }
   }
@@ -213,6 +210,10 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text("Activate Warranty"),
+          backgroundColor: AppColors.primaryColor,
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -221,17 +222,20 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  emptyVerticalBox(height: 40),
-                  Text(
-                    'Activate Warranty',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryColor,
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    // color: Colors.grey[100],
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.error_outline_rounded,
+                        color: Colors.amber,
+                        size: 30,
+                      ),
+                      subtitle: Text(
+                        "We have autofilled some fields for you. Please review and make changes if necessary.",
+                      ),
                     ),
                   ),
-                  emptyVerticalBox(height: 30),
-                  emptyVerticalBox(),
                   Text(
                     '   Buyer Information:',
                     style: TextStyle(
@@ -297,10 +301,10 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                     child: GetTextField(
                         textFieldController: invoiceDateController,
                         suffixIcon: Icons.calendar_today_rounded,
-                        lableText: invoiceDate ?? "Invoice Date",
+                        lableText: "Invoice Date",
                         isEnabled: false,
                         validatorFun: (value) {
-                          if (invoiceDate == null) {
+                          if (invoiceDateController.text.isEmpty) {
                             return "Please fill in the invoice date";
                           }
                           return null;
@@ -355,7 +359,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                         return null;
                       }),
                   emptyVerticalBox(),
-                  Center(
+                  SizedBox(
+                    width: double.infinity,
                     child: GetBtn(
                       btnText: "Submit",
                       onPressed: () {
@@ -374,8 +379,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                             "address": addressController.text.trim().toString(),
                             "city": cityController.text.trim().toString(),
                             "state": stateController.text.trim().toString(),
-                            "invoiceDate": formatDate(
-                                DateTime.now()), //TODO: Change this asap
+                            "invoiceDate":
+                                invoiceDateController.text.trim().toString(),
                             "postalCode":
                                 postalCodeController.text.trim().toString(),
                             "validWarrantyCode": warrantyCode,
