@@ -6,7 +6,6 @@ import 'package:google_ml_vision/google_ml_vision.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ScanImageServices {
-  final ImagePicker picker = ImagePicker();
   UploadInvoiceController _uploadInvoiceController = Get.find();
   Map<String, String> invoiceData = {};
   // this two methods is use for capture warranty code from image and validate it.
@@ -14,7 +13,10 @@ class ScanImageServices {
   Future captureAndProcessImage() async {
     _uploadInvoiceController.isLoading = true;
     try {
-      File image = await getImage();
+      print("First Call Success");
+      File image = await getInvoiceImage();
+      int len = await image.length();
+      print("Image len: " + len.toString());
       VisionText scanText = await scanImage(image);
       String txt = scanTextFromVisionText(scanText);
       String result = scanWarrantyCode(txt);
@@ -30,6 +32,7 @@ class ScanImageServices {
         return "Not Found";
       }
     } catch (e) {
+      print(e.toString());
       _uploadInvoiceController.isLoading = false;
       return "No Image Selected";
     }
@@ -37,8 +40,10 @@ class ScanImageServices {
 
   // This method access the camera and fetch image from it.
   // Method 2 :
-  Future<File> getImage() async {
+  Future<File> getInvoiceImage() async {
+    ImagePicker picker = ImagePicker();
     var pickedImage = await picker.getImage(source: ImageSource.camera);
+    print("second Call Success");
     File image = File(pickedImage!.path);
     return image;
   }
