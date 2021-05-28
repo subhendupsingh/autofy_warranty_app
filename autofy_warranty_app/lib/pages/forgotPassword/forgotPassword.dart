@@ -88,7 +88,6 @@ class ResetPassword extends StatelessWidget {
                                 );
                               } else {
                                 val.updateIsLoading();
-
                                 print(userData
                                     .get("userIdForResetPassword")
                                     .toString());
@@ -123,13 +122,20 @@ class ResetPassword extends StatelessWidget {
                                       .toString(),
                                   password: val.passwordForReset,
                                 );
-                                val.updateIsLoading();
                                 Get.snackbar(
                                   "Password Change",
                                   "Your password request served successfully",
                                 );
-                                Get.offAll(
-                                  () => SignInPage(),
+                                Future.delayed(
+                                  Duration(
+                                    seconds: 4,
+                                  ),
+                                  () {
+                                    val.updateIsLoading();
+                                    Get.offAll(
+                                      () => SignInPage(),
+                                    );
+                                  },
                                 );
                               }
                             }

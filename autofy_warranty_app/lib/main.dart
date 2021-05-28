@@ -52,6 +52,7 @@ class _GetDesignState extends State<GetDesign> {
 
   @override
   Widget build(BuildContext context) {
+    alreadyLoggedIn = false;
     return alreadyLoggedIn ? UploadInvoiceScreen() : SignInPage();
   }
 }
