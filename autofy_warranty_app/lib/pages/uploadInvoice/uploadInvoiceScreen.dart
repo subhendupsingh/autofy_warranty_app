@@ -264,6 +264,7 @@ class _UploadInvoiceScreenState extends State<UploadInvoiceScreen> {
                     "-" +
                     fourthTextEditingController.text.toString();
                 controller.isLoading = true;
+
                 String msg =
                     await ValidateSerialCode.validateSerialCode(code: code);
 

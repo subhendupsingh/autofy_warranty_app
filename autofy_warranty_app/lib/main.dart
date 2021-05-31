@@ -1,7 +1,11 @@
-import 'package:autofy_warranty_app/controllers/apiController.dart';
+import 'package:autofy_warranty_app/models/service_request.model.dart';
+import 'package:autofy_warranty_app/pages/uploadInvoice/userDetailsScreen.dart';
+import 'package:autofy_warranty_app/services/apiService.dart';
 import 'package:autofy_warranty_app/controllers/authController.dart';
 import 'package:autofy_warranty_app/controllers/ocrController.dart';
+import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestsScreen.dart';
 import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
+import 'package:autofy_warranty_app/pages/uploadInvoice/productSearchScreen.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -23,11 +27,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       builder: EasyLoading.init(),
+      theme: ThemeData(primarySwatch: Colors.red),
       initialBinding: BindingsBuilder(
         () {
+          Get.put(ApiService());
           Get.put(AuthController());
           Get.put(OcrController());
-          Get.put(ApiController());
         },
       ),
       title: 'Autofy',

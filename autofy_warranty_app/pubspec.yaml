@@ -39,6 +39,7 @@ dependencies:
   syncfusion_flutter_pdf: ^19.1.65-beta
   wave: null
   flutter_easyloading: ^3.0.0
+  dartz: ^0.10.0-nullsafety.2
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,4 @@
-import 'package:autofy_warranty_app/controllers/apiController.dart';
+import 'package:autofy_warranty_app/services/apiService.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/productTileWidget.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,9 +24,10 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
   }
 
   fetchProductsFromServer() async {
-    ApiController apiController = Get.find<ApiController>();
-    allProducts = await apiController.fetchProducts();
+    ApiService apiController = Get.find<ApiService>();
+    allProducts = await apiController.fetchProducts() ?? [];
     if (mounted) setState(() {});
+    print(allProducts);
   }
 
   buildSearchBar() {
@@ -48,10 +49,11 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
           setState(() {});
         },
         decoration: InputDecoration(
-            prefixIcon: Icon(Icons.search),
-            border: InputBorder.none,
-            hintText: "Search For Products",
-            hintStyle: TextStyle(color: Colors.grey)),
+          prefixIcon: Icon(Icons.search),
+          border: InputBorder.none,
+          hintText: "Search For Products",
+          hintStyle: TextStyle(color: Colors.grey),
+        ),
       ),
     );
   }
@@ -60,56 +62,64 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          appBar: AppBar(
-            title: Text("Select Product"),
-            backgroundColor: Colors.red,
-          ),
-          resizeToAvoidBottomInset: false,
-          body: Container(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  buildSearchBar(),
-                  emptyVerticalBox(),
-                  Text(
-                    isSearching
-                        ? "Results for \"${searchController.text}\""
-                        : "All Products",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.grey[800],
-                      fontWeight: FontWeight.bold,
-                    ),
+        appBar: AppBar(
+          title: Text("Select Product"),
+          backgroundColor: Colors.red,
+        ),
+        resizeToAvoidBottomInset: false,
+        body: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildSearchBar(),
+                emptyVerticalBox(),
+                Text(
+                  isSearching
+                      ? "Results for \"${searchController.text}\""
+                      : "All Products",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.grey[800],
+                    fontWeight: FontWeight.bold,
                   ),
-                  emptyVerticalBox(height: 10),
-                  Expanded(
-                    child: Container(
-                      child: allProducts.isEmpty
-                          ? Center(
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation(Colors.red),
-                              ),
-                            )
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: isSearching
-                                  ? filteredProducts.length
-                                  : allProducts.length,
-                              itemBuilder: (ctxt, index) {
-                                var item = isSearching
-                                    ? filteredProducts[index]
-                                    : allProducts[index];
+                ),
+                emptyVerticalBox(height: 10),
+                Expanded(
+                  child: Container(
+                    child: allProducts.isEmpty
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(Colors.red),
+                            ),
+                          )
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: isSearching
+                                ? filteredProducts.length
+                                : allProducts.length,
+                            itemBuilder: (ctxt, index) {
+                              var item = isSearching
+                                  ? filteredProducts[index]
+                                  : allProducts[index];
 
-                                return ProductTileWidget(product: item);
-                              }),
-                    ),
+                              return ProductTileWidget(
+                                product: item,
+                                callback: () {
+                                  Get.back(
+                                    result: item,
+                                  );
+                                },
+                              );
+                            }),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 }
