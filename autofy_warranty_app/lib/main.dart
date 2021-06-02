@@ -1,8 +1,12 @@
+import 'package:autofy_warranty_app/Model/userProductModelForHive.dart';
 import 'package:autofy_warranty_app/controllers/apiController.dart';
 import 'package:autofy_warranty_app/controllers/authController.dart';
 import 'package:autofy_warranty_app/controllers/ocrController.dart';
+import 'package:autofy_warranty_app/pages/homepage/homepageController.dart';
+import 'package:autofy_warranty_app/pages/homepage/homepageScreen.dart';
+import 'package:autofy_warranty_app/pages/repairScreen/repairScreenController.dart';
 import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
-import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceScreen.dart';
+import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -13,7 +17,10 @@ import 'package:get/instance_manager.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final directory = await pathProvider.getApplicationDocumentsDirectory();
-  Hive.init(directory.path);
+  Hive
+    ..init(directory.path)
+    ..registerAdapter(UserProductModelForHiveAdapter());
+  await Hive.openBox<UserProductModelForHive>(BoxNames.userProductBoxName);
   await Hive.openBox('UserData');
   runApp(MyApp());
 }
@@ -28,6 +35,8 @@ class MyApp extends StatelessWidget {
           Get.put(AuthController());
           Get.put(OcrController());
           Get.put(ApiController());
+          Get.put(HomePageController());
+          Get.put(RepairScreenController());
         },
       ),
       title: 'Autofy',
@@ -52,6 +61,6 @@ class _GetDesignState extends State<GetDesign> {
 
   @override
   Widget build(BuildContext context) {
-    return alreadyLoggedIn ? UploadInvoiceScreen() : SignInPage();
+    return alreadyLoggedIn ? HomePageScreen() : SignInPage();
   }
 }

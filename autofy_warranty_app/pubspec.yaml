@@ -34,15 +34,19 @@ dependencies:
   hive: null
   http: null
   image_picker: null
-  path_provider: null
+  path_provider: ^2.0.2
   pin_code_fields: null
-  syncfusion_flutter_pdf: ^19.1.65-beta
+  syncfusion_flutter_pdf: ^19.1.66-beta
   wave: null
   flutter_easyloading: ^3.0.0
+  url_launcher: ^6.0.4
+  open_file: ^3.2.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  hive_generator: ^1.1.0
+  build_runner: ^2.0.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -54,8 +58,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - assets/images/
+  assets:
+    - assets/
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

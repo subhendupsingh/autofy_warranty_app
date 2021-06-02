@@ -9,12 +9,12 @@ import 'package:autofy_warranty_app/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class UploadInvoiceScreen extends StatefulWidget {
+class RegisterWarranty extends StatefulWidget {
   @override
-  _UploadInvoiceScreenState createState() => _UploadInvoiceScreenState();
+  _RegisterWarrantyState createState() => _RegisterWarrantyState();
 }
 
-class _UploadInvoiceScreenState extends State<UploadInvoiceScreen> {
+class _RegisterWarrantyState extends State<RegisterWarranty> {
   late ScanImageServices imageServices;
   final TextEditingController firstTextEditingController =
       TextEditingController();
@@ -50,21 +50,19 @@ class _UploadInvoiceScreenState extends State<UploadInvoiceScreen> {
       body: SafeArea(
         child: Padding(
           padding:
-              const EdgeInsets.only(right: 15, left: 15, top: 75, bottom: 20),
+              const EdgeInsets.only(right: 15, left: 15, top: 25, bottom: 20),
           child: SingleChildScrollView(
             child: Container(
               width: Get.size.width,
               height: Get.size.height < Get.size.width
                   ? Get.size.height + 77
-                  : Get.size.height - 140,
+                  : Get.size.height - 190,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildTextTitle(),
-                      emptyVerticalBox(height: 40),
                       buildSerialCodeComponent(context),
                       emptyVerticalBox(height: 70),
                       buildUploadInvoice(),
@@ -131,17 +129,6 @@ class _UploadInvoiceScreenState extends State<UploadInvoiceScreen> {
             controller.isFileSelected = false;
           }
         },
-      ),
-    );
-  }
-
-  Text buildTextTitle() {
-    return Text(
-      "Register Warranty",
-      style: TextStyle(
-        fontSize: AppTexts.secondaryHeadingTextSize,
-        fontWeight: FontWeight.bold,
-        color: AppColors.primaryColor,
       ),
     );
   }

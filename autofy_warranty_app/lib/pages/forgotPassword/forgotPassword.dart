@@ -36,7 +36,6 @@ class ResetPassword extends StatelessWidget {
                     height: MediaQuery.of(context).size.height - 160,
                     child: PageView(
                       scrollDirection: Axis.horizontal,
-                      allowImplicitScrolling: true,
                       physics: NeverScrollableScrollPhysics(),
                       controller: val.pageController,
                       children: [
