@@ -250,7 +250,7 @@ class _ServiceReqTrackerScreenState extends State<ServiceReqTrackerScreen> {
                     color: Colors.teal,
                     size: 40,
                   ),
-                  subtitle: Text(
+                  title: Text(
                     "${controller.trackerResponse?.status}",
                   ),
                 ),
