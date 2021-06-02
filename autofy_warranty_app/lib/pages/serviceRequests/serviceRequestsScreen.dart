@@ -95,7 +95,7 @@ class ServiceRequestsScreen extends StatelessWidget {
                   // ApiService.to.fetchOrderStatus(
                   //     data: DuckHead.resStatus1, servieNumber: "joejofjeoj");
                   ServiceRequestsController.to.trackOrderWithServiceNumber(
-                      serReqModel: serReq, resData: DuckHead.resStatus1);
+                      serReqModel: serReq, );
                   //   () => ServiceReqTrackerScreen(
                   //     serReq: serReq,
                   //   ),
@@ -148,12 +148,14 @@ class ServiceRequestsScreen extends StatelessWidget {
         init: Get.put(ServiceRequestsController()),
         builder: (ctrl) {
           List<ServiceRequestModel> serReqList = ctrl.serviceRequestsList;
-          return ListView.builder(
-            itemCount: serReqList.length,
-            itemBuilder: (_, index) {
-              return buildServiceRequestTile(serReq: serReqList[index]);
-            },
-          );
+          return serReqList.isEmpty
+              ? Center(child: Text("No Repair Requests Found"))
+              : ListView.builder(
+                  itemCount: serReqList.length,
+                  itemBuilder: (_, index) {
+                    return buildServiceRequestTile(serReq: serReqList[index]);
+                  },
+                );
         });
   }
 

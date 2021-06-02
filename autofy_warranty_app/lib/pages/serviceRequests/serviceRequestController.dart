@@ -43,12 +43,12 @@ class ServiceRequestsController extends GetxController {
 
   void trackOrderWithServiceNumber(
       {required ServiceRequestModel serReqModel,
-      required Map<String, dynamic> resData}) async {
+      }) async {
     EasyLoading.show(status: "Tracking Order...");
     ApiService apiService = ApiService.to;
 
     final res = await apiService.fetchOrderStatus(
-        data: resData, serviceNumber: serReqModel.serviceRequestNumber);
+         serviceNumber: serReqModel.serviceRequestNumber);
 
     EasyLoading.dismiss();
 

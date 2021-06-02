@@ -27,22 +27,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        builder: EasyLoading.init(),
-        theme: ThemeData(
-          primarySwatch: Colors.red,
-          appBarTheme: AppBarTheme(backgroundColor: AppColors.primaryColor),
-        ),
-        initialBinding: BindingsBuilder(
-          () {
-            Get.put(ApiService());
-            Get.put(AuthController());
-            Get.put(OcrController());
-          },
-        ),
-        title: 'Autofy',
-        home: ServiceRequestsScreen()
-        // home: GetDesign(),
-        );
+      builder: EasyLoading.init(),
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+        appBarTheme: AppBarTheme(backgroundColor: AppColors.primaryColor),
+      ),
+      initialBinding: BindingsBuilder(
+        () {
+          Get.put(ApiService());
+          Get.put(AuthController());
+          Get.put(OcrController());
+        },
+      ),
+      title: 'Autofy',
+      home: GetDesign(),
+    );
   }
 }
 
@@ -62,6 +61,6 @@ class _GetDesignState extends State<GetDesign> {
 
   @override
   Widget build(BuildContext context) {
-    return alreadyLoggedIn ? UploadInvoiceScreen() : SignInPage();
+    return alreadyLoggedIn ? ServiceRequestsScreen() : SignInPage();
   }
 }

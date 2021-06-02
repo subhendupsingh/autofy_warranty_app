@@ -115,9 +115,7 @@ class ApiService extends getx.GetxService {
   }
 
   Future<Either<String, TrackerResponse?>> fetchOrderStatus(
-      {required Map<String, dynamic> data,
-      required String serviceNumber}) async {
-    Map<String, dynamic> res = data;
+      {required String serviceNumber}) async {
     TrackerResponse? trackerResponse;
     try {
       Response response = await _dio.get("/api/v1/serviceRequest/track/",

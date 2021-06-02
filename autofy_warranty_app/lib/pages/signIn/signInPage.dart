@@ -1,4 +1,5 @@
 import 'package:autofy_warranty_app/pages/forgotPassword/forgotPassword.dart';
+import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestsScreen.dart';
 import 'package:autofy_warranty_app/pages/signIn/signInController.dart';
 import 'package:autofy_warranty_app/pages/signup/signupPage.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceScreen.dart';
@@ -93,7 +94,8 @@ class SignInPage extends StatelessWidget {
                                   val.updateLoading();
                                   if (res == "SuccessFully Logged in") {
                                     Get.snackbar("$res", "Thank you");
-                                    Get.offAll(() => UploadInvoiceScreen());
+                                    // TODO: Need to navigate to home page
+                                    Get.offAll(() => ServiceRequestsScreen());
                                   } else if (res == "Something want wrong" ||
                                       res == "Internal server error") {
                                     Get.snackbar(
