@@ -251,6 +251,7 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
                     "-" +
                     fourthTextEditingController.text.toString();
                 controller.isLoading = true;
+
                 String msg =
                     await ValidateSerialCode.validateSerialCode(code: code);
 

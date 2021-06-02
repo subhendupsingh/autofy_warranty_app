@@ -1,4 +1,4 @@
-import 'package:autofy_warranty_app/controllers/apiController.dart';
+import 'package:autofy_warranty_app/services/apiService.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/productSearchScreen.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceController.dart';
 import 'package:autofy_warranty_app/pages/widgets/btn.dart';
@@ -7,7 +7,6 @@ import 'package:autofy_warranty_app/services/localStorageService.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 
 class UserDetailsScreen extends StatefulWidget {
@@ -200,11 +199,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     }
   }
 
-  String formatDate(DateTime dateTime) {
-    final template = DateFormat('dd-MM-yyyy');
-    return template.format(dateTime);
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -365,8 +359,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       onPressed: () {
                         print(warrantyCode);
                         if (_formKey.currentState!.validate()) {
-                          ApiController apiController =
-                              Get.find<ApiController>();
+                          ApiService apiController = Get.find<ApiService>();
                           apiController.activateWarranty(data: {
                             "name": nameController.text.trim().toString(),
                             "email": emailController.text.trim().toString(),

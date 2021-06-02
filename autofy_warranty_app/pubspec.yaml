@@ -25,10 +25,12 @@ dependencies:
     sdk: flutter
   cached_network_image: ^3.0.0
   cupertino_icons: ^1.0.2
+  dartz: ^0.10.0-nullsafety.2
   dio: null
   easy_loading: ^0.0.4
   email_validator: null
   file_picker: ^3.0.1
+  flutter_easyloading: ^3.0.0
   get: null
   google_ml_vision: null
   hive: null
@@ -38,9 +40,9 @@ dependencies:
   pin_code_fields: null
   syncfusion_flutter_pdf: ^19.1.66-beta
   wave: null
-  flutter_easyloading: ^3.0.0
   url_launcher: ^6.0.4
   open_file: ^3.2.1
+  timeline_tile: ^2.0.0
 
 dev_dependencies:
   flutter_test:

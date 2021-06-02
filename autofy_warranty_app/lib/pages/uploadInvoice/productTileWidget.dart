@@ -3,26 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductTileWidget extends StatelessWidget {
+  VoidCallback? callback;
   Map<String, dynamic>? product;
 
-  ProductTileWidget({@required this.product});
+  ProductTileWidget({@required this.product, @required this.callback});
+
+  
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         child: ListTile(
-          onTap: () {
-            Get.back(
-              result: product,
-            );
-          },
+          onTap: callback,
           title: Text(product?["title"]),
           subtitle: Text("SKU: ${product?["sku"]}"),
           leading: GestureDetector(
             onTap: () {
-              print("clicje");
-
               Get.defaultDialog(
                 title: "",
                 titleStyle: TextStyle(fontSize: 0),

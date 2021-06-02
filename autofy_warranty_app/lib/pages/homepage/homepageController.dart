@@ -5,6 +5,7 @@ class HomePageController extends GetxController {
   var appBarTitle = "Your Products".obs;
 
   void changePage(int val) {
+    // print("HEy: KUNJ" + val.toString());
     bottomNavigationBarIndex.value = val;
     if (bottomNavigationBarIndex.value == 0) {
       appBarTitle.value = "Your Products";

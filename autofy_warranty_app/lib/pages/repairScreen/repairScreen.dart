@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:autofy_warranty_app/controllers/apiController.dart';
 import 'package:autofy_warranty_app/pages/homepage/homepageController.dart';
+import 'package:autofy_warranty_app/pages/homepage/homepageScreen.dart';
 import 'package:autofy_warranty_app/pages/repairScreen/generatePDF.dart';
 import 'package:autofy_warranty_app/pages/repairScreen/repairScreenController.dart';
 import 'package:autofy_warranty_app/pages/widgets/btn.dart';
@@ -12,6 +13,7 @@ import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class RepairProductScreen extends StatefulWidget {
@@ -42,7 +44,8 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
       cityController = TextEditingController(),
       postalCodeController = TextEditingController();
   final dropDownKey = GlobalKey();
-  RepairScreenController controller = Get.find();
+
+  RepairScreenController controller = Get.put(RepairScreenController());
   fetchWarrantyData() async {
     await _apiController.getWarrantyInfo(warrantyCode: widget.warrantyCode);
     nameController.text = controller.userProductWarrantyInfo["name"] ?? "";
@@ -274,7 +277,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
     Get.dialog(
       Center(
         child: Container(
-          height: 200,
+          height: 280,
           width: Get.width - 40,
           padding: EdgeInsets.symmetric(
             horizontal: 20,
@@ -300,16 +303,24 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
               GetBtn(
                 btnText: "OPEN PDF",
                 onPressed: () async {
-                  // GeneratePDF generatePDF = GeneratePDF(result: result);
-                  // HomePageController controller = Get.find();
-                  // controller.bottomNavigationBarIndex.value = 1;
                   await createPDF(result: result);
+                },
+              ),
+              emptyVerticalBox(),
+              GetBtn(
+                btnText: "SHOW ALL REQUESTS",
+                onPressed: () async {
+                  HomePageController homePageController = Get.find();
+                  homePageController.bottomNavigationBarIndex.value = 1;
+                  Get.back();
+                  Get.back();
                 },
               ),
             ],
           ),
         ),
       ),
+      barrierDismissible: false,
     );
   }
 

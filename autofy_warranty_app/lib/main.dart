@@ -6,6 +6,7 @@ import 'package:autofy_warranty_app/pages/homepage/homepageController.dart';
 import 'package:autofy_warranty_app/pages/homepage/homepageScreen.dart';
 import 'package:autofy_warranty_app/pages/repairScreen/repairScreenController.dart';
 import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
+import 'package:autofy_warranty_app/services/apiService.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -30,13 +31,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       builder: EasyLoading.init(),
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+        appBarTheme: AppBarTheme(backgroundColor: AppColors.primaryColor),
+      ),
       initialBinding: BindingsBuilder(
         () {
+          Get.put(ApiService());
           Get.put(AuthController());
           Get.put(OcrController());
           Get.put(ApiController());
           Get.put(HomePageController());
-          Get.put(RepairScreenController());
         },
       ),
       title: 'Autofy',

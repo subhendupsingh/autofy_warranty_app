@@ -1,7 +1,7 @@
 import 'package:autofy_warranty_app/pages/homepage/bottomNavigationBar.dart';
 import 'package:autofy_warranty_app/pages/homepage/homepageController.dart';
 import 'package:autofy_warranty_app/pages/profile/profile.dart';
-import 'package:autofy_warranty_app/pages/repairScreen/repairScreen.dart';
+import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestsScreen.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceScreen.dart';
 import 'package:autofy_warranty_app/pages/userProduct/userProductScreen.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
@@ -28,7 +28,7 @@ class HomePageScreen extends StatelessWidget {
     if (controller.bottomNavigationBarIndex.value == 0) {
       return UserProducts();
     } else if (controller.bottomNavigationBarIndex.value == 1) {
-      return UserProducts();
+      return ServiceRequestsScreen();
     } else if (controller.bottomNavigationBarIndex.value == 2) {
       return RegisterWarranty();
     } else if (controller.bottomNavigationBarIndex.value == 3) {
