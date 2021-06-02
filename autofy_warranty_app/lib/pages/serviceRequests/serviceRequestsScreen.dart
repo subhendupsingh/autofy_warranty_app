@@ -1,14 +1,16 @@
+import 'package:autofy_warranty_app/models/duck_head.dart';
 import 'package:autofy_warranty_app/models/service_request.model.dart';
+import 'package:autofy_warranty_app/pages/serviceRequests/serviceReqTrackerScreen.dart';
 import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestController.dart';
+import 'package:autofy_warranty_app/services/apiService.dart';
 
-import 'package:autofy_warranty_app/services/localStorageService.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RepairScreen extends StatelessWidget {
+class ServiceRequestsScreen extends StatelessWidget {
   buildServiceRequestTile({required ServiceRequestModel serReq}) {
     return SizedBox(
       width: double.infinity,
@@ -90,14 +92,20 @@ class RepairScreen extends StatelessWidget {
               child: OutlineButton(
                 borderSide: BorderSide(color: AppColors.primaryColor, width: 2),
                 onPressed: () {
-                  print(LocalStoragaeService.getUserValue(UserField.Id));
+                  // ApiService.to.fetchOrderStatus(
+                  //     data: DuckHead.resStatus1, servieNumber: "joejofjeoj");
+                  ServiceRequestsController.to.trackOrderWithServiceNumber(
+                      serReqModel: serReq, resData: DuckHead.resStatus1);
+                  //   () => ServiceReqTrackerScreen(
+                  //     serReq: serReq,
+                  //   ),
+                  // );
                 },
                 child: Text("Track"),
               ),
             ),
           ],
           title: ListTile(
-            onTap: () {},
             leading: Container(
               height: 50,
               width: 50,
@@ -119,19 +127,7 @@ class RepairScreen extends StatelessWidget {
             ),
             subtitle: Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: Text("SKU: ${serReq.productSku}")
-
-                // Row(
-                //   children: [
-                //     CircleAvatar(
-                //       radius: 5,
-                //       backgroundColor: Colors.green,
-                //     ),
-                //     emptyHorizontalBox(width: 10),
-                //     Text("Dispatched")
-                //   ],
-                // ),
-                ),
+                child: Text("SKU: ${serReq.productSku}")),
             title: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Text(
@@ -163,36 +159,45 @@ class RepairScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
+    return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey[200],
         appBar: AppBar(
           title: Text("Repair Requests"),
-          backgroundColor: AppColors.primaryColor,
-          bottom: TabBar(
-            indicatorColor: Colors.white,
-            tabs: [
-              Tab(
-                text: "Active",
-                icon: Icon(Icons.check_box_outlined),
-              ),
-              Tab(
-                text: "Past",
-                icon: Icon(Icons.check_box_rounded),
-              ),
-            ],
-          ),
         ),
-        body: TabBarView(
-          children: [
-            buildActiveList(),
-            Center(
-              child: Icon(Icons.check_box_rounded),
-            ),
-          ],
-        ),
+        body: buildActiveList(),
       ),
     );
+
+    // DefaultTabController(
+    //   length: 2,
+    //   child: Scaffold(
+    //     backgroundColor: Colors.grey[200],
+    //     appBar: AppBar(
+    //       title: Text("Repair Requests"),
+    //       backgroundColor: AppColors.primaryColor,
+    //       bottom: TabBar(
+    //         indicatorColor: Colors.white,
+    //         tabs: [
+    //           Tab(
+    //             text: "Active",
+    //             icon: Icon(Icons.check_box_outlined),
+    //           ),
+    //           Tab(
+    //             text: "Past",
+    //             icon: Icon(Icons.check_box_rounded),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //     body: TabBarView(
+    //       children: [
+    //         buildActiveList(),
+    //         Center(
+    //           child: Icon(Icons.check_box_rounded),
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }

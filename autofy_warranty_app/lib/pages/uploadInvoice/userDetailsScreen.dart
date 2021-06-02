@@ -200,11 +200,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     }
   }
 
-  String formatDate(DateTime dateTime) {
-    final template = DateFormat('dd-MM-yyyy');
-    return template.format(dateTime);
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(

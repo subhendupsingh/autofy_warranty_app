@@ -7,6 +7,7 @@ import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestsScreen.
 import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/productSearchScreen.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceScreen.dart';
+import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -26,18 +27,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      builder: EasyLoading.init(),
-      theme: ThemeData(primarySwatch: Colors.red),
-      initialBinding: BindingsBuilder(
-        () {
-          Get.put(ApiService());
-          Get.put(AuthController());
-          Get.put(OcrController());
-        },
-      ),
-      title: 'Autofy',
-      home: GetDesign(),
-    );
+        builder: EasyLoading.init(),
+        theme: ThemeData(
+          primarySwatch: Colors.red,
+          appBarTheme: AppBarTheme(backgroundColor: AppColors.primaryColor),
+        ),
+        initialBinding: BindingsBuilder(
+          () {
+            Get.put(ApiService());
+            Get.put(AuthController());
+            Get.put(OcrController());
+          },
+        ),
+        title: 'Autofy',
+        home: ServiceRequestsScreen()
+        // home: GetDesign(),
+        );
   }
 }
 
