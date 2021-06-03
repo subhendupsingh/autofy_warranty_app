@@ -9,6 +9,7 @@ import 'package:autofy_warranty_app/utils/helpers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class ServiceRequestsScreen extends StatelessWidget {
   buildServiceRequestTile({required ServiceRequestModel serReq}) {
@@ -143,7 +144,25 @@ class ServiceRequestsScreen extends StatelessWidget {
         builder: (ctrl) {
           List<ServiceRequestModel> serReqList = ctrl.serviceRequestsList;
           return serReqList.isEmpty
-              ? Center(child: Text("No Repair Requests Found"))
+              ? Center(
+                  child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset(
+                      "assets/lottie/empty_list.json",
+                      height: 250,
+                    ),
+                    Text(
+                      "Oops..",
+                      style: TextStyle(color: Colors.grey, fontSize: 30),
+                    ),
+                    emptyVerticalBox(height: 10),
+                    Text(
+                      "No repair requests found",
+                      style: TextStyle(color: Colors.grey, fontSize: 15),
+                    )
+                  ],
+                ))
               : ListView.builder(
                   itemCount: serReqList.length,
                   itemBuilder: (_, index) {

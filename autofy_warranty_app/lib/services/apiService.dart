@@ -50,7 +50,7 @@ class ApiService extends getx.GetxService {
     );
   }
 
-  updateDioAuthorizationToken() {
+  void updateDioAuthorizationToken() {
     _dio.options.headers = {
       "Authorization":
           "Bearer ${LocalStoragaeService.getUserValue(UserField.Token)}"

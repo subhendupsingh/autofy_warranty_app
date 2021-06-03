@@ -21,7 +21,54 @@ class HomePageScreen extends StatelessWidget {
                   IconButton(
                       icon: Icon(Icons.logout),
                       onPressed: () {
-                        AuthController.to.logOut();
+                        Get.defaultDialog(
+                            title: "",
+                            content: Column(
+                              children: [
+                                Text("Are you sure you want to logout?"),
+                                ButtonBar(
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                      child: Text(
+                                        "Cancel",
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Get.back();
+                                        AuthController.to.logOut();
+                                      },
+                                      child: Text("Confirm"),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ));
+
+                        // title: "Alert",
+                        // content: Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: Text("Are you sure you want to logout?"),
+                        // ),
+                        // textCancel: "Cancel",
+
+                        // cancelTextColor: Colors.grey,
+                        // textConfirm: "Confirm",
+                        // confirmTextColor: Colors.grey[100],
+
+                        // cancel: TextButton(
+                        //   onPressed: () {},
+                        //   child: Text("Log out"),
+                        // ),
+                        // confirm: TextButton(
+                        //   onPressed: () {},
+                        //   child: Text("Cancel"),
+                        // ),
+                        // AuthController.to.logOut();
                       }),
                 ]
               : [],
