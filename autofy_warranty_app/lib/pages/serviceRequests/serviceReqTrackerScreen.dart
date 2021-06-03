@@ -168,7 +168,6 @@ class _ServiceReqTrackerScreenState extends State<ServiceReqTrackerScreen> {
         body: GetBuilder<ServiceRequestsController>(builder: (controller) {
           TrackerResponse? trackerResponse = controller.trackerResponse;
           int? statusCode = trackerResponse?.statusCode ?? 0;
-          print("build this again");
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

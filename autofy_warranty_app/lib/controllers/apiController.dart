@@ -1,4 +1,5 @@
 import 'package:autofy_warranty_app/pages/repairScreen/repairScreenController.dart';
+import 'package:autofy_warranty_app/services/apiService.dart';
 import 'package:autofy_warranty_app/services/localStorageService.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -81,6 +82,7 @@ class ApiController extends GetxController {
       if (response.statusCode == 200) {
         LocalStoragaeService.updateUserData(response.data);
         await getUserProductData();
+        ApiService.to.updateDioAuthorizationToken();
         return "SuccessFully Logged in";
       }
     } catch (e) {

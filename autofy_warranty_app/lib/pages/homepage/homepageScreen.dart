@@ -1,3 +1,4 @@
+import 'package:autofy_warranty_app/controllers/authController.dart';
 import 'package:autofy_warranty_app/pages/homepage/bottomNavigationBar.dart';
 import 'package:autofy_warranty_app/pages/homepage/homepageController.dart';
 import 'package:autofy_warranty_app/pages/profile/profile.dart';
@@ -15,6 +16,15 @@ class HomePageScreen extends StatelessWidget {
       builder: (controller) => Scaffold(
         appBar: AppBar(
           title: Text(controller.appBarTitle.value),
+          actions: controller.bottomNavigationBarIndex.value == 3
+              ? [
+                  IconButton(
+                      icon: Icon(Icons.logout),
+                      onPressed: () {
+                        AuthController.to.logOut();
+                      }),
+                ]
+              : [],
           backgroundColor: AppColors.primaryColor,
           centerTitle: true,
         ),

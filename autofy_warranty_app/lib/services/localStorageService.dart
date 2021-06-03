@@ -45,10 +45,24 @@ extension UserFieldExtension on UserField {
 
 class LocalStoragaeService {
   static var userDataBox = Hive.box(kUserDataBoxName);
+  static Box<UserProductModelForHive> userProductBox =
+      Hive.box(BoxNames.userProductBoxName);
 
-  static void updateUserData(Map<String, dynamic> userData) {
+  static Future<bool> deleteUserData() async {
+    bool isDone = false;
+    try {
+      await userDataBox.clear();
+      await userProductBox.clear();
+      isDone = true;
+    } catch (e) {
+      print(e);
+    }
+    return isDone;
+  }
+
+  static void updateUserData(Map<dynamic, dynamic> userData) {
     userData.forEach((key, value) async {
-      await userDataBox.put(key, value ?? "");
+      await userDataBox.put(key, value);
     });
   }
 
@@ -58,8 +72,6 @@ class LocalStoragaeService {
 
   static Future addUserProductData(
       {List<dynamic>? userProductsResponce}) async {
-    Box<UserProductModelForHive> userProductBox =
-        Hive.box(BoxNames.userProductBoxName);
     await userProductBox.clear();
     userProductsResponce!.forEach(
       (element) async {

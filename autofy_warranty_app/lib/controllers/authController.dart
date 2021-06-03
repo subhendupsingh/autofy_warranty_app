@@ -1,6 +1,7 @@
 import 'package:autofy_warranty_app/services/localStorageService.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart' as getx;
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
@@ -8,6 +9,22 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 class AuthController extends GetxController {
   final Dio _dio = Dio();
   final baseUrl = "https://wapi.autofystore.com";
+
+  getx.RxBool isUserLoggedIn = false.obs;
+
+  @override
+  onInit() {
+    super.onInit();
+    getAuthenticationStatus();
+  }
+
+  static AuthController get to => getx.Get.find<AuthController>();
+
+  getAuthenticationStatus() {
+    dynamic ls = LocalStoragaeService.getUserValue(UserField.Token);
+    
+    isUserLoggedIn.value = ls != null;
+  }
 
   Future<bool> registerUser(Map<String, String> data) async {
     bool isRegistrationSuccess = false;
@@ -34,5 +51,12 @@ class AuthController extends GetxController {
     }
 
     return isRegistrationSuccess;
+  }
+
+  logOut() async {
+    EasyLoading.show(status: "Logging Out..");
+    await LocalStoragaeService.deleteUserData();
+    getAuthenticationStatus();
+    EasyLoading.dismiss();
   }
 }
