@@ -92,15 +92,8 @@ class ServiceRequestsScreen extends StatelessWidget {
               child: OutlineButton(
                 borderSide: BorderSide(color: AppColors.primaryColor, width: 2),
                 onPressed: () {
-                  // ApiService.to.fetchOrderStatus(
-                  //     data: DuckHead.resStatus1, servieNumber: "joejofjeoj");
-                  ServiceRequestsController.to.trackOrderWithServiceNumber(
-                    serReqModel: serReq,
-                  );
-                  //   () => ServiceReqTrackerScreen(
-                  //     serReq: serReq,
-                  //   ),
-                  // );
+                  ServiceRequestsController.to
+                      .trackOrderWithServiceNumber(serReqModel: serReq);
                 },
                 child: Text("Track"),
               ),

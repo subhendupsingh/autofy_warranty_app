@@ -50,6 +50,13 @@ class ApiService extends getx.GetxService {
     );
   }
 
+  updateDioAuthorizationToken() {
+    _dio.options.headers = {
+      "Authorization":
+          "Bearer ${LocalStoragaeService.getUserValue(UserField.Token)}"
+    };
+  }
+
   static ApiService get to => getx.Get.find<ApiService>();
 
   fetchProducts() async {

@@ -11,6 +11,8 @@ import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
 import 'package:get/instance_manager.dart';
@@ -50,22 +52,10 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class GetDesign extends StatefulWidget {
-  @override
-  _GetDesignState createState() => _GetDesignState();
-}
-
-class _GetDesignState extends State<GetDesign> {
-  bool alreadyLoggedIn = false;
-  @override
-  void initState() {
-    var userBox = Hive.box('userData');
-    alreadyLoggedIn = userBox.get("token") != null ? true : false;
-    super.initState();
-  }
-
+class GetDesign extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
-    return alreadyLoggedIn ? HomePageScreen() : SignInPage();
+    return Obx(() =>
+        controller.isUserLoggedIn.value ? HomePageScreen() : SignInPage());
   }
 }
