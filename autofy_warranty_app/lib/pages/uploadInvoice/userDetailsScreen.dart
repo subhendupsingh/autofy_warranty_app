@@ -7,7 +7,6 @@ import 'package:autofy_warranty_app/services/localStorageService.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 
 class UserDetailsScreen extends StatefulWidget {

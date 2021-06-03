@@ -95,7 +95,8 @@ class ServiceRequestsScreen extends StatelessWidget {
                   // ApiService.to.fetchOrderStatus(
                   //     data: DuckHead.resStatus1, servieNumber: "joejofjeoj");
                   ServiceRequestsController.to.trackOrderWithServiceNumber(
-                      serReqModel: serReq, );
+                    serReqModel: serReq,
+                  );
                   //   () => ServiceReqTrackerScreen(
                   //     serReq: serReq,
                   //   ),
@@ -163,9 +164,6 @@ class ServiceRequestsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("Repair Requests"),
-        ),
         body: buildActiveList(),
       ),
     );

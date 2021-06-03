@@ -1,3 +1,5 @@
+import 'package:autofy_warranty_app/Model/userProductModelForHive.dart';
+import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:hive/hive.dart';
 
 final kUserDataBoxName = "UserData";
@@ -52,5 +54,31 @@ class LocalStoragaeService {
 
   static dynamic getUserValue(UserField userField) {
     return userDataBox.get(userField.asString);
+  }
+
+  static Future addUserProductData(
+      {List<dynamic>? userProductsResponce}) async {
+    Box<UserProductModelForHive> userProductBox =
+        Hive.box(BoxNames.userProductBoxName);
+    await userProductBox.clear();
+    userProductsResponce!.forEach(
+      (element) async {
+        Map<String, dynamic> userProductRecord =
+            element as Map<String, dynamic>;
+        UserProductModelForHive userProductModel = UserProductModelForHive(
+          productName: userProductRecord["productName"],
+          productSKU: userProductRecord["productSKU"],
+          productImageURL: userProductRecord["productImageURL"],
+          warrantyCode: userProductRecord["warrantyCode"],
+          warrantyExpiryDate: userProductRecord["warrantyExpiryDate"],
+          warrantyStatus: userProductRecord["warrantyStatus"],
+          numberOfRepairRequestsLeft:
+              userProductRecord["numberOfRepairRequestsLeft"],
+          showRepairButton: userProductRecord["showRepairButton"],
+        );
+        await userProductBox.add(userProductModel);
+      },
+    );
+    print("Total Items: " + userProductBox.length.toString());
   }
 }

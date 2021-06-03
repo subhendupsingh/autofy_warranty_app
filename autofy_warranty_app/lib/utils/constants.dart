@@ -20,3 +20,7 @@ class AppColors {
 class AppRadius {
   static final double commonRadius = 10.0;
 }
+
+class BoxNames {
+  static final String userProductBoxName = "UserProductBox";
+}

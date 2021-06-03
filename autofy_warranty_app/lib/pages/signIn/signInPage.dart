@@ -1,13 +1,12 @@
+import 'package:autofy_warranty_app/controllers/apiController.dart';
 import 'package:autofy_warranty_app/pages/forgotPassword/forgotPassword.dart';
-import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestsScreen.dart';
+import 'package:autofy_warranty_app/pages/homepage/homepageScreen.dart';
 import 'package:autofy_warranty_app/pages/signIn/signInController.dart';
 import 'package:autofy_warranty_app/pages/signup/signupPage.dart';
-import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceScreen.dart';
 import 'package:autofy_warranty_app/pages/widgets/btn.dart';
 import 'package:autofy_warranty_app/pages/widgets/link.dart';
 import 'package:autofy_warranty_app/pages/widgets/textField.dart';
 import 'package:autofy_warranty_app/pages/widgets/wave.dart';
-import 'package:autofy_warranty_app/services/signInService.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
 import 'package:email_validator/email_validator.dart';
@@ -85,17 +84,17 @@ class SignInPage extends StatelessWidget {
                             ? () {}
                             : () async {
                                 if (_signInFormKey.currentState!.validate()) {
+                                  ApiController apiController = ApiController();
                                   val.updateLoading();
                                   String res =
-                                      await SignInServices.authenticateUser(
+                                      await apiController.authenticateUser(
                                     email: emailController.text.toLowerCase(),
                                     password: passwordController.text,
                                   );
                                   val.updateLoading();
                                   if (res == "SuccessFully Logged in") {
                                     Get.snackbar("$res", "Thank you");
-                                    // TODO: Need to navigate to home page
-                                    Get.offAll(() => ServiceRequestsScreen());
+                                    Get.offAll(() => HomePageScreen());
                                   } else if (res == "Something want wrong" ||
                                       res == "Internal server error") {
                                     Get.snackbar(

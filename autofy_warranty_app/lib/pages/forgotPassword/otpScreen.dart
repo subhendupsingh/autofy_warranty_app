@@ -47,7 +47,6 @@ class OtpScreen extends StatelessWidget {
                   onChanged: (otp) {
                     otpFieldController.text = otp;
                     val.otpByUser = otp;
-                    print(val.otpByUser);
                   },
                   controller: otpFieldController,
                   validator: (otp) {
