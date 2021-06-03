@@ -4,6 +4,10 @@ class HomePageController extends GetxController {
   var bottomNavigationBarIndex = 0.obs;
   var appBarTitle = "Your Products".obs;
 
+  static HomePageController get to => Get.find<HomePageController>();
+
+  set setIndex(passedIndex) => bottomNavigationBarIndex.value = passedIndex;
+
   void changePage(int val) {
     // print("HEy: KUNJ" + val.toString());
     bottomNavigationBarIndex.value = val;

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomePageScreen extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return GetX<HomePageController>(
@@ -22,53 +23,33 @@ class HomePageScreen extends StatelessWidget {
                       icon: Icon(Icons.logout),
                       onPressed: () {
                         Get.defaultDialog(
-                            title: "",
-                            content: Column(
-                              children: [
-                                Text("Are you sure you want to logout?"),
-                                ButtonBar(
-                                  children: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Get.back();
-                                      },
-                                      child: Text(
-                                        "Cancel",
-                                        style: TextStyle(color: Colors.grey),
-                                      ),
+                          title: "\nAlert",
+                          content: Column(
+                            children: [
+                              Text("Are you sure you want to logout?"),
+                              ButtonBar(
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: Text(
+                                      "Cancel",
+                                      style: TextStyle(color: Colors.grey),
                                     ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Get.back();
-                                        AuthController.to.logOut();
-                                      },
-                                      child: Text("Confirm"),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ));
-
-                        // title: "Alert",
-                        // content: Padding(
-                        //   padding: const EdgeInsets.all(8.0),
-                        //   child: Text("Are you sure you want to logout?"),
-                        // ),
-                        // textCancel: "Cancel",
-
-                        // cancelTextColor: Colors.grey,
-                        // textConfirm: "Confirm",
-                        // confirmTextColor: Colors.grey[100],
-
-                        // cancel: TextButton(
-                        //   onPressed: () {},
-                        //   child: Text("Log out"),
-                        // ),
-                        // confirm: TextButton(
-                        //   onPressed: () {},
-                        //   child: Text("Cancel"),
-                        // ),
-                        // AuthController.to.logOut();
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                      AuthController.to.logOut();
+                                    },
+                                    child: Text("Confirm"),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        );
                       }),
                 ]
               : [],

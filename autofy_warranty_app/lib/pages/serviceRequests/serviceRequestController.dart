@@ -25,8 +25,13 @@ class ServiceRequestsController extends GetxController {
     getAllServiceRequests();
   }
 
+  void removeServiceList() {
+    _serviceRequestsList = [];
+    update();
+  }
+
   void getAllServiceRequests() async {
-    EasyLoading.show();
+    EasyLoading.show(status: "Fetching Data...");
     ApiService apiService = ApiService.to;
 
     Either<String, List<ServiceRequestModel>> res =
@@ -41,14 +46,14 @@ class ServiceRequestsController extends GetxController {
     EasyLoading.dismiss();
   }
 
-  void trackOrderWithServiceNumber(
-      {required ServiceRequestModel serReqModel,
-      }) async {
+  void trackOrderWithServiceNumber({
+    required ServiceRequestModel serReqModel,
+  }) async {
     EasyLoading.show(status: "Tracking Order...");
     ApiService apiService = ApiService.to;
 
     final res = await apiService.fetchOrderStatus(
-         serviceNumber: serReqModel.serviceRequestNumber);
+        serviceNumber: serReqModel.serviceRequestNumber);
 
     EasyLoading.dismiss();
 
