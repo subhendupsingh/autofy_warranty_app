@@ -36,19 +36,20 @@ dependencies:
   hive: null
   http: null
   image_picker: null
+  lottie: ^1.0.1
+  open_file: ^3.2.1
   path_provider: ^2.0.2
   pin_code_fields: null
   syncfusion_flutter_pdf: ^19.1.66-beta
-  wave: null
-  url_launcher: ^6.0.4
-  open_file: ^3.2.1
   timeline_tile: ^2.0.0
+  url_launcher: ^6.0.4
+  wave: null
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  hive_generator: ^1.1.0
   build_runner: ^2.0.4
+  hive_generator: ^1.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -62,6 +63,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/lottie/
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
