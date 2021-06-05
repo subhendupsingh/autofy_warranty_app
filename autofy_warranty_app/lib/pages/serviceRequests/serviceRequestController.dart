@@ -10,10 +10,8 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 class ServiceRequestsController extends GetxController {
-  List<ServiceRequestModel> _serviceRequestsList = [];
+  List<ServiceRequestModel> serviceRequestsList = <ServiceRequestModel>[].obs;
   TrackerResponse? trackerResponse;
-
-  List<ServiceRequestModel> get serviceRequestsList => _serviceRequestsList;
 
   static ServiceRequestsController get to =>
       Get.find<ServiceRequestsController>();
@@ -22,28 +20,27 @@ class ServiceRequestsController extends GetxController {
   onInit() {
     super.onInit();
     debugPrint("service request controller initialized");
-    getAllServiceRequests();
   }
 
   void removeServiceList() {
-    _serviceRequestsList = [];
+    serviceRequestsList = [];
     update();
   }
 
-  void getAllServiceRequests() async {
-    EasyLoading.show(status: "Fetching Data...");
+  void getAllServiceRequests({bool hidden = false}) async {
+    if (!hidden) EasyLoading.show(status: "Fetching Data...");
     ApiService apiService = ApiService.to;
 
     Either<String, List<ServiceRequestModel>> res =
         await apiService.fetchAllServiceRequests();
     res.fold((errorString) {
       return Get.snackbar("An Error Occured", errorString);
-    }, (serviceRequestList) {
-      _serviceRequestsList = serviceRequestList;
+    }, (fetchedSerReqList) {
+      serviceRequestsList = fetchedSerReqList;
       update();
     });
 
-    EasyLoading.dismiss();
+    if (!hidden) EasyLoading.dismiss();
   }
 
   void trackOrderWithServiceNumber({

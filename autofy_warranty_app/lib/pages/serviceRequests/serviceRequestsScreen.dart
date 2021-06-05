@@ -13,7 +13,22 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart' as urlLauncher;
 
-class ServiceRequestsScreen extends StatelessWidget {
+class ServiceRequestsScreen extends StatefulWidget {
+  @override
+  _ServiceRequestsScreenState createState() => _ServiceRequestsScreenState();
+}
+
+class _ServiceRequestsScreenState extends State<ServiceRequestsScreen> {
+  @override
+  initState() {
+    super.initState();
+    if (ServiceRequestsController.to.serviceRequestsList.isEmpty) {
+      ServiceRequestsController.to.getAllServiceRequests();
+    } else {
+      ServiceRequestsController.to.getAllServiceRequests(hidden: true);
+    }
+  }
+
   buildServiceRequestTile({required ServiceRequestModel serReq}) {
     return Card(
       child: Padding(
@@ -24,16 +39,16 @@ class ServiceRequestsScreen extends StatelessWidget {
               trailing: GestureDetector(
                 onTap: () async {
                   try {
-                    String waMsg =
+                    final String waMsg =
                         "Hey, I need help with my repair request with ServiceNumber: ${serReq.serviceRequestNumber}\nMy Details:\nName: ${LocalStoragaeService.getUserValue(UserField.Name)}\nEmail: ${LocalStoragaeService.getUserValue(UserField.Email)}\nPhone: ${LocalStoragaeService.getUserValue(UserField.Phone)}";
-                    var whatsappUrl =
+                    final whatsappUrl =
                         "whatsapp://send?phone=919999933907&text=$waMsg";
                     urlLauncher.launch(whatsappUrl);
                   } catch (e) {
                     print(e);
                   }
                 },
-                child: Icon(Icons.help_outline_rounded),
+                child: const Icon(Icons.help_outline_rounded),
               ),
               leading: Container(
                 height: 50,
@@ -45,10 +60,11 @@ class ServiceRequestsScreen extends StatelessWidget {
                 child: CachedNetworkImage(
                   fit: BoxFit.cover,
                   imageUrl: "${serReq.productImageUrl}",
-                  placeholder: (context, url) => CircularProgressIndicator(
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation(Colors.white),
                   ),
-                  errorWidget: (context, url, error) => Icon(
+                  errorWidget: (context, url, error) => const Icon(
                     Icons.error_outline,
                     color: Colors.red,
                   ),
@@ -63,7 +79,8 @@ class ServiceRequestsScreen extends StatelessWidget {
                   "${serReq.productName}",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w600, fontSize: 16),
                 ),
               ),
             ),
@@ -81,17 +98,17 @@ class ServiceRequestsScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Service Number:",
                           style: TextStyle(color: Colors.grey),
                         ),
                         emptyVerticalBox(height: 5),
-                        Text(
+                        const Text(
                           "Request Date:",
                           style: TextStyle(color: Colors.grey),
                         ),
                         emptyVerticalBox(height: 5),
-                        Text(
+                        const Text(
                           "Warranty Code:",
                           style: TextStyle(color: Colors.grey),
                         ),
@@ -105,17 +122,17 @@ class ServiceRequestsScreen extends StatelessWidget {
                       children: [
                         Text(
                           serReq.serviceRequestNumber.toString(),
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                          style: const TextStyle(fontWeight: FontWeight.w600),
                         ),
                         emptyVerticalBox(height: 5),
                         Text(
                           "${serReq.created}",
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                          style: const TextStyle(fontWeight: FontWeight.w600),
                         ),
                         emptyVerticalBox(height: 5),
                         Text(
                           "${serReq.warrantyCode}",
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                          style: const TextStyle(fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),
@@ -132,7 +149,7 @@ class ServiceRequestsScreen extends StatelessWidget {
                   ServiceRequestsController.to
                       .trackOrderWithServiceNumber(serReqModel: serReq);
                 },
-                child: Text("Track"),
+                child: const Text("Track"),
               ),
             ),
           ],
@@ -142,38 +159,41 @@ class ServiceRequestsScreen extends StatelessWidget {
   }
 
   buildActiveList() {
-    return GetBuilder<ServiceRequestsController>(
-        init: Get.put(ServiceRequestsController()),
-        builder: (ctrl) {
-          List<ServiceRequestModel> serReqList = ctrl.serviceRequestsList;
-          return serReqList.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Lottie.asset(
-                        "assets/lottie/empty_list.json",
-                        height: 250,
-                      ),
-                      Text(
-                        "Oops..",
-                        style: TextStyle(color: Colors.grey, fontSize: 30),
-                      ),
-                      emptyVerticalBox(height: 10),
-                      Text(
-                        "No repair requests found",
-                        style: TextStyle(color: Colors.grey, fontSize: 15),
-                      )
-                    ],
+    return GetBuilder<ServiceRequestsController>(builder: (ctrl) {
+      List<ServiceRequestModel> serReqList =
+          ctrl.serviceRequestsList.reversed.toList();
+      return serReqList.isEmpty
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset(
+                    "assets/lottie/empty_list.json",
+                    height: 250,
                   ),
-                )
-              : ListView.builder(
-                  itemCount: serReqList.length,
-                  itemBuilder: (_, index) {
-                    return buildServiceRequestTile(serReq: serReqList[index]);
-                  },
-                );
-        });
+                  Text(
+                    "Oops..",
+                    style: TextStyle(color: Colors.grey, fontSize: 30),
+                  ),
+                  emptyVerticalBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                    child: Text(
+                      "You don't have any service requests as of now, please go to the products section to raise a new request",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.grey, fontSize: 15),
+                    ),
+                  )
+                ],
+              ),
+            )
+          : ListView.builder(
+              itemCount: serReqList.length,
+              itemBuilder: (_, index) {
+                return buildServiceRequestTile(serReq: serReqList[index]);
+              },
+            );
+    });
   }
 
   @override

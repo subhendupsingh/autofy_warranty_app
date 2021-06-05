@@ -2,11 +2,12 @@ import 'package:autofy_warranty_app/Model/userProductModelForHive.dart';
 import 'package:autofy_warranty_app/controllers/apiController.dart';
 import 'package:autofy_warranty_app/controllers/authController.dart';
 import 'package:autofy_warranty_app/controllers/ocrController.dart';
-import 'package:autofy_warranty_app/pages/homepage/homepageController.dart';
 import 'package:autofy_warranty_app/pages/homepage/homepageScreen.dart';
 import 'package:autofy_warranty_app/pages/repairScreen/repairScreenController.dart';
+import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestController.dart';
 import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
 import 'package:autofy_warranty_app/services/apiService.dart';
+import 'package:autofy_warranty_app/services/localStorageService.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -43,19 +44,13 @@ class MyApp extends StatelessWidget {
           Get.put(AuthController());
           Get.put(OcrController());
           Get.put(ApiController());
-          Get.put(HomePageController());
+          Get.put(ServiceRequestsController());
         },
       ),
       title: 'Autofy',
-      home: GetDesign(),
+      home: LocalStoragaeService.getUserValue(UserField.Token) == null
+          ? SignInPage()
+          : HomePage(startingIndex: 0),
     );
-  }
-}
-
-class GetDesign extends GetView<AuthController> {
-  @override
-  Widget build(BuildContext context) {
-    return Obx(() =>
-        controller.isUserLoggedIn.value ? HomePageScreen() : SignInPage());
   }
 }

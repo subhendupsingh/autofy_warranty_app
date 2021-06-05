@@ -1,6 +1,5 @@
 import 'package:autofy_warranty_app/controllers/authController.dart';
-import 'package:autofy_warranty_app/pages/homepage/bottomNavigationBar.dart';
-import 'package:autofy_warranty_app/pages/homepage/homepageController.dart';
+
 import 'package:autofy_warranty_app/pages/profile/profile.dart';
 import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestsScreen.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceScreen.dart';
@@ -9,69 +8,132 @@ import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomePageScreen extends StatelessWidget {
-  
+class HomePage extends StatefulWidget {
+  int startingIndex;
+  HomePage({Key? key, required this.startingIndex}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return GetX<HomePageController>(
-      builder: (controller) => Scaffold(
-        appBar: AppBar(
-          title: Text(controller.appBarTitle.value),
-          actions: controller.bottomNavigationBarIndex.value == 3
-              ? [
-                  IconButton(
-                      icon: Icon(Icons.logout),
-                      onPressed: () {
-                        Get.defaultDialog(
-                          title: "\nAlert",
-                          content: Column(
-                            children: [
-                              Text("Are you sure you want to logout?"),
-                              ButtonBar(
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Get.back();
-                                    },
-                                    child: Text(
-                                      "Cancel",
-                                      style: TextStyle(color: Colors.grey),
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Get.back();
-                                      AuthController.to.logOut();
-                                    },
-                                    child: Text("Confirm"),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        );
-                      }),
-                ]
-              : [],
-          backgroundColor: AppColors.primaryColor,
-          centerTitle: true,
-        ),
-        body: selectPage(controller),
-        bottomNavigationBar: GetBottomNaviGationBar(),
-      ),
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  initState() {
+    super.initState();
+    _currentIndex = widget.startingIndex;
+  }
+
+  int _currentIndex = 0;
+  final List<Widget> listOfScreens = [
+    UserProducts(),
+    ServiceRequestsScreen(),
+    RegisterWarranty(),
+    ProfileSreen()
+  ];
+
+  final List<String> appBarTitles = [
+    "Your Products",
+    "Repair Request",
+    "Register Warranty",
+    "Your Profile",
+  ];
+
+  buildAppBar() {
+    return AppBar(
+      title: Text(appBarTitles[_currentIndex]),
+      actions: _currentIndex == 3
+          ? [
+              IconButton(
+                icon: Icon(Icons.logout),
+                onPressed: () {
+                  Get.defaultDialog(
+                    title: "\nAlert",
+                    content: Column(
+                      children: [
+                        Text("Are you sure you want to logout?"),
+                        ButtonBar(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              child: Text(
+                                "Cancel",
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Get.back();
+                                AuthController.to.logOut();
+                              },
+                              child: Text("Logout"),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ]
+          : [],
+      backgroundColor: AppColors.primaryColor,
+      centerTitle: true,
     );
   }
 
-  Widget selectPage(HomePageController controller) {
-    if (controller.bottomNavigationBarIndex.value == 0) {
-      return UserProducts();
-    } else if (controller.bottomNavigationBarIndex.value == 1) {
-      return ServiceRequestsScreen();
-    } else if (controller.bottomNavigationBarIndex.value == 2) {
-      return RegisterWarranty();
-    } else if (controller.bottomNavigationBarIndex.value == 3) {
-      return ProfileSreen();
-    }
-    return Container();
+  buildBottomBar() {
+    return BottomNavigationBar(
+      unselectedItemColor: Colors.grey,
+      selectedItemColor: AppColors.primaryColor,
+      showUnselectedLabels: true,
+      currentIndex: _currentIndex,
+      onTap: (value) {
+        setState(() {
+          _currentIndex = value;
+        });
+      },
+      items: [
+        BottomNavigationBarItem(
+          label: "Products",
+          icon: Icon(
+            Icons.list,
+          ),
+        ),
+        BottomNavigationBarItem(
+          label: "Repair Request",
+          icon: Icon(
+            Icons.handyman_outlined,
+          ),
+        ),
+        BottomNavigationBarItem(
+          label: "Register Warranty",
+          icon: Icon(
+            Icons.library_add_rounded,
+          ),
+        ),
+        BottomNavigationBarItem(
+          label: "Profile",
+          icon: Icon(
+            Icons.person,
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        key: scaffoldKey,
+        appBar: buildAppBar(),
+        body: listOfScreens[_currentIndex],
+        bottomNavigationBar: buildBottomBar(),
+      ),
+    );
   }
 }

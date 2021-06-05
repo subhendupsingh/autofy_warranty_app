@@ -1,4 +1,7 @@
+import 'package:autofy_warranty_app/main.dart';
+import 'package:autofy_warranty_app/pages/homepage/homepageScreen.dart';
 import 'package:autofy_warranty_app/pages/repairScreen/repairScreenController.dart';
+import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestController.dart';
 import 'package:autofy_warranty_app/services/apiService.dart';
 import 'package:autofy_warranty_app/services/localStorageService.dart';
 import 'package:dio/dio.dart';
@@ -93,6 +96,7 @@ class ApiController extends GetxController {
       } else if (res == "500") {
         return "Internal server error";
       } else {
+        getx.Get.log(e.toString());
         return "Something want wrong";
       }
     }
@@ -169,6 +173,7 @@ class ApiController extends GetxController {
 
       if (repairRequestResponce.statusCode == 200) {
         controller.isLoading.value = false;
+        ServiceRequestsController.to.getAllServiceRequests(hidden: true);
         return repairRequestResponce.data;
       }
     } on DioError catch (e) {
