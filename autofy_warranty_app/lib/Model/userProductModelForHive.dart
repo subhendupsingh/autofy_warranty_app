@@ -28,6 +28,9 @@ class UserProductModelForHive {
   @HiveField(7)
   bool? showRepairButton;
 
+  @HiveField(8)
+  String? purchaseDate;
+
   UserProductModelForHive({
     this.productName,
     this.productSKU,
@@ -37,5 +40,6 @@ class UserProductModelForHive {
     this.warrantyStatus,
     this.numberOfRepairRequestsLeft,
     this.showRepairButton,
+    this.purchaseDate,
   });
 }

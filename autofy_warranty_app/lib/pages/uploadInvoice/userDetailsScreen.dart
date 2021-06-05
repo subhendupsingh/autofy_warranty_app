@@ -1,4 +1,5 @@
 import 'package:autofy_warranty_app/controllers/apiController.dart';
+import 'package:autofy_warranty_app/pages/homepage/homepageScreen.dart';
 import 'package:autofy_warranty_app/services/apiService.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/productSearchScreen.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceController.dart';
@@ -357,11 +358,12 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                     width: double.infinity,
                     child: GetBtn(
                       btnText: "Submit",
-                      onPressed: () {
+                      onPressed: () async {
                         print(warrantyCode);
                         if (_formKey.currentState!.validate()) {
                           ApiService apiController = Get.find<ApiService>();
-                          apiController.activateWarranty(data: {
+                          String res =
+                              await apiController.activateWarranty(data: {
                             "name": nameController.text.trim().toString(),
                             "email": emailController.text.trim().toString(),
                             "phone":
@@ -379,6 +381,11 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                             "validWarrantyCode": warrantyCode,
                             "product": product!["id"],
                           });
+                          if (res == "success") {
+                            buildDialog(
+                              "Warranty activation request has been sent for approval.",
+                            );
+                          }
                         }
                       },
                       height: 40,
@@ -392,6 +399,54 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void buildDialog(String result) {
+    Get.dialog(
+      Center(
+        child: Container(
+          height: 280,
+          width: Get.width - 40,
+          padding: EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 20,
+          ),
+          decoration: BoxDecoration(
+            color: AppColors.secondaryColor,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                result,
+                style: TextStyle(
+                  color: AppColors.successColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              emptyVerticalBox(height: 50),
+              GetBtn(
+                btnText: "SHOW ALL PRODUCTS",
+                onPressed: () {
+                  Get.offAll(HomePage(startingIndex: 0));
+                },
+              ),
+              emptyVerticalBox(),
+              GetBtn(
+                btnText: "GO TO PROFILE",
+                onPressed: () {
+                  Get.offAll(HomePage(startingIndex: 3));
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: false,
     );
   }
 }

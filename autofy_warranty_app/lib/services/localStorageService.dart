@@ -87,6 +87,7 @@ class LocalStoragaeService {
           numberOfRepairRequestsLeft:
               userProductRecord["numberOfRepairRequestsLeft"],
           showRepairButton: userProductRecord["showRepairButton"],
+          purchaseDate: userProductRecord["purchaseDate"] ?? "",
         );
         await userProductBox.add(userProductModel);
       },
