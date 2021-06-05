@@ -26,13 +26,14 @@ class UserProductModelForHiveAdapter
       warrantyStatus: fields[5] as String?,
       numberOfRepairRequestsLeft: fields[6] as int?,
       showRepairButton: fields[7] as bool?,
+      purchaseDate: fields[8] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserProductModelForHive obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.productName)
       ..writeByte(1)
@@ -48,7 +49,9 @@ class UserProductModelForHiveAdapter
       ..writeByte(6)
       ..write(obj.numberOfRepairRequestsLeft)
       ..writeByte(7)
-      ..write(obj.showRepairButton);
+      ..write(obj.showRepairButton)
+      ..writeByte(8)
+      ..write(obj.purchaseDate);
   }
 
   @override

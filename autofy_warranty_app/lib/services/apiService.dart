@@ -77,9 +77,8 @@ class ApiService extends getx.GetxService {
           await _dio.post('/api/v1/warranty/activate', queryParameters: data);
 
       if (res.statusCode == 200) {
-        getx.Get.snackbar(
-            "Warranty activation request has been sent for approval", "",
-            colorText: Colors.green, backgroundColor: Colors.white);
+        await EasyLoading.dismiss();
+        return "success";
       }
     } on DioError catch (e) {
       print(e.response!.data["message"]);
@@ -91,6 +90,7 @@ class ApiService extends getx.GetxService {
     } finally {
       await EasyLoading.dismiss();
     }
+    return "";
   }
 
   Future<Either<String, List<ServiceRequestModel>>>

@@ -19,7 +19,7 @@ class BuildUserProductListTile extends StatelessWidget {
     userEmail = LocalStoragaeService.getUserValue(UserField.Email) ?? "";
     userPhone = LocalStoragaeService.getUserValue(UserField.Phone) ?? "";
     warrantyCode = userProductModel.warrantyCode ?? "";
-    print(userAddress);
+
     String productDetail =
         "\n-----------------------------------\nPRODUCT DETAILS\n-----------------------------------\nSKU: ${userProductModel.productSKU}\nNAME: ${userProductModel.productName}\nWARRANTY CODE: $warrantyCode";
     String userDetails =
@@ -31,7 +31,6 @@ class BuildUserProductListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      height: 165,
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -72,7 +71,9 @@ class BuildUserProductListTile extends StatelessWidget {
                       "whatsapp://send?phone=919999933907&text=$whatsAppMsg";
                   await urlLauncher.canLaunch(whatsappUrl)
                       ? urlLauncher.launch(whatsappUrl)
-                      : print("not work");
+                      : urlLauncher.launch(
+                          "https://wa.me/919999933907?text=$whatsAppMsg",
+                        );
                 },
               ),
             ],
@@ -90,8 +91,11 @@ class BuildUserProductListTile extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5),
         child: MaterialButton(
-          onPressed:
-              userProductModel.warrantyStatus == "Active" ? onPreesed : () {},
+          onPressed: title == "Repair"
+              ? userProductModel.showRepairButton == true
+                  ? onPreesed
+                  : () {}
+              : onPreesed,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -108,7 +112,11 @@ class BuildUserProductListTile extends StatelessWidget {
               ),
             ],
           ),
-          color: AppColors.primaryColor,
+          color: title == "Repair"
+              ? userProductModel.showRepairButton == true
+                  ? AppColors.primaryColor
+                  : AppColors.greyTextColor
+              : AppColors.primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(6),
           ),
@@ -122,20 +130,33 @@ class BuildUserProductListTile extends StatelessWidget {
       text: TextSpan(
         children: [
           TextSpan(
-            text: "\nPurchase Date: 12-12-2021\n",
+            text:
+                "\nPurchase Date: ${userProductModel.purchaseDate}\n", // TODO: Tell sir to return purches date
             style: TextStyle(
               color: Colors.black,
             ),
           ),
           TextSpan(
             text:
-                "Warranty Expiry Date: ${userProductModel.warrantyExpiryDate}\n", // TODO: Tell sir to return purches date
+                "Warranty Expiry Date: ${userProductModel.warrantyExpiryDate}",
             style: TextStyle(
               color: Colors.black,
             ),
           ),
           TextSpan(
-            text: "Warranty Status : ",
+            text: "\nSKU : ${userProductModel.productSKU!}",
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          TextSpan(
+            text: "\nCode : ${userProductModel.warrantyCode!}",
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          TextSpan(
+            text: "\nWarranty Status : ",
             style: TextStyle(
               color: Colors.black,
             ),

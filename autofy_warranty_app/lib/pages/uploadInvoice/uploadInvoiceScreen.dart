@@ -57,8 +57,7 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
               height: Get.size.height < Get.size.width
                   ? Get.size.height + 77
                   : Get.size.height - 190,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Stack(
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +67,10 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
                       buildUploadInvoice(),
                     ],
                   ),
-                  buildNextBtn(),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: buildNextBtn(),
+                  ),
                 ],
               ),
             ),

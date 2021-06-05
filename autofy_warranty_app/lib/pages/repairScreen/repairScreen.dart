@@ -5,6 +5,7 @@ import 'package:autofy_warranty_app/pages/homepage/homepageController.dart';
 import 'package:autofy_warranty_app/pages/homepage/homepageScreen.dart';
 import 'package:autofy_warranty_app/pages/repairScreen/generatePDF.dart';
 import 'package:autofy_warranty_app/pages/repairScreen/repairScreenController.dart';
+import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestController.dart';
 import 'package:autofy_warranty_app/pages/widgets/btn.dart';
 import 'package:autofy_warranty_app/pages/widgets/textField.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
@@ -381,9 +382,9 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
         ),
         bounds: Rect.fromLTWH(0, 550, page.size.width / 2, 250));
     page.graphics.drawString(
-        "(Take print out of this page and attach to your box.)",
+        "Take print out of this page or write with a pen on a plain\npaper in the following format and stick on the box: \n1) Service Request Number\n2) To Address\n3) From Address",
         PdfStandardFont(PdfFontFamily.helvetica, 10, style: PdfFontStyle.bold),
-        bounds: Rect.fromLTWH(270, 730, page.size.width / 2, 250));
+        bounds: Rect.fromLTWH(250, 700, page.size.width / 2, 250));
 
     List<int> bytes = pdfDocument.save();
     await saveAndLunchFile(bytes, "${result["productSKU"]}.pdf");
