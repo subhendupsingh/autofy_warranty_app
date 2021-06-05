@@ -11,6 +11,9 @@ class GetBottomNaviGationBar extends StatelessWidget {
         unselectedItemColor: Colors.grey,
         selectedItemColor: AppColors.primaryColor,
         currentIndex: controller.bottomNavigationBarIndex.value,
+        showUnselectedLabels: true,
+        unselectedFontSize: 12,
+        unselectedIconTheme: IconThemeData(size: 20),
         onTap: (value) => controller.changePage(value),
         items: [
           BottomNavigationBarItem(
@@ -20,13 +23,13 @@ class GetBottomNaviGationBar extends StatelessWidget {
             ),
           ),
           BottomNavigationBarItem(
-            label: "Repair Request",
+            label: "Requests",
             icon: Icon(
               Icons.handyman_outlined,
             ),
           ),
           BottomNavigationBarItem(
-            label: "Register Warranty",
+            label: "Warranty",
             icon: Icon(
               Icons.library_add_rounded,
             ),
