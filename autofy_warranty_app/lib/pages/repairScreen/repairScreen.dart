@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:autofy_warranty_app/controllers/apiController.dart';
-import 'package:autofy_warranty_app/pages/homepage/homepageController.dart';
+import 'package:autofy_warranty_app/main.dart';
 import 'package:autofy_warranty_app/pages/homepage/homepageScreen.dart';
 import 'package:autofy_warranty_app/pages/repairScreen/generatePDF.dart';
 import 'package:autofy_warranty_app/pages/repairScreen/repairScreenController.dart';
@@ -311,10 +311,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
               GetBtn(
                 btnText: "SHOW ALL REQUESTS",
                 onPressed: () async {
-                  HomePageController homePageController = Get.find();
-                  homePageController.bottomNavigationBarIndex.value = 1;
-                  Get.back();
-                  Get.back();
+                  Get.offAll(HomePage(startingIndex: 1));
                 },
               ),
             ],

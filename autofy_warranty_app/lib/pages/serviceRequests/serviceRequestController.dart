@@ -10,10 +10,8 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 class ServiceRequestsController extends GetxController {
-  List<ServiceRequestModel> _serviceRequestsList = [];
+  List<ServiceRequestModel> serviceRequestsList = <ServiceRequestModel>[].obs;
   TrackerResponse? trackerResponse;
-
-  List<ServiceRequestModel> get serviceRequestsList => _serviceRequestsList;
 
   static ServiceRequestsController get to =>
       Get.find<ServiceRequestsController>();
@@ -22,33 +20,37 @@ class ServiceRequestsController extends GetxController {
   onInit() {
     super.onInit();
     debugPrint("service request controller initialized");
-    getAllServiceRequests();
   }
 
-  void getAllServiceRequests() async {
-    EasyLoading.show();
+  void removeServiceList() {
+    serviceRequestsList = [];
+    update();
+  }
+
+  void getAllServiceRequests({bool hidden = false}) async {
+    if (!hidden) EasyLoading.show(status: "Fetching Data...");
     ApiService apiService = ApiService.to;
 
     Either<String, List<ServiceRequestModel>> res =
         await apiService.fetchAllServiceRequests();
     res.fold((errorString) {
       return Get.snackbar("An Error Occured", errorString);
-    }, (serviceRequestList) {
-      _serviceRequestsList = serviceRequestList;
+    }, (fetchedSerReqList) {
+      serviceRequestsList = fetchedSerReqList;
       update();
     });
 
-    EasyLoading.dismiss();
+    if (!hidden) EasyLoading.dismiss();
   }
 
-  void trackOrderWithServiceNumber(
-      {required ServiceRequestModel serReqModel,
-      }) async {
+  void trackOrderWithServiceNumber({
+    required ServiceRequestModel serReqModel,
+  }) async {
     EasyLoading.show(status: "Tracking Order...");
     ApiService apiService = ApiService.to;
 
     final res = await apiService.fetchOrderStatus(
-         serviceNumber: serReqModel.serviceRequestNumber);
+        serviceNumber: serReqModel.serviceRequestNumber);
 
     EasyLoading.dismiss();
 

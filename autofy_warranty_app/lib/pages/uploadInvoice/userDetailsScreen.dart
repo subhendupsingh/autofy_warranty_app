@@ -1,3 +1,5 @@
+import 'package:autofy_warranty_app/controllers/apiController.dart';
+import 'package:autofy_warranty_app/pages/homepage/homepageScreen.dart';
 import 'package:autofy_warranty_app/services/apiService.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/productSearchScreen.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceController.dart';
@@ -429,12 +431,16 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
               emptyVerticalBox(height: 50),
               GetBtn(
                 btnText: "SHOW ALL PRODUCTS",
-                onPressed: () {},
+                onPressed: () {
+                  Get.offAll(HomePage(startingIndex: 0));
+                },
               ),
               emptyVerticalBox(),
               GetBtn(
                 btnText: "GO TO PROFILE",
-                onPressed: () {},
+                onPressed: () {
+                  Get.offAll(HomePage(startingIndex: 3));
+                },
               ),
             ],
           ),

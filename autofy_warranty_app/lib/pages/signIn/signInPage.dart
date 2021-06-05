@@ -95,7 +95,7 @@ class SignInPage extends StatelessWidget {
                                   val.updateLoading();
                                   if (res == "SuccessFully Logged in") {
                                     Get.snackbar("$res", "Thank you");
-                                    AuthController.to.getAuthenticationStatus();
+                                    Get.offAll(HomePage(startingIndex: 0));
                                   } else if (res == "Something want wrong" ||
                                       res == "Internal server error") {
                                     Get.snackbar(

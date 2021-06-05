@@ -1,3 +1,7 @@
+import 'package:autofy_warranty_app/pages/homepage/homepageScreen.dart';
+import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestController.dart';
+import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
+import 'package:autofy_warranty_app/services/apiService.dart';
 import 'package:autofy_warranty_app/services/localStorageService.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +25,9 @@ class AuthController extends GetxController {
   static AuthController get to => getx.Get.find<AuthController>();
 
   getAuthenticationStatus() {
-    dynamic ls = LocalStoragaeService.getUserValue(UserField.Token);
-    
-    isUserLoggedIn.value = ls != null;
+    // dynamic ls = LocalStoragaeService.getUserValue(UserField.Token);
+
+    // isUserLoggedIn.value = ls != null;
   }
 
   Future<bool> registerUser(Map<String, String> data) async {
@@ -54,9 +58,10 @@ class AuthController extends GetxController {
   }
 
   logOut() async {
+    ServiceRequestsController.to.removeServiceList();
     EasyLoading.show(status: "Logging Out..");
     await LocalStoragaeService.deleteUserData();
-    getAuthenticationStatus();
+    getx.Get.offAll(SignInPage());
     EasyLoading.dismiss();
   }
 }
