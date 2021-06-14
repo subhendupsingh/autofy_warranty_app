@@ -37,6 +37,8 @@ class ServiceRequestsController extends GetxController {
     res.fold((errorString) {
       return Get.snackbar("An Error Occured", errorString);
     }, (fetchedSerReqList) {
+      activeSerReqs = [];
+      completedSerReqs = [];
       fetchedSerReqList.forEach((element) {
         if (element.statusCode >= 3) {
           completedSerReqs.add(element);
