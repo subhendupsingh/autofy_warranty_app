@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "399920979321",
+    "project_id": "autofy-mobile-app",
+    "storage_bucket": "autofy-mobile-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399920979321:android:cc0ccf8e674fc3c397a3a8",
+        "android_client_info": {
+          "package_name": "com.autofy.autofy_warranty_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "399920979321-isrkhf71l2bel0cmr7oj9it72h5ujch9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjnYticQx8AwC-TZdTm4_3bxIfPfRnvzM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "399920979321-isrkhf71l2bel0cmr7oj9it72h5ujch9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

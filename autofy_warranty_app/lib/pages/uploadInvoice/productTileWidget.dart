@@ -8,7 +8,6 @@ class ProductTileWidget extends StatelessWidget {
 
   ProductTileWidget({@required this.product, @required this.callback});
 
-  
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -37,22 +36,45 @@ class ProductTileWidget extends StatelessWidget {
               );
             },
             child: CircleAvatar(
-              backgroundColor: Colors.grey[200],
-              radius: 25,
-              child: CachedNetworkImage(
-                imageUrl: product?["image"],
-                placeholder: (context, url) => CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(Colors.white),
-                ),
-                errorWidget: (context, url, error) => Icon(
-                  Icons.error_outline,
-                  color: Colors.red,
-                ),
-              ),
-            ),
+                backgroundColor: Colors.grey[200],
+                radius: 25,
+                child: CachedNetworkImage(
+                  imageUrl: product?["image"],
+                  placeholder: (context, url) => CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(Colors.white),
+                  ),
+                  errorWidget: (context, url, error) => Icon(
+                    Icons.error_outline,
+                    color: Colors.red,
+                  ),
+                )),
           ),
         ),
       ),
     );
   }
 }
+
+        // IconButton(
+        //               icon: Icon(
+        //                 Icons.zoom_out_map_outlined,
+        //                 color: Colors.black,
+        //               ),
+        //               onPressed: () {
+        //                 Get.defaultDialog(
+        //                   title: "",
+        //                   titleStyle: TextStyle(fontSize: 0),
+        //                   content: CachedNetworkImage(
+        //                     imageUrl: product?["image"],
+        //                     placeholder: (context, url) =>
+        //                         CircularProgressIndicator(
+        //                       valueColor: AlwaysStoppedAnimation(Colors.white),
+        //                     ),
+        //                     errorWidget: (context, url, error) => Icon(
+        //                       Icons.error_outline,
+        //                       color: Colors.red,
+        //                     ),
+        //                   ),
+        //                   barrierDismissible: true,
+        //                 );
+        //               })

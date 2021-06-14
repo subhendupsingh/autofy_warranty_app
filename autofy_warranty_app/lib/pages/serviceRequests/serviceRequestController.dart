@@ -10,7 +10,8 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 class ServiceRequestsController extends GetxController {
-  List<ServiceRequestModel> serviceRequestsList = <ServiceRequestModel>[].obs;
+  List<ServiceRequestModel> activeSerReqs = <ServiceRequestModel>[];
+  List<ServiceRequestModel> completedSerReqs = <ServiceRequestModel>[];
   TrackerResponse? trackerResponse;
 
   static ServiceRequestsController get to =>
@@ -23,20 +24,26 @@ class ServiceRequestsController extends GetxController {
   }
 
   void removeServiceList() {
-    serviceRequestsList = [];
+    activeSerReqs = [];
+    completedSerReqs = [];
     update();
   }
 
   void getAllServiceRequests({bool hidden = false}) async {
     if (!hidden) EasyLoading.show(status: "Fetching Data...");
     ApiService apiService = ApiService.to;
-
     Either<String, List<ServiceRequestModel>> res =
         await apiService.fetchAllServiceRequests();
     res.fold((errorString) {
       return Get.snackbar("An Error Occured", errorString);
     }, (fetchedSerReqList) {
-      serviceRequestsList = fetchedSerReqList;
+      fetchedSerReqList.forEach((element) {
+        if (element.statusCode >= 3) {
+          completedSerReqs.add(element);
+        } else {
+          activeSerReqs.add(element);
+        }
+      });
       update();
     });
 
@@ -46,7 +53,7 @@ class ServiceRequestsController extends GetxController {
   void trackOrderWithServiceNumber({
     required ServiceRequestModel serReqModel,
   }) async {
-    EasyLoading.show(status: "Tracking Order...");
+    EasyLoading.show(status: "Please Wait...");
     ApiService apiService = ApiService.to;
 
     final res = await apiService.fetchOrderStatus(

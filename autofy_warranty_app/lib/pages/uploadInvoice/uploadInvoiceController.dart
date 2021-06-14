@@ -42,7 +42,7 @@ class UploadInvoiceController extends GetxController {
         FilePickerResult([]);
     if (result.count == 1) {
       PlatformFile platformFile = result.files.first;
-      if (platformFile.size! < 10000000) {
+      if (platformFile.size < 10000000) {
         invoiceFile = File(result.files.single.path!);
         String msg;
         if (platformFile.extension == "jpg" ||
