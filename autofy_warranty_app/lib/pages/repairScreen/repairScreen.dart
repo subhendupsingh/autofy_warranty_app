@@ -1,11 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:autofy_warranty_app/controllers/apiController.dart';
-import 'package:autofy_warranty_app/main.dart';
 import 'package:autofy_warranty_app/pages/homepage/homepageScreen.dart';
 import 'package:autofy_warranty_app/pages/repairScreen/generatePDF.dart';
 import 'package:autofy_warranty_app/pages/repairScreen/repairScreenController.dart';
-import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestController.dart';
 import 'package:autofy_warranty_app/pages/widgets/btn.dart';
 import 'package:autofy_warranty_app/pages/widgets/textField.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
@@ -14,11 +12,10 @@ import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class RepairProductScreen extends StatefulWidget {
-  String warrantyCode;
+  final String warrantyCode;
   RepairProductScreen({required this.warrantyCode});
   @override
   _RepairProductScreenState createState() => _RepairProductScreenState();
@@ -112,14 +109,15 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                           ),
                           emptyVerticalBox(height: 10),
                           GetTextField(
-                              textFieldController: nameController,
-                              lableText: "Name",
-                              validatorFun: (value) {
-                                if (value!.isEmpty) {
-                                  return "Name can't be emtpy";
-                                }
-                                return null;
-                              }),
+                            textFieldController: nameController,
+                            lableText: "Name",
+                            validatorFun: (value) {
+                              if (value!.isEmpty) {
+                                return "Name can't be emtpy";
+                              }
+                              return null;
+                            },
+                          ),
                           GetTextField(
                               textFieldController: emailController,
                               lableText: "Email",

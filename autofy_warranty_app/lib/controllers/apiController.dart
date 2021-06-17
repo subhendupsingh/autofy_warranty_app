@@ -185,4 +185,35 @@ class ApiController extends GetxController {
       return {"message": "Something want wrong..."};
     }
   }
+
+  updateProfile(Map<dynamic, dynamic> userData) async {
+    print("Function Called");
+    Response userProfileUpdateResponse;
+    String token = LocalStoragaeService.getUserValue(UserField.Token);
+    try {
+      userProfileUpdateResponse = await _dio.post(
+        "$baseUrl/api/v1/user/update",
+        data: userData,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer " + token,
+          },
+        ),
+      );
+      print(userProfileUpdateResponse.data.toString());
+      if (userProfileUpdateResponse.statusCode == 200) {
+        print("sucess");
+        return {
+          "success": true,
+          "message": userProfileUpdateResponse.data["message"]
+        };
+      }
+    } on DioError catch (e) {
+      print("dio error");
+      return {"success": false, "message": e.response!.data["message"]};
+    } catch (e) {
+      print("other error");
+      return {"success": false, "message": "Something want wrong..."};
+    }
+  }
 }

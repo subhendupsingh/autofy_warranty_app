@@ -286,6 +286,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
+  flutter_svg:
+    dependency: "direct main"
+    description:
+      name: flutter_svg
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.22.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -296,6 +303,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  font_awesome_flutter:
+    dependency: "direct main"
+    description:
+      name: font_awesome_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "9.1.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -323,7 +337,7 @@ packages:
       name: google_ml_vision
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.3+1"
+    version: "0.0.5"
   graphs:
     dependency: transitive
     description:
@@ -485,6 +499,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  path_drawing:
+    dependency: transitive
+    description:
+      name: path_drawing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.1"
+  path_parsing:
+    dependency: transitive
+    description:
+      name: path_parsing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1"
   path_provider:
     dependency: "direct main"
     description:
