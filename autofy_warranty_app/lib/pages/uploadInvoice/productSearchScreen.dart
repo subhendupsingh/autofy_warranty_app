@@ -106,11 +106,6 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
 
                               return ProductTileWidget(
                                 product: item,
-                                callback: () {
-                                  Get.back(
-                                    result: item,
-                                  );
-                                },
                               );
                             }),
                   ),
