@@ -6,6 +6,7 @@ import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart' as urlLauncher;
@@ -19,7 +20,7 @@ class _ServiceRequestsScreenState extends State<ServiceRequestsScreen> {
   @override
   initState() {
     super.initState();
-    if (ServiceRequestsController.to.serviceRequestsList.isEmpty) {
+    if (ServiceRequestsController.to.activeSerReqs.isEmpty) {
       ServiceRequestsController.to.getAllServiceRequests();
     } else {
       ServiceRequestsController.to.getAllServiceRequests(hidden: true);
@@ -45,7 +46,10 @@ class _ServiceRequestsScreenState extends State<ServiceRequestsScreen> {
                     print(e);
                   }
                 },
-                child: const Icon(Icons.help_outline_rounded),
+                child: SvgPicture.asset(
+                  "assets/images/wa.svg",
+                  width: 35,
+                ),
               ),
               leading: Container(
                 height: 50,
@@ -146,7 +150,7 @@ class _ServiceRequestsScreenState extends State<ServiceRequestsScreen> {
                   ServiceRequestsController.to
                       .trackOrderWithServiceNumber(serReqModel: serReq);
                 },
-                child: const Text("Track"),
+                child: Text(serReq.statusCode >= 3 ? "Details" : "Track"),
               ),
             ),
           ],
@@ -155,10 +159,11 @@ class _ServiceRequestsScreenState extends State<ServiceRequestsScreen> {
     );
   }
 
-  buildActiveList() {
+  buildSerReqsList({bool isForActiveReqs = true}) {
     return GetBuilder<ServiceRequestsController>(builder: (ctrl) {
-      List<ServiceRequestModel> serReqList =
-          ctrl.serviceRequestsList.reversed.toList();
+      List<ServiceRequestModel> serReqList = isForActiveReqs
+          ? ctrl.activeSerReqs.reversed.toList()
+          : ctrl.completedSerReqs.reversed.toList();
       return serReqList.isEmpty
           ? Center(
               child: Column(
@@ -196,42 +201,48 @@ class _ServiceRequestsScreenState extends State<ServiceRequestsScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.grey[200],
-        body: buildActiveList(),
+      child: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          backgroundColor: Colors.grey[200],
+          appBar: AppBar(
+            title: Text("Repair Requests"),
+            centerTitle: true,
+            backgroundColor: AppColors.primaryColor,
+            bottom: TabBar(
+              indicatorColor: Colors.white,
+              tabs: [
+                Tab(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.check_box_outline_blank),
+                      emptyHorizontalBox(width: 10),
+                      Text("Active")
+                    ],
+                  ),
+                ),
+                Tab(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.check_box),
+                      emptyHorizontalBox(width: 10),
+                      Text("Past")
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          body: TabBarView(
+            children: [
+              buildSerReqsList(isForActiveReqs: true),
+              buildSerReqsList(isForActiveReqs: false),
+            ],
+          ),
+        ),
       ),
     );
-
-    // DefaultTabController(
-    //   length: 2,
-    //   child: Scaffold(
-    //     backgroundColor: Colors.grey[200],
-    //     appBar: AppBar(
-    //       title: Text("Repair Requests"),
-    //       backgroundColor: AppColors.primaryColor,
-    //       bottom: TabBar(
-    //         indicatorColor: Colors.white,
-    //         tabs: [
-    //           Tab(
-    //             text: "Active",
-    //             icon: Icon(Icons.check_box_outlined),
-    //           ),
-    //           Tab(
-    //             text: "Past",
-    //             icon: Icon(Icons.check_box_rounded),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //     body: TabBarView(
-    //       children: [
-    //         buildActiveList(),
-    //         Center(
-    //           child: Icon(Icons.check_box_rounded),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

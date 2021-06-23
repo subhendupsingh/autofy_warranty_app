@@ -1,6 +1,7 @@
 import 'package:autofy_warranty_app/models/service_request.model.dart';
 import 'package:autofy_warranty_app/models/tracker_response.model.dart';
 import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestController.dart';
+import 'package:autofy_warranty_app/pages/web_view.dart';
 import 'package:url_launcher/url_launcher.dart' as urlLauncher;
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
@@ -39,15 +40,12 @@ class _ServiceReqTrackerScreenState extends State<ServiceReqTrackerScreen> {
               size: 20,
             ),
             onPressed: () {
-              try {
-                urlLauncher.launch(
-                    "https://warranty.autofystore.com/terms-and-conditions");
-              } catch (e) {
-                Get.log(e.toString());
-                Get.snackbar("Sorry!",
-                    "An error occured while opening Terms & Conditions",
-                    backgroundColor: Colors.white, colorText: Colors.red);
-              }
+              Get.to(
+                () => WebView(
+                  initialUrl:
+                      "https://warranty.autofystore.com/terms-and-conditions",
+                ),
+              );
             },
           ),
           emptyHorizontalBox(width: 10),

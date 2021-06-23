@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceController.dart';
 import 'package:autofy_warranty_app/services/validateSerialCode.dart';
 import 'package:get/get.dart';
-import 'package:google_ml_vision/google_ml_vision.dart';
+// import 'package:google_ml_vision/google_ml_vision.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ScanImageServices {
@@ -11,74 +11,74 @@ class ScanImageServices {
   // this two methods is use for capture warranty code from image and validate it.
   // Method 1 :
   Future captureAndProcessImage() async {
-    _uploadInvoiceController.isLoading = true;
-    try {
-      print("First Call Success");
-      File image = await getInvoiceImage();
-      int len = await image.length();
-      print("Image len: " + len.toString());
-      VisionText scanText = await scanImage(image);
-      String txt = scanTextFromVisionText(scanText);
-      String result = scanWarrantyCode(txt);
-      _uploadInvoiceController.isLoading = false;
+    // _uploadInvoiceController.isLoading = true;
+    // try {
+    //   print("First Call Success");
+    //   File image = await getInvoiceImage();
+    //   int len = await image.length();
+    //   print("Image len: " + len.toString());
+    //   VisionText scanText = await scanImage(image);
+    //   String txt = scanTextFromVisionText(scanText);
+    //   String result = scanWarrantyCode(txt);
+    //   _uploadInvoiceController.isLoading = false;
 
-      if (result.isNotEmpty) {
-        _uploadInvoiceController.warrantyCode = result;
-        String res = await ValidateSerialCode.validateSerialCode(
-          code: _uploadInvoiceController.warrantyCode,
-        );
-        return res;
-      } else {
-        return "Not Found";
-      }
-    } catch (e) {
-      print(e.toString());
-      _uploadInvoiceController.isLoading = false;
-      return "No Image Selected";
-    }
+    //   if (result.isNotEmpty) {
+    //     _uploadInvoiceController.warrantyCode = result;
+    //     String res = await ValidateSerialCode.validateSerialCode(
+    //       code: _uploadInvoiceController.warrantyCode,
+    //     );
+    //     return res;
+    //   } else {
+    //     return "Not Found";
+    //   }
+    // } catch (e) {
+    //   print(e.toString());
+    //   _uploadInvoiceController.isLoading = false;
+    //   return "No Image Selected";
+    // }
   }
 
   // This method access the camera and fetch image from it.
   // Method 2 :
-  Future<File> getInvoiceImage() async {
-    ImagePicker picker = ImagePicker();
-    var pickedImage = await picker.getImage(source: ImageSource.camera);
-    print("second Call Success");
-    File image = File(pickedImage!.path);
-    return image;
-  }
+  // Future<File> getInvoiceImage() async {
+  // ImagePicker picker = ImagePicker();
+  // var pickedImage = await picker.getImage(source: ImageSource.camera);
+  // print("second Call Success");
+  // File image = File(pickedImage!.path);
+  // return image;
+  // }
 
   Future scanInvoice(File invoiceImage) async {
-    invoiceData = {};
-    VisionText visionText = await scanImage(invoiceImage);
-    String invoiceText = scanTextFromVisionText(visionText);
-    scanInvoiceData(invoiceText);
-    return invoiceData;
+    // invoiceData = {};
+    // VisionText visionText = await scanImage(invoiceImage);
+    // String invoiceText = scanTextFromVisionText(visionText);
+    // scanInvoiceData(invoiceText);
+    // return invoiceData;
   }
 
   // In this method we have to pass file for recognize vision text.
-  Future<VisionText> scanImage(File imageFile) async {
-    GoogleVisionImage visionImage = GoogleVisionImage.fromFile(imageFile);
-    TextRecognizer textRecognizer = GoogleVision.instance.textRecognizer();
-    VisionText visionText = await textRecognizer.processImage(visionImage);
-    textRecognizer.close();
-    return visionText;
-  }
+  // Future<VisionText> scanImage(File imageFile) async {
+  // GoogleVisionImage visionImage = GoogleVisionImage.fromFile(imageFile);
+  // TextRecognizer textRecognizer = GoogleVision.instance.textRecognizer();
+  // VisionText visionText = await textRecognizer.processImage(visionImage);
+  // textRecognizer.close();
+  // return visionText;
+  // }
 
   // In this method we have to pass VisionText and it will return String of result.
-  String scanTextFromVisionText(VisionText visionText) {
-    String text = "";
-    for (TextBlock block in visionText.blocks) {
-      for (TextLine line in block.lines) {
-        for (TextElement word in line.elements) {
-          text = text + word.text! + " ";
-        }
-        text = text + "\n";
-      }
-    }
+  // String scanTextFromVisionText(VisionText visionText) {
+  //   String text = "";
+  //   for (TextBlock block in visionText.blocks) {
+  //     for (TextLine line in block.lines) {
+  //       for (TextElement word in line.elements) {
+  //         text = text + word.text! + " ";
+  //       }
+  //       text = text + "\n";
+  //     }
+  //   }
 
-    return text;
-  }
+  //   return text;
+  // }
 
   //In this method we have to pass our string and it will check if warranty code exists or not.
   String scanWarrantyCode(String scanText) {

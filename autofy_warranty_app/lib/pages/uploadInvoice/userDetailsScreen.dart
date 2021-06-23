@@ -163,8 +163,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
             child: TextFormField(
               validator: (value) {
                 if (product == null) {
-                  Get.snackbar("No Product Selected",
-                      "Please select a product to proceed further",
+                  Get.snackbar("All fields must be filled",
+                      "Please fill all fields to proceed further",
                       colorText: Colors.red, backgroundColor: Colors.white);
                   return;
                 }
@@ -204,200 +204,200 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("Activate Warranty"),
-          backgroundColor: AppColors.primaryColor,
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    // color: Colors.grey[100],
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.error_outline_rounded,
-                        color: Colors.amber,
-                        size: 30,
-                      ),
-                      subtitle: Text(
-                        "We have autofilled some fields for you. Please review and make changes if necessary.",
-                      ),
-                    ),
-                  ),
-                  Text(
-                    '   Buyer Information:',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey[800],
-                    ),
-                  ),
-                  emptyVerticalBox(height: 10),
-                  GetTextField(
-                      textFieldController: nameController,
-                      lableText: "Name",
-                      validatorFun: (value) {
-                        if (value!.isEmpty) {
-                          return "Name can't be emtpy";
-                        }
-                        return null;
-                      }),
-                  GetTextField(
-                      textFieldController: emailController,
-                      lableText: "Email",
-                      validatorFun: (value) {
-                        if (!value!.isEmail) {
-                          return "Please enter a valid email";
-                        }
-                        return null;
-                      }),
-                  GetTextField(
-                      textFieldController: phoneNumberController,
-                      lableText: "Phone Number",
-                      validatorFun: (value) {
-                        if (!value!.isPhoneNumber) {
-                          return "Please enter a valid phone number";
-                        }
-                        return null;
-                      }),
-                  emptyVerticalBox(),
-                  Text(
-                    '   Product Information:',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey[800],
-                    ),
-                  ),
-                  emptyVerticalBox(height: 10),
-                  buildDropDownForProducts(),
-                  buildDropDownForPortal(),
-                  GetTextField(
-                      textFieldController: orderController,
-                      lableText: "Order Number",
-                      validatorFun: (value) {
-                        if (value!.isEmpty) {
-                          return "Please fill in the order number";
-                        }
-                        return null;
-                      }),
-                  GestureDetector(
-                    onTap: () {
-                      unfocusTextField();
-                      _selectDate();
-                    },
-                    child: GetTextField(
-                        textFieldController: invoiceDateController,
-                        suffixIcon: Icons.calendar_today_rounded,
-                        lableText: "Invoice Date",
-                        isEnabled: false,
-                        validatorFun: (value) {
-                          if (invoiceDateController.text.isEmpty) {
-                            return "Please fill in the invoice date";
-                          }
-                          return null;
-                        }),
-                  ),
-                  emptyVerticalBox(),
-                  Text(
-                    '   Address Information:',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey[800],
-                    ),
-                  ),
-                  emptyVerticalBox(height: 10),
-                  GetTextField(
-                      textFieldController: addressController,
-                      lableText: "Address",
-                      height: 125,
-                      maxLines: 5,
-                      validatorFun: (value) {
-                        if (value!.isEmpty) {
-                          return "Please fill in your address";
-                        }
-                        return null;
-                      }),
-                  GetTextField(
-                      textFieldController: cityController,
-                      lableText: "City",
-                      validatorFun: (value) {
-                        if (value!.isEmpty) {
-                          return "Please fill in your city name";
-                        }
-                        return null;
-                      }),
-                  GetTextField(
-                      textFieldController: stateController,
-                      lableText: "State",
-                      validatorFun: (value) {
-                        if (value!.isEmpty) {
-                          return "Please fill in your state name";
-                        }
-                        return null;
-                      }),
-                  GetTextField(
-                      textFieldController: postalCodeController,
-                      lableText: "Postal Code",
-                      validatorFun: (value) {
-                        if (value!.isEmpty) {
-                          return "Please fill in your postal code";
-                        }
-                        return null;
-                      }),
-                  emptyVerticalBox(),
-                  SizedBox(
-                    width: double.infinity,
-                    child: GetBtn(
-                      btnText: "Submit",
-                      onPressed: () async {
-                        print(warrantyCode);
-                        if (_formKey.currentState!.validate()) {
-                          ApiService apiController = Get.find<ApiService>();
-                          String res =
-                              await apiController.activateWarranty(data: {
-                            "name": nameController.text.trim().toString(),
-                            "email": emailController.text.trim().toString(),
-                            "phone":
-                                phoneNumberController.text.trim().toString(),
-                            "orderNumber":
-                                orderController.text.trim().toString(),
-                            "portal": portalController.text.trim().toString(),
-                            "address": addressController.text.trim().toString(),
-                            "city": cityController.text.trim().toString(),
-                            "state": stateController.text.trim().toString(),
-                            "invoiceDate":
-                                invoiceDateController.text.trim().toString(),
-                            "postalCode":
-                                postalCodeController.text.trim().toString(),
-                            "validWarrantyCode": warrantyCode,
-                            "product": product!["id"],
-                          });
-                          if (res == "success") {
-                            buildDialog(
-                              "Warranty activation request has been sent for approval.",
-                            );
-                          }
-                        }
-                      },
-                      height: 40,
-                      width: 100,
-                    ),
-                  ),
-                  emptyVerticalBox(),
-                ],
-              ),
-            ),
+          appBar: AppBar(
+            title: Text("Activate Warranty"),
+            backgroundColor: AppColors.primaryColor,
           ),
-        ),
-      ),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Form(
+                    key: _formKey,
+                    child: ListView(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          // color: Colors.grey[100],
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.error_outline_rounded,
+                              color: Colors.amber,
+                              size: 30,
+                            ),
+                            subtitle: Text(
+                              "We have autofilled some fields for you. Please review and make changes if necessary.",
+                            ),
+                          ),
+                        ),
+                        Text(
+                          '   Buyer Information:',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[800],
+                          ),
+                        ),
+                        emptyVerticalBox(height: 10),
+                        GetTextField(
+                            textFieldController: nameController,
+                            lableText: "Name",
+                            validatorFun: (value) {
+                              if (value!.isEmpty) {
+                                return "Name can't be emtpy";
+                              }
+                              return null;
+                            }),
+                        GetTextField(
+                            textFieldController: emailController,
+                            lableText: "Email",
+                            validatorFun: (value) {
+                              if (!value!.isEmail) {
+                                return "Please enter a valid email";
+                              }
+                              return null;
+                            }),
+                        GetTextField(
+                            textFieldController: phoneNumberController,
+                            lableText: "Phone Number",
+                            validatorFun: (value) {
+                              if (!value!.isPhoneNumber) {
+                                return "Please enter a valid phone number";
+                              }
+                              return null;
+                            }),
+                        emptyVerticalBox(),
+                        Text(
+                          '   Product Information:',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[800],
+                          ),
+                        ),
+                        emptyVerticalBox(height: 10),
+                        buildDropDownForProducts(),
+                        buildDropDownForPortal(),
+                        GetTextField(
+                            textFieldController: orderController,
+                            lableText: "Order Number",
+                            validatorFun: (value) {
+                              if (value!.isEmpty) {
+                                return "Please fill in the order number";
+                              }
+                              return null;
+                            }),
+                        GestureDetector(
+                          onTap: () {
+                            unfocusTextField();
+                            _selectDate();
+                          },
+                          child: GetTextField(
+                              textFieldController: invoiceDateController,
+                              suffixIcon: Icons.calendar_today_rounded,
+                              lableText: "Invoice Date",
+                              isEnabled: false,
+                              validatorFun: (value) {
+                                if (invoiceDateController.text.isEmpty) {
+                                  return "Please fill in the invoice date";
+                                }
+                                return null;
+                              }),
+                        ),
+                        emptyVerticalBox(),
+                        Text(
+                          '   Address Information:',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[800],
+                          ),
+                        ),
+                        emptyVerticalBox(height: 10),
+                        GetTextField(
+                            textFieldController: addressController,
+                            lableText: "Address",
+                            height: 125,
+                            maxLines: 5,
+                            validatorFun: (value) {
+                              if (value!.isEmpty) {
+                                return "Please fill in your address";
+                              }
+                              return null;
+                            }),
+                        GetTextField(
+                            textFieldController: cityController,
+                            lableText: "City",
+                            validatorFun: (value) {
+                              if (value!.isEmpty) {
+                                return "Please fill in your city name";
+                              }
+                              return null;
+                            }),
+                        GetTextField(
+                            textFieldController: stateController,
+                            lableText: "State",
+                            validatorFun: (value) {
+                              if (value!.isEmpty) {
+                                return "Please fill in your state name";
+                              }
+                              return null;
+                            }),
+                        GetTextField(
+                            textFieldController: postalCodeController,
+                            lableText: "Postal Code",
+                            validatorFun: (value) {
+                              if (value!.isEmpty) {
+                                return "Please fill in your postal code";
+                              }
+                              return null;
+                            }),
+                        emptyVerticalBox(),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: GetBtn(
+                    btnText: "Submit",
+                    onPressed: () async {
+                      print(warrantyCode);
+                      if (_formKey.currentState!.validate()) {
+                        ApiService apiController = Get.find<ApiService>();
+                        String res =
+                            await apiController.activateWarranty(data: {
+                          "name": nameController.text.trim().toString(),
+                          "email": emailController.text.trim().toString(),
+                          "phone": phoneNumberController.text.trim().toString(),
+                          "orderNumber": orderController.text.trim().toString(),
+                          "portal": portalController.text.trim().toString(),
+                          "address": addressController.text.trim().toString(),
+                          "city": cityController.text.trim().toString(),
+                          "state": stateController.text.trim().toString(),
+                          "invoiceDate":
+                              invoiceDateController.text.trim().toString(),
+                          "postalCode":
+                              postalCodeController.text.trim().toString(),
+                          "validWarrantyCode": warrantyCode,
+                          "product": product!["id"],
+                        });
+                        if (res == "success") {
+                          buildDialog(
+                            "Warranty activation request has been sent for approval.",
+                          );
+                        }
+                      }
+                    },
+                    height: 45,
+                    // width: 100,
+                  ),
+                ),
+                emptyVerticalBox(),
+              ],
+            ),
+          )),
     );
   }
 
