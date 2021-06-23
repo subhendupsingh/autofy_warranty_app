@@ -122,13 +122,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     // print("+++++++++++++++++++++++++++++++++build ran");
     // if (initialUrl != "") return WebView(initialUrl: initialUrl);
-    return SafeArea(
-      child: Scaffold(
-        key: scaffoldKey,
-        appBar: _currentIndex == 1 ? null : buildAppBar(),
-        body: listOfScreens[_currentIndex],
-        bottomNavigationBar: buildBottomBar(),
-      ),
+    return Scaffold(
+      key: scaffoldKey,
+      appBar: _currentIndex == 1 ? null : buildAppBar(),
+      body: listOfScreens[_currentIndex],
+      bottomNavigationBar: buildBottomBar(),
     );
   }
 }
