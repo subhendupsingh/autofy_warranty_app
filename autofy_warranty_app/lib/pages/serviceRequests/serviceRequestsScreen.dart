@@ -1,8 +1,5 @@
-import 'package:autofy_warranty_app/models/duck_head.dart';
 import 'package:autofy_warranty_app/models/service_request.model.dart';
-import 'package:autofy_warranty_app/pages/serviceRequests/serviceReqTrackerScreen.dart';
 import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestController.dart';
-import 'package:autofy_warranty_app/services/apiService.dart';
 import 'package:autofy_warranty_app/services/localStorageService.dart';
 
 import 'package:autofy_warranty_app/utils/constants.dart';

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 TrackerResponse trackerResponseFromJson(String str) =>
     TrackerResponse.fromJson(json.decode(str));
 

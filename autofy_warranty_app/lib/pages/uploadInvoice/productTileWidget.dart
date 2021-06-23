@@ -8,6 +8,7 @@ class ProductTileWidget extends StatelessWidget {
   // VoidCallback? callback;
   Map<String, dynamic>? product;
 
+
   ProductTileWidget({@required this.product});
 
   @override

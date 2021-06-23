@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:autofy_warranty_app/models/service_request.model.dart';
 import 'package:autofy_warranty_app/models/tracker_response.model.dart';
 import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestController.dart';
@@ -11,7 +9,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:get/get.dart';
-import 'package:autofy_warranty_app/utils/helpers.dart' as helperFile;
 
 class ServiceReqTrackerScreen extends StatefulWidget {
   final ServiceRequestModel serReq;

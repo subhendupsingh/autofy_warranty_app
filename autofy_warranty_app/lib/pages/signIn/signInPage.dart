@@ -1,5 +1,4 @@
 import 'package:autofy_warranty_app/controllers/apiController.dart';
-import 'package:autofy_warranty_app/controllers/authController.dart';
 import 'package:autofy_warranty_app/pages/forgotPassword/forgotPassword.dart';
 import 'package:autofy_warranty_app/pages/homepage/homepageScreen.dart';
 import 'package:autofy_warranty_app/pages/signIn/signInController.dart';

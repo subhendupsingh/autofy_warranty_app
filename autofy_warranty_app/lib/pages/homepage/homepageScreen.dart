@@ -1,5 +1,3 @@
-import 'package:autofy_warranty_app/controllers/authController.dart';
-
 import 'package:autofy_warranty_app/pages/profile/profileScreen.dart';
 import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestsScreen.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceScreen.dart';
@@ -11,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class HomePage extends StatefulWidget {
-  int startingIndex;
+  final int startingIndex;
   HomePage({Key? key, required this.startingIndex}) : super(key: key);
 
   @override
@@ -124,14 +122,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     // print("+++++++++++++++++++++++++++++++++build ran");
     // if (initialUrl != "") return WebView(initialUrl: initialUrl);
-
-    return SafeArea(
-      child: Scaffold(
-        key: scaffoldKey,
-        appBar: _currentIndex == 1 ? null : buildAppBar(),
-        body: listOfScreens[_currentIndex],
-        bottomNavigationBar: buildBottomBar(),
-      ),
+    return Scaffold(
+      key: scaffoldKey,
+      appBar: _currentIndex == 1 ? null : buildAppBar(),
+      body: listOfScreens[_currentIndex],
+      bottomNavigationBar: buildBottomBar(),
     );
   }
 }

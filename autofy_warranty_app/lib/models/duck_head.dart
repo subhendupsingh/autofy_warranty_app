@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class DuckHead {
   static Map<String, dynamic> resStatus3 = {
     "tracking":

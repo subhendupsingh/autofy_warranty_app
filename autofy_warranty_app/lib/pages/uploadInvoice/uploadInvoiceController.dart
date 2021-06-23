@@ -21,6 +21,7 @@ class UploadInvoiceController extends GetxController {
       _showValidateFileMsg = false,
       _showValidateWarrantyMsg = false;
 
+  String _uploadedfileName = "File";
   late Map<String, String> invoiceData = {};
   String _warrantyCode = "";
 
@@ -52,6 +53,7 @@ class UploadInvoiceController extends GetxController {
               invoiceFile, warrantyCode, 'api/v1/file/upload');
           if (msg == "File uploaded sucessfully") {
             invoiceData = await imageServices.scanInvoice(invoiceFile);
+            uploadedfileName = platformFile.name.toString();
             isFileUploaded = true;
           } else if (msg ==
               "Only JPG, JPEG, PNG & PDF file types are allowed") {
@@ -64,10 +66,10 @@ class UploadInvoiceController extends GetxController {
               invoiceFile, warrantyCode, 'api/v1/file/upload');
           if (msg == "File uploaded sucessfully") {
             OcrController ocrController = Get.find<OcrController>();
-
             invoiceData = await ocrController.extractionLogicForPdf(
                 filePath: platformFile.path);
             isFileUploaded = true;
+            uploadedfileName = platformFile.name.toString();
           } else if (msg ==
               "Only JPG, JPEG, PNG & PDF file types are allowed") {
             isFileIncorrect = true;
@@ -111,8 +113,14 @@ class UploadInvoiceController extends GetxController {
       },
     );
     msg = await UploadFile.uploadInvoice('api/v1/file/upload', formData);
-    print("kunj" + msg);
     return msg;
+  }
+
+  String get uploadedfileName => _uploadedfileName;
+
+  set uploadedfileName(String val) {
+    _uploadedfileName = val;
+    update();
   }
 
   bool get showValidateFileMsg => _showValidateFileMsg;
