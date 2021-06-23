@@ -106,7 +106,7 @@ class _ProfileSreenState extends State<ProfileSreen> {
                 ),
                 alignment: Alignment.topRight,
                 child: Icon(
-                  Icons.mode_edit_outline_outlined,
+                  Icons.mode_edit,
                   color: AppColors.lightGreyTextColor,
                   size: 25,
                 ),

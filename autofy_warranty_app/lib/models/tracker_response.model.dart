@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dartz/dartz.dart';
 
 TrackerResponse trackerResponseFromJson(String str) =>
     TrackerResponse.fromJson(json.decode(str));

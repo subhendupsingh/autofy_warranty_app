@@ -87,6 +87,7 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildSerialCodeInputLable(controller),
+          emptyVerticalBox(),
           controller.isLoading
               ? buildCircularProgcessIndicator()
               : buildSerialCodeInputField(context, controller),
@@ -146,38 +147,38 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        IconButton(
-          icon: Icon(
-            Icons.camera_alt_rounded,
-            color: AppColors.primaryColor,
-          ),
-          onPressed: () async {
-            String msg = await imageServices.captureAndProcessImage();
-            controller.showValidateWarrantyMsg = true;
-            if (msg == "Not Found") {
-              Get.snackbar(
-                "Warranty Code Not Found",
-                "Please Enter It Manually",
-              );
-            } else if (msg == "No Image Selected") {
-              Get.snackbar(msg, "Please Select A Image To Scan Code");
-            } else if (msg == "Warranty code is valid.") {
-              controller.validatedSuccessfully = true;
-              String code = controller.warrantyCode;
-              firstTextEditingController.text = code.substring(0, 4);
-              secondTextEditingController.text = code.substring(5, 9);
-              thirdTextEditingController.text = code.substring(10, 14);
-              fourthTextEditingController.text = code.substring(15);
-            } else {
-              controller.validatedSuccessfully = false;
-              String code = controller.warrantyCode;
-              firstTextEditingController.text = code.substring(0, 4);
-              secondTextEditingController.text = code.substring(5, 9);
-              thirdTextEditingController.text = code.substring(10, 14);
-              fourthTextEditingController.text = code.substring(15);
-            }
-          },
-        )
+        // IconButton(
+        //   icon: Icon(
+        //     Icons.camera_alt_rounded,
+        //     color: AppColors.primaryColor,
+        //   ),
+        //   onPressed: () async {
+        //     String msg = await imageServices.captureAndProcessImage();
+        //     controller.showValidateWarrantyMsg = true;
+        //     if (msg == "Not Found") {
+        //       Get.snackbar(
+        //         "Warranty Code Not Found",
+        //         "Please Enter It Manually",
+        //       );
+        //     } else if (msg == "No Image Selected") {
+        //       Get.snackbar(msg, "Please Select A Image To Scan Code");
+        //     } else if (msg == "Warranty code is valid.") {
+        //       controller.validatedSuccessfully = true;
+        //       String code = controller.warrantyCode;
+        //       firstTextEditingController.text = code.substring(0, 4);
+        //       secondTextEditingController.text = code.substring(5, 9);
+        //       thirdTextEditingController.text = code.substring(10, 14);
+        //       fourthTextEditingController.text = code.substring(15);
+        //     } else {
+        //       controller.validatedSuccessfully = false;
+        //       String code = controller.warrantyCode;
+        //       firstTextEditingController.text = code.substring(0, 4);
+        //       secondTextEditingController.text = code.substring(5, 9);
+        //       thirdTextEditingController.text = code.substring(10, 14);
+        //       fourthTextEditingController.text = code.substring(15);
+        //     }
+        //   },
+        // )
       ],
     );
   }
