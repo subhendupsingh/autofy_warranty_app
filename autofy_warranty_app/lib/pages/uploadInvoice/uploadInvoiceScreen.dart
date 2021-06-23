@@ -87,6 +87,7 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildSerialCodeInputLable(controller),
+          emptyVerticalBox(),
           controller.isLoading
               ? buildCircularProgcessIndicator()
               : buildSerialCodeInputField(context, controller),

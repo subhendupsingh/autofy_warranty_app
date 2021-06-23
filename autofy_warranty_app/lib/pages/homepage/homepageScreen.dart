@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _currentIndex = widget.startingIndex;
     initOneSignal();
+    // WidgetsBinding.instance?.addPostFrameCallback((_) => initOneSignal());
   }
 
   initOneSignal() {
@@ -35,25 +36,20 @@ class _HomePageState extends State<HomePage> {
 
     OneSignal.shared.setAppId("45bf8716-87ec-43a1-9aed-dbb6f8cba67b");
 
-    OneSignal.shared.setNotificationWillShowInForegroundHandler(
-        (OSNotificationReceivedEvent event) {
-      print(
-          "Notif received while in foreground==========================================================>");
-      // Will be called whenever a notification is received in foreground
-      // Display Notification, pass null param for not displaying the notification
-      event.complete(event.notification);
-    });
+    // OneSignal.shared.setNotificationWillShowInForegroundHandler(
+    //     (OSNotificationReceivedEvent event) {
+    //   // Will be called whenever a notification is received in foreground
+    //   // Display Notification, pass null param for not displaying the notification
+    //   event.complete(event.notification);
+    // });
 
     OneSignal.shared
         .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
-      print(
-          "App Opened by clicking on notif==============================================================>");
       print(result.notification.additionalData);
       result.notification.additionalData?.forEach((key, value) {
         if (key == "initialUrl") {
-          Get.to(() => WebView(
-                initialUrl: value,
-              ));
+          print("data has initial url");
+          Get.offAll(WebView(initialUrl: value));
         }
       });
 
@@ -126,6 +122,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // print("+++++++++++++++++++++++++++++++++build ran");
+    // if (initialUrl != "") return WebView(initialUrl: initialUrl);
+
     return SafeArea(
       child: Scaffold(
         key: scaffoldKey,
