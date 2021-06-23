@@ -44,6 +44,12 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
   }
 
   @override
+  void dispose() {
+    Get.delete<UploadInvoiceController>();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -330,7 +336,8 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
       if (controller.isFileUploaded &&
           !controller.isFileIncorrect &&
           !controller.isFileSizeExceed) {
-        return buildSuccessMsg("File uploaded successfully");
+        return buildSuccessMsg(
+            controller.uploadedfileName + " uploaded successfully");
       } else if (controller.isFileIncorrect) {
         return buildDangerMsg("Only JPG, PNG & PDF is allowed");
       } else if (controller.isFileSizeExceed) {
@@ -367,11 +374,14 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
           Icons.check,
           color: AppColors.successColor,
         ),
-        Text(
-          text,
-          style: TextStyle(
-            color: AppColors.successColor,
-            fontSize: AppTexts.normalTextSize,
+        Flexible(
+          flex: 1,
+          child: Text(
+            text,
+            style: TextStyle(
+              color: AppColors.successColor,
+              fontSize: AppTexts.normalTextSize,
+            ),
           ),
         )
       ],

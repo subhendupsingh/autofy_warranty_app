@@ -1,5 +1,3 @@
-import 'package:autofy_warranty_app/main.dart';
-import 'package:autofy_warranty_app/pages/homepage/homepageScreen.dart';
 import 'package:autofy_warranty_app/pages/repairScreen/repairScreenController.dart';
 import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestController.dart';
 import 'package:autofy_warranty_app/services/apiService.dart';
@@ -88,19 +86,11 @@ class ApiController extends GetxController {
         ApiService.to.updateDioAuthorizationToken();
         return "SuccessFully Logged in";
       }
+    } on DioError catch (e) {
+      return e.response!.data["message"];
     } catch (e) {
-      String? res = "";
-      res = e.toString().substring(53, 56);
-      if (res == "401") {
-        return "Invalid email or password";
-      } else if (res == "500") {
-        return "Internal server error";
-      } else {
-        getx.Get.log(e.toString());
-        return "Something want wrong";
-      }
+      return "Something want wrong";
     }
-    return "";
   }
 
   getUserProductData() async {
@@ -209,7 +199,6 @@ class ApiController extends GetxController {
         };
       }
     } on DioError catch (e) {
-      print("dio error");
       return {"success": false, "message": e.response!.data["message"]};
     } catch (e) {
       print("other error");

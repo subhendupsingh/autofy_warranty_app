@@ -6,9 +6,7 @@ import 'package:autofy_warranty_app/services/localStorageService.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:autofy_warranty_app/models/duck_head.dart';
 import 'package:get/get.dart' as getx;
-import "package:autofy_warranty_app/models/tracker_response.model.dart";
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dartz/dartz.dart';
 

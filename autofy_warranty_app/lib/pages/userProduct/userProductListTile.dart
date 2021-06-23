@@ -12,7 +12,7 @@ class BuildUserProductListTile extends StatelessWidget {
   final UserProductModelForHive userProductModel;
   late final String whatsAppMsg;
   static late String userName, userAddress, userEmail, userPhone;
-  late String warrantyCode;
+  late final String warrantyCode;
   BuildUserProductListTile({required this.userProductModel}) {
     userName = LocalStoragaeService.getUserValue(UserField.Name) ?? "";
     userAddress = LocalStoragaeService.getUserValue(UserField.Address) ?? "";
@@ -63,10 +63,8 @@ class BuildUserProductListTile extends StatelessWidget {
                   );
                 },
               ),
-              buildUserProductFunctionBtn(
-                iconData: Icons.help_outline,
-                title: "Help",
-                onPreesed: () async {
+              buildHelpBtn(
+                () async {
                   var whatsappUrl =
                       "whatsapp://send?phone=919999933907&text=$whatsAppMsg";
                   await urlLauncher.canLaunch(whatsappUrl)
@@ -126,52 +124,86 @@ class BuildUserProductListTile extends StatelessWidget {
   }
 
   Widget buildUserProductSubtitleText() {
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text:
-                "\nPurchase Date: ${userProductModel.purchaseDate}\n", // TODO: Tell sir to return purches date
-            style: TextStyle(
-              color: Colors.black,
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: "\nPurchase Date: ${userProductModel.purchaseDate}",
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              TextSpan(
+                text:
+                    "\nRemaining attempts: ${userProductModel.numberOfRepairRequestsLeft}",
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              TextSpan(
+                text: "\nSKU : ${userProductModel.productSKU!}",
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              TextSpan(
+                text: "\nCode : ${userProductModel.warrantyCode!}",
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            ],
           ),
-          TextSpan(
-            text:
-                "Warranty Expiry Date: ${userProductModel.warrantyExpiryDate}",
-            style: TextStyle(
-              color: Colors.black,
+        ),
+        Row(
+          children: [
+            Text(
+              "Warranty Status : ",
+              style: TextStyle(
+                color: Colors.black,
+              ),
             ),
-          ),
-          TextSpan(
-            text: "\nSKU : ${userProductModel.productSKU!}",
-            style: TextStyle(
-              color: Colors.black,
+            Text(
+              userProductModel.warrantyStatus!,
+              style: TextStyle(
+                color: userProductModel.warrantyStatus! == "Active"
+                    ? AppColors.successColor
+                    : AppColors.primaryColor,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          TextSpan(
-            text: "\nCode : ${userProductModel.warrantyCode!}",
-            style: TextStyle(
-              color: Colors.black,
-            ),
-          ),
-          TextSpan(
-            text: "\nWarranty Status : ",
-            style: TextStyle(
-              color: Colors.black,
-            ),
-          ),
-          TextSpan(
-            text: userProductModel.warrantyStatus!,
-            style: TextStyle(
-              color: userProductModel.warrantyStatus! == "Active"
-                  ? AppColors.successColor
-                  : AppColors.primaryColor,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
+            emptyHorizontalBox(width: 5),
+            userProductModel.warrantyStatus! == "Pending Approval"
+                ? Tooltip(
+                    waitDuration: Duration(seconds: 2),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor,
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.greyTextColor,
+                          blurRadius: 2,
+                        )
+                      ],
+                    ),
+                    verticalOffset: 5,
+                    preferBelow: false,
+                    height: 30,
+                    message:
+                        "Your warrenty request is under observation.\nIt activate soon. Thank You.",
+                    child: Icon(
+                      Icons.help,
+                      size: 18,
+                      color: AppColors.greyTextColor,
+                    ),
+                  )
+                : Text(""),
+          ],
+        ),
+      ],
     );
   }
 
@@ -214,6 +246,38 @@ class BuildUserProductListTile extends StatelessWidget {
           errorWidget: (context, url, error) => Icon(
             Icons.error_outline,
             color: AppColors.primaryColor,
+          ),
+        ),
+      ),
+    );
+  }
+
+  buildHelpBtn(VoidCallback onPreesed) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5),
+        child: MaterialButton(
+          onPressed: onPreesed,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/wpIcon.png",
+                width: 20,
+                height: 20,
+              ),
+              emptyHorizontalBox(width: 10),
+              Text(
+                "Help",
+                style: TextStyle(
+                  color: AppColors.secondaryColor,
+                ),
+              ),
+            ],
+          ),
+          color: AppColors.successColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6),
           ),
         ),
       ),

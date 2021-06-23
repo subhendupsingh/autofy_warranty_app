@@ -77,195 +77,200 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                 ),
               )
             : SafeArea(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            // color: Colors.grey[100],
-                            child: ListTile(
-                              leading: Icon(
-                                Icons.error_outline_rounded,
-                                color: Colors.amber,
-                                size: 30,
+                child: Stack(
+                  children: [
+                    SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                // color: Colors.grey[100],
+                                child: ListTile(
+                                  leading: Icon(
+                                    Icons.error_outline_rounded,
+                                    color: Colors.amber,
+                                    size: 30,
+                                  ),
+                                  subtitle: Text(
+                                    "We have autofilled some fields so Please review the fields.",
+                                  ),
+                                ),
                               ),
-                              subtitle: Text(
-                                "We have autofilled some fields so Please review the fields.",
+                              Text(
+                                '   Buyer Information:',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey[800],
+                                ),
                               ),
-                            ),
-                          ),
-                          Text(
-                            '   Buyer Information:',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey[800],
-                            ),
-                          ),
-                          emptyVerticalBox(height: 10),
-                          GetTextField(
-                            textFieldController: nameController,
-                            lableText: "Name",
-                            validatorFun: (value) {
-                              if (value!.isEmpty) {
-                                return "Name can't be emtpy";
-                              }
-                              return null;
-                            },
-                          ),
-                          GetTextField(
-                              textFieldController: emailController,
-                              lableText: "Email",
-                              validatorFun: (value) {
-                                if (!value!.isEmail) {
-                                  return "Please enter a valid email";
-                                }
-                                return null;
-                              }),
-                          GetTextField(
-                              textFieldController: phoneNumberController,
-                              lableText: "Phone Number",
-                              validatorFun: (value) {
-                                if (!value!.isPhoneNumber) {
-                                  return "Please enter a valid phone number";
-                                }
-                                return null;
-                              }),
-                          emptyVerticalBox(),
-                          Text(
-                            '   Product Information:',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey[800],
-                            ),
-                          ),
-                          emptyVerticalBox(height: 10),
-                          GetTextField(
-                            textFieldController: orderController,
-                            lableText: "Order Number",
-                            isEnabled: false,
-                            validatorFun: (value) {
-                              if (value!.isEmpty) {
-                                return "Please fill in the order number";
-                              }
-                              return null;
-                            },
-                          ),
-                          GetTextField(
-                            textFieldController: portalController,
-                            lableText: "Protal",
-                            isEnabled: false,
-                            validatorFun: (value) {
-                              if (value!.isEmpty) {
-                                return "Please fill in the Portal number";
-                              }
-                              return null;
-                            },
-                          ),
-                          emptyVerticalBox(),
-                          Text(
-                            '   Address Information:',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey[800],
-                            ),
-                          ),
-                          emptyVerticalBox(height: 10),
-                          GetTextField(
-                            textFieldController: addressController,
-                            lableText: "Address",
-                            height: 125,
-                            maxLines: 5,
-                            validatorFun: (value) {
-                              if (value!.isEmpty) {
-                                return "Please fill in your address";
-                              }
-                              return null;
-                            },
-                          ),
-                          GetTextField(
-                            textFieldController: cityController,
-                            lableText: "City",
-                            validatorFun: (value) {
-                              if (value!.isEmpty) {
-                                return "Please fill in your city name";
-                              }
-                              return null;
-                            },
-                          ),
-                          GetTextField(
-                            textFieldController: stateController,
-                            lableText: "State",
-                            validatorFun: (value) {
-                              if (value!.isEmpty) {
-                                return "Please fill in your state name";
-                              }
-                              return null;
-                            },
-                          ),
-                          GetTextField(
-                            textFieldController: postalCodeController,
-                            lableText: "Postal Code",
-                            validatorFun: (value) {
-                              if (value!.isEmpty) {
-                                return "Please fill in your postal code";
-                              }
-                              return null;
-                            },
-                          ),
-                          emptyVerticalBox(),
-                          SizedBox(
-                            width: double.infinity,
-                            child: GetBtn(
-                              btnText: "Request Repair",
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  dio.FormData repairRequestData =
-                                      dio.FormData.fromMap(
-                                    {
-                                      "validWarrantyCode": widget.warrantyCode,
-                                      "name": nameController.value.text,
-                                      "email": emailController.text,
-                                      "phone": phoneNumberController.value.text,
-                                      "address": addressController.value.text,
-                                      "city": cityController.value.text,
-                                      "state": stateController.value.text,
-                                      "postal": postalCodeController.value.text,
-                                      "test": true,
-                                      "isCourierAllocated": true,
-                                    },
-                                  );
-
-                                  Map<String, dynamic> result =
-                                      await _apiController
-                                              .generateRepairRequest(
-                                                  formData: repairRequestData)
-                                          as Map<String, dynamic>;
-                                  print(result.toString());
-                                  if (result.length <= 2) {
-                                    Get.snackbar("Repair Request Not Apporved",
-                                        result["message"]);
-                                  } else {
-                                    buildDialog(result);
+                              emptyVerticalBox(height: 10),
+                              GetTextField(
+                                textFieldController: nameController,
+                                lableText: "Name",
+                                validatorFun: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Name can't be emtpy";
                                   }
-                                }
-                              },
-                              height: 60,
-                              width: 100,
-                            ),
+                                  return null;
+                                },
+                              ),
+                              GetTextField(
+                                  textFieldController: emailController,
+                                  lableText: "Email",
+                                  validatorFun: (value) {
+                                    if (!value!.isEmail) {
+                                      return "Please enter a valid email";
+                                    }
+                                    return null;
+                                  }),
+                              GetTextField(
+                                  textFieldController: phoneNumberController,
+                                  lableText: "Phone Number",
+                                  validatorFun: (value) {
+                                    if (!value!.isPhoneNumber) {
+                                      return "Please enter a valid phone number";
+                                    }
+                                    return null;
+                                  }),
+                              emptyVerticalBox(),
+                              Text(
+                                '   Product Information:',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey[800],
+                                ),
+                              ),
+                              emptyVerticalBox(height: 10),
+                              GetTextField(
+                                textFieldController: orderController,
+                                lableText: "Order Number",
+                                isEnabled: false,
+                                validatorFun: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Please fill in the order number";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              GetTextField(
+                                textFieldController: portalController,
+                                lableText: "Protal",
+                                isEnabled: false,
+                                validatorFun: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Please fill in the Portal number";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              emptyVerticalBox(),
+                              Text(
+                                '   Address Information:',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey[800],
+                                ),
+                              ),
+                              emptyVerticalBox(height: 10),
+                              GetTextField(
+                                textFieldController: addressController,
+                                lableText: "Address",
+                                height: 125,
+                                maxLines: 5,
+                                validatorFun: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Please fill in your address";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              GetTextField(
+                                textFieldController: cityController,
+                                lableText: "City",
+                                validatorFun: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Please fill in your city name";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              GetTextField(
+                                textFieldController: stateController,
+                                lableText: "State",
+                                validatorFun: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Please fill in your state name";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              GetTextField(
+                                textFieldController: postalCodeController,
+                                lableText: "Postal Code",
+                                validatorFun: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Please fill in your postal code";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              emptyVerticalBox(),
+                            ],
                           ),
-                          emptyVerticalBox(),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: GetBtn(
+                          btnText: "Request Repair",
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              dio.FormData repairRequestData =
+                                  dio.FormData.fromMap(
+                                {
+                                  "validWarrantyCode": widget.warrantyCode,
+                                  "name": nameController.value.text,
+                                  "email": emailController.text,
+                                  "phone": phoneNumberController.value.text,
+                                  "address": addressController.value.text,
+                                  "city": cityController.value.text,
+                                  "state": stateController.value.text,
+                                  "postal": postalCodeController.value.text,
+                                  "test": true,
+                                  "isCourierAllocated": true,
+                                },
+                              );
+
+                              Map<String, dynamic> result =
+                                  await _apiController.generateRepairRequest(
+                                          formData: repairRequestData)
+                                      as Map<String, dynamic>;
+                              print(result.toString());
+                              if (result.length <= 2) {
+                                Get.snackbar("Repair Request Not Apporved",
+                                    result["message"]);
+                              } else {
+                                buildDialog(result);
+                              }
+                            }
+                          },
+                          height: 60,
+                          width: Get.width - 40,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
       ),
@@ -276,7 +281,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
     Get.dialog(
       Center(
         child: Container(
-          height: 280,
+          height: result["courierArranged"] ? 485 : 600,
           width: Get.width - 40,
           padding: EdgeInsets.symmetric(
             horizontal: 20,
@@ -289,18 +294,44 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                "Your Repair Request Generated Successfully.",
-                style: TextStyle(
-                  color: AppColors.successColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "Your service request generated succefully.\n\n\n",
+                      style: TextStyle(
+                        color: AppColors.successColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    TextSpan(
+                      text: "SRN generated successfully\n",
+                      style: TextStyle(
+                        color: AppColors.successColor,
+                        fontSize: 16,
+                      ),
+                    ),
+                    TextSpan(
+                      text: "SRN NO : ${result["serviceRequestNumber"]}\n\n",
+                      style: TextStyle(
+                        color: AppColors.successColor,
+                        fontSize: 16,
+                      ),
+                    ),
+                    TextSpan(
+                      text: getReversePickUpText(result["courierArranged"]),
+                      style: TextStyle(
+                        color: AppColors.successColor,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
                 ),
-                textAlign: TextAlign.center,
               ),
               emptyVerticalBox(height: 50),
               GetBtn(
-                btnText: "OPEN PDF",
+                btnText: "Print Shipping label".toUpperCase(),
                 onPressed: () async {
                   await createPDF(result: result);
                 },
@@ -325,17 +356,21 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
     final page = pdfDocument.pages.add();
     page.graphics.drawImage(
       PdfBitmap(await _readImageData()),
-      Rect.fromLTWH(page.size.width / 2 - 90, 0, 100, 100),
+      Rect.fromLTWH(page.size.width / 2 - 115, 0, 60, 60),
     );
-    page.graphics.drawString("Autofy",
-        PdfStandardFont(PdfFontFamily.helvetica, 30, style: PdfFontStyle.bold),
-        brush: PdfBrushes.indianRed,
-        bounds: Rect.fromLTWH(page.size.width / 2 - 90, 100, 100, 100));
-    page.graphics.drawString("Your Repair Request Generated Successfully",
-        PdfStandardFont(PdfFontFamily.helvetica, 18, style: PdfFontStyle.bold),
-        brush: PdfBrushes.green,
-        bounds: Rect.fromLTWH(
-            page.size.width / 2 - 240, 160, page.size.width - 80, 50));
+    page.graphics.drawString(
+      "Autofy",
+      PdfStandardFont(PdfFontFamily.helvetica, 30, style: PdfFontStyle.bold),
+      brush: PdfBrushes.indianRed,
+      bounds: Rect.fromLTWH(page.size.width / 2 - 55, 10, 100, 100),
+    );
+    page.graphics.drawString(
+      "Your Repair Request Generated Successfully",
+      PdfStandardFont(PdfFontFamily.helvetica, 18, style: PdfFontStyle.bold),
+      brush: PdfBrushes.green,
+      bounds: Rect.fromLTWH(
+          page.size.width / 2 - 230, 75, page.size.width - 80, 50),
+    );
     PdfGrid grid = PdfGrid();
     grid.columns.add(count: 5);
     grid.headers.add(1);
@@ -360,7 +395,9 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
         : "You have to send courier by your self.";
 
     grid.draw(
-        page: page, bounds: Rect.fromLTWH(0, 240, page.size.width - 80, 600));
+      page: page,
+      bounds: Rect.fromLTWH(0, 110, page.size.width - 80, 600),
+    );
 
     page.graphics.drawString(
         "To. \n${result["vendorName"]} \nPhone: ${result["vendorPhoneNumber"]} \n${result["vendorAddress"]} \n${result["vendorCity"]} \n${result["vendorState"]} \n${result["vendorPostalCode"]}",
@@ -368,18 +405,23 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
           PdfFontFamily.helvetica,
           14,
         ),
-        bounds: Rect.fromLTWH(0, 360, page.size.width / 2, 250));
+        bounds: Rect.fromLTWH(0, 200, page.size.width / 2 - 70, 250));
     page.graphics.drawString(
-        "From. \n${result["customerName"]} \nPhone: ${result["customerPhoneNumber"]} \n${result["customerAddress"]} \n${result["customerCity"]} \n${result["customerState"]} \n${result["customerPostalCode"]}",
-        PdfStandardFont(
-          PdfFontFamily.helvetica,
-          14,
-        ),
-        bounds: Rect.fromLTWH(0, 550, page.size.width / 2, 250));
+      "From. \n${result["customerName"]} \nPhone: ${result["customerPhoneNumber"]} \n${result["customerAddress"]} \n${result["customerCity"]} \n${result["customerState"]} \n${result["customerPostalCode"]}",
+      PdfStandardFont(
+        PdfFontFamily.helvetica,
+        14,
+      ),
+      bounds: Rect.fromLTWH(
+          page.size.width / 2 - 50, 200, page.size.width / 2 - 40, 250),
+    );
     page.graphics.drawString(
-        "Take print out of this page or write with a pen on a plain\npaper in the following format and stick on the box: \n1) Service Request Number\n2) To Address\n3) From Address",
-        PdfStandardFont(PdfFontFamily.helvetica, 10, style: PdfFontStyle.bold),
-        bounds: Rect.fromLTWH(250, 700, page.size.width / 2, 250));
+      getReversePickUpText(result["courierArranged"]),
+      PdfStandardFont(PdfFontFamily.helvetica, 10, style: PdfFontStyle.bold),
+      bounds: result["courierArranged"]
+          ? Rect.fromLTWH(250, 700, page.size.width / 2, 250)
+          : Rect.fromLTWH(250, 650, page.size.width / 2, 250),
+    );
 
     List<int> bytes = pdfDocument.save();
     await saveAndLunchFile(bytes, "${result["productSKU"]}.pdf");
@@ -389,5 +431,11 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
   Future<Uint8List> _readImageData() async {
     final data = await rootBundle.load("assets/autofy.png");
     return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+  }
+
+  getReversePickUpText(bool courierArranged) {
+    return courierArranged
+        ? "Take print out of this page or write with a pen on a plain paper in the following format and stick on the box: \n1) Service Request Number\n2) To Address\n3) From Address"
+        : "Your pin code is not serviceable for reverse pickup, request you to please pack the product and ship it to our address, click on download shipping label to get the shipping address.\n- Note:\n1)  Please pack the product and stick shipping label on top of it.\n2) If printing facility is not available, please write to-from address on a paper by hand.\n3) After that, send by any courier service to out warehouse";
   }
 }

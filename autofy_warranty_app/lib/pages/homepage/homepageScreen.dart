@@ -1,15 +1,12 @@
-import 'package:autofy_warranty_app/controllers/authController.dart';
-
 import 'package:autofy_warranty_app/pages/profile/profileScreen.dart';
 import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestsScreen.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceScreen.dart';
 import 'package:autofy_warranty_app/pages/userProduct/userProductScreen.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
-  int startingIndex;
+  final int startingIndex;
   HomePage({Key? key, required this.startingIndex}) : super(key: key);
 
   @override
@@ -90,13 +87,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        key: scaffoldKey,
-        appBar: buildAppBar(),
-        body: listOfScreens[_currentIndex],
-        bottomNavigationBar: buildBottomBar(),
-      ),
+    return Scaffold(
+      key: scaffoldKey,
+      appBar: buildAppBar(),
+      body: listOfScreens[_currentIndex],
+      bottomNavigationBar: buildBottomBar(),
     );
   }
 }

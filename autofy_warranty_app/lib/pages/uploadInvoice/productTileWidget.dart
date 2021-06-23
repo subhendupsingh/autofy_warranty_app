@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductTileWidget extends StatelessWidget {
-  VoidCallback? callback;
-  Map<String, dynamic>? product;
+  final VoidCallback? callback;
+  final Map<String, dynamic>? product;
 
   ProductTileWidget({@required this.product, @required this.callback});
 
-  
   @override
   Widget build(BuildContext context) {
     return Card(
