@@ -1,6 +1,6 @@
 import 'package:autofy_warranty_app/controllers/authController.dart';
 
-import 'package:autofy_warranty_app/pages/profile/profile.dart';
+import 'package:autofy_warranty_app/pages/profile/profileScreen.dart';
 import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestsScreen.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceScreen.dart';
 import 'package:autofy_warranty_app/pages/userProduct/userProductScreen.dart';
@@ -79,43 +79,6 @@ class _HomePageState extends State<HomePage> {
   buildAppBar() {
     return AppBar(
       title: Text(appBarTitles[_currentIndex]),
-      actions: _currentIndex == 3
-          ? [
-              IconButton(
-                icon: Icon(Icons.logout),
-                onPressed: () {
-                  Get.defaultDialog(
-                    title: "\nAlert",
-                    content: Column(
-                      children: [
-                        Text("Are you sure you want to logout?"),
-                        ButtonBar(
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                Get.back();
-                              },
-                              child: Text(
-                                "Cancel",
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Get.back();
-                                AuthController.to.logOut();
-                              },
-                              child: Text("Logout"),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ]
-          : [],
       backgroundColor: AppColors.primaryColor,
       centerTitle: true,
     );

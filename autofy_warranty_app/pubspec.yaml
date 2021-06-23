@@ -43,6 +43,7 @@ dependencies:
   syncfusion_flutter_pdf: ^19.1.66-beta
   timeline_tile: ^2.0.0
   url_launcher: ^6.0.4
+  font_awesome_flutter: ^9.1.0
   wave: null
   onesignal_flutter: ^3.0.0
   flutter_inappwebview: ^5.3.2

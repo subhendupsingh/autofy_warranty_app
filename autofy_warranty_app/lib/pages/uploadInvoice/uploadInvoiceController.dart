@@ -60,7 +60,6 @@ class UploadInvoiceController extends GetxController {
             isFileUploaded = false;
           }
         } else if (platformFile.extension == "pdf") {
-          //@Vamsi PDF READER FUNCTION CALL FROM HERE AND DATA WILL BE STORE IN INVOICEDATA MAP
           msg = await callUploadService(
               invoiceFile, warrantyCode, 'api/v1/file/upload');
           if (msg == "File uploaded sucessfully") {
