@@ -5,7 +5,6 @@ import 'package:autofy_warranty_app/controllers/ocrController.dart';
 import 'package:autofy_warranty_app/pages/homepage/homepageScreen.dart';
 import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestController.dart';
 import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
-import 'package:autofy_warranty_app/pages/uploadInvoice/userDetailsScreen.dart';
 import 'package:autofy_warranty_app/services/apiService.dart';
 import 'package:autofy_warranty_app/services/localStorageService.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';

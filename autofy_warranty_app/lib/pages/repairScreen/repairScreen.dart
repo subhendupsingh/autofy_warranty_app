@@ -281,7 +281,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
     Get.dialog(
       Center(
         child: Container(
-          height: result["courierArranged"] ? 485 : 640,
+          height: result["courierArranged"] ? 485 : 680,
           width: Get.width - 40,
           padding: EdgeInsets.symmetric(
             horizontal: 20,
@@ -295,21 +295,15 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               RichText(
+                textAlign: TextAlign.justify,
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: "Your service request generated succefully.\n\n\n",
+                      text: "Your service request generated succefully.\n\n",
                       style: TextStyle(
                         color: AppColors.successColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
-                      ),
-                    ),
-                    TextSpan(
-                      text: "SRN generated successfully\n",
-                      style: TextStyle(
-                        color: AppColors.successColor,
-                        fontSize: 16,
                       ),
                     ),
                     TextSpan(
@@ -322,16 +316,16 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                     TextSpan(
                       text: "${result["serviceRequestNumber"]}\n\n",
                       style: TextStyle(
-                        color: AppColors.successColor,
                         fontSize: 16,
+                        color: AppColors.successColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     TextSpan(
                       text: getReversePickUpText(result["courierArranged"]),
                       style: TextStyle(
-                        color: AppColors.successColor,
                         fontSize: 16,
+                        color: Colors.black,
                       ),
                     ),
                   ],
@@ -364,65 +358,109 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
     final page = pdfDocument.pages.add();
     page.graphics.drawImage(
       PdfBitmap(await _readImageData()),
-      Rect.fromLTWH(page.size.width / 2 - 115, 0, 60, 60),
+      Rect.fromLTWH(0, 0, 30, 30),
     );
     page.graphics.drawString(
       "Autofy",
-      PdfStandardFont(PdfFontFamily.helvetica, 30, style: PdfFontStyle.bold),
+      PdfStandardFont(PdfFontFamily.helvetica, 18, style: PdfFontStyle.bold),
       brush: PdfBrushes.indianRed,
-      bounds: Rect.fromLTWH(page.size.width / 2 - 55, 10, 100, 100),
+      bounds: Rect.fromLTWH(30, 2, 70, 70),
     );
     page.graphics.drawString(
       "Your Repair Request Generated Successfully",
-      PdfStandardFont(PdfFontFamily.helvetica, 18, style: PdfFontStyle.bold),
+      PdfStandardFont(PdfFontFamily.helvetica, 16, style: PdfFontStyle.bold),
       brush: PdfBrushes.green,
-      bounds: Rect.fromLTWH(
-          page.size.width / 2 - 230, 75, page.size.width - 80, 50),
+      bounds:
+          Rect.fromLTWH(page.size.width / 2 - 190, 3, page.size.width - 80, 50),
     );
-    PdfGrid grid = PdfGrid();
-    grid.columns.add(count: 5);
-    grid.headers.add(1);
-    grid.style = PdfGridStyle(
-      font: PdfStandardFont(PdfFontFamily.helvetica, 12),
-      cellPadding: PdfPaddings(left: 5, top: 2, bottom: 2, right: 2),
-    );
-    PdfGridRow header = grid.headers[0];
-    header.cells[0].value = "Sr. No";
-    header.cells[1].value = "Service Request Number";
-    header.cells[2].value = "Product SKU";
-    header.cells[3].value = "Product Name";
-    header.cells[4].value = "Courier Arranged";
+    // PdfGrid grid = PdfGrid();
+    // grid.columns.add(count: 5);
+    // grid.headers.add(1);
+    // grid.style = PdfGridStyle(
+    //   font: PdfStandardFont(PdfFontFamily.helvetica, 12),
+    //   cellPadding: PdfPaddings(left: 5, top: 2, bottom: 2, right: 2),
+    // );
+    // PdfGridRow header = grid.headers[0];
+    // header.cells[0].value = "Sr. No";
+    // header.cells[1].value = "Service Request Number";
+    // header.cells[2].value = "Product SKU";
+    // header.cells[3].value = "Product Name";
+    // header.cells[4].value = "Courier Arranged";
 
-    PdfGridRow row = grid.rows.add();
-    row.cells[0].value = "1";
-    row.cells[1].value = result["serviceRequestNumber"];
-    row.cells[2].value = result["productSKU"];
-    row.cells[3].value = result["productName"];
-    row.cells[4].value = result["courierArranged"]
-        ? "Courier arranged by autofy."
-        : "You have to send courier by your self.";
+    // PdfGridRow row = grid.rows.add();
+    // row.cells[0].value = "1";
+    // row.cells[1].value = result["serviceRequestNumber"];
+    // row.cells[2].value = result["productSKU"];
+    // row.cells[3].value = result["productName"];
+    // row.cells[4].value = result["courierArranged"]
+    //     ? "Courier arranged by autofy."
+    //     : "You have to send courier by your self.";
 
-    grid.draw(
-      page: page,
-      bounds: Rect.fromLTWH(0, 110, page.size.width - 80, 600),
+    // grid.draw(
+    //   page: page,
+    //   bounds: Rect.fromLTWH(0, 110, page.size.width - 80, 600),
+    // );
+
+    page.graphics.drawString(
+      "SRN : ${result["serviceRequestNumber"]}",
+      PdfStandardFont(
+        PdfFontFamily.helvetica,
+        14,
+        style: PdfFontStyle.bold,
+      ),
+      bounds: Rect.fromLTWH(0, 40, page.size.width / 2 - 70, 250),
     );
 
     page.graphics.drawString(
-        "To. \n${result["vendorName"]} \nPhone: ${result["vendorPhoneNumber"]} \n${result["vendorAddress"]} \n${result["vendorCity"]} \n${result["vendorState"]} \n${result["vendorPostalCode"]}",
-        PdfStandardFont(
-          PdfFontFamily.helvetica,
-          14,
-        ),
-        bounds: Rect.fromLTWH(0, 240, page.size.width / 2 - 70, 250));
+      "SKU : ${result["productSKU"]}",
+      PdfStandardFont(
+        PdfFontFamily.helvetica,
+        14,
+        style: PdfFontStyle.bold,
+      ),
+      bounds: Rect.fromLTWH(0, 60, page.size.width / 2 - 70, 250),
+    );
+
+    page.graphics.drawString(
+      "To. \n${result["vendorName"]} \nPhone: ${result["vendorPhoneNumber"]} \n${result["vendorAddress"]} \n${result["vendorCity"]} \n${result["vendorState"]} \n${result["vendorPostalCode"]}",
+      PdfStandardFont(
+        PdfFontFamily.helvetica,
+        14,
+      ),
+      bounds: Rect.fromLTWH(0, 90, page.size.width / 2 - 70, 250),
+    );
     page.graphics.drawString(
       "From. \n${result["customerName"]} \nPhone: ${result["customerPhoneNumber"]} \n${result["customerAddress"]} \n${result["customerCity"]} \n${result["customerState"]} \n${result["customerPostalCode"]}",
       PdfStandardFont(
         PdfFontFamily.helvetica,
         14,
       ),
-      bounds: Rect.fromLTWH(
-          page.size.width / 2 - 50, 240, page.size.width / 2 - 40, 250),
+      bounds: Rect.fromLTWH(0, 240, page.size.width / 2 - 40, 250),
     );
+
+// bounds: Rect.fromLTWH(page.size.width / 2 - 50, 160, page.size.width / 2 - 40, 250), for side by side
+    page.graphics.drawLine(
+      PdfPens.black,
+      Offset(0, 400),
+      Offset(page.size.width / 2 - 110, 400),
+    );
+
+    page.graphics.drawString(
+      "TEAR FROM HERE",
+      PdfStandardFont(
+        PdfFontFamily.helvetica,
+        14,
+        style: PdfFontStyle.bold,
+      ),
+      bounds: Rect.fromLTWH(page.size.width / 2 - 105, 392, 130, 20),
+    );
+
+    page.graphics.drawLine(
+      PdfPens.black,
+      Offset(page.size.width / 2 + 25, 400),
+      Offset(page.size.width, 400),
+    );
+
     page.graphics.drawString(
       getReversePickUpText(result["courierArranged"]),
       PdfStandardFont(PdfFontFamily.helvetica, 10, style: PdfFontStyle.bold),
@@ -444,6 +482,6 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
   getReversePickUpText(bool courierArranged) {
     return courierArranged
         ? "Take print out of this page or write with a pen on a plain paper in the following format and stick on the box: \n1) Service Request Number\n2) To Address\n3) From Address"
-        : "Your pin code is not serviceable for reverse pickup, request you to please pack the product and ship it to our address, click on download shipping label to get the shipping address.\n\n- Note:\n\n1)  Please pack the product and stick shipping label on top of it.\n2) If printing facility is not available, please write to-from address on a paper by hand.\n3) After that, send by any courier service to out warehouse";
+        : "Your pin code is not serviceable for reverse pickup, request you to please pack the product and ship it to our address, click on download shipping label to get the shipping address.\n\n- Note:\n\n 1) Please Pack all accessories received with this product.\n\n2)  Please pack the product and stick shipping label on top of it.\n\n3) If printing facility is not available, please write to-from address on a paper by hand.\n\n4) After that, send by any courier service to out warehouse";
   }
 }
