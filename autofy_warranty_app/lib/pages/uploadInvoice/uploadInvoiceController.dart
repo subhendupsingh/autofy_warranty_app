@@ -52,7 +52,8 @@ class UploadInvoiceController extends GetxController {
           msg = await callUploadService(
               invoiceFile, warrantyCode, 'api/v1/file/upload');
           if (msg == "File uploaded sucessfully") {
-            invoiceData = await imageServices.scanInvoice(invoiceFile);
+            // invoiceData = await imageServices.scanInvoice(invoiceFile);
+
             uploadedfileName = platformFile.name.toString();
             isFileUploaded = true;
           } else if (msg ==

@@ -248,7 +248,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                                   "state": stateController.value.text,
                                   "postal": postalCodeController.value.text,
                                   "test": true,
-                                  "isCourierAllocated": true,
+                                  "isCourierAllocated": false,
                                 },
                               );
 
@@ -281,7 +281,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
     Get.dialog(
       Center(
         child: Container(
-          height: result["courierArranged"] ? 485 : 600,
+          height: result["courierArranged"] ? 485 : 640,
           width: Get.width - 40,
           padding: EdgeInsets.symmetric(
             horizontal: 20,
@@ -313,10 +313,18 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                       ),
                     ),
                     TextSpan(
-                      text: "SRN NO : ${result["serviceRequestNumber"]}\n\n",
+                      text: "SRN NO : ",
                       style: TextStyle(
                         color: AppColors.successColor,
                         fontSize: 16,
+                      ),
+                    ),
+                    TextSpan(
+                      text: "${result["serviceRequestNumber"]}\n\n",
+                      style: TextStyle(
+                        color: AppColors.successColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     TextSpan(
@@ -405,7 +413,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
           PdfFontFamily.helvetica,
           14,
         ),
-        bounds: Rect.fromLTWH(0, 200, page.size.width / 2 - 70, 250));
+        bounds: Rect.fromLTWH(0, 240, page.size.width / 2 - 70, 250));
     page.graphics.drawString(
       "From. \n${result["customerName"]} \nPhone: ${result["customerPhoneNumber"]} \n${result["customerAddress"]} \n${result["customerCity"]} \n${result["customerState"]} \n${result["customerPostalCode"]}",
       PdfStandardFont(
@@ -413,14 +421,14 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
         14,
       ),
       bounds: Rect.fromLTWH(
-          page.size.width / 2 - 50, 200, page.size.width / 2 - 40, 250),
+          page.size.width / 2 - 50, 240, page.size.width / 2 - 40, 250),
     );
     page.graphics.drawString(
       getReversePickUpText(result["courierArranged"]),
       PdfStandardFont(PdfFontFamily.helvetica, 10, style: PdfFontStyle.bold),
       bounds: result["courierArranged"]
-          ? Rect.fromLTWH(250, 700, page.size.width / 2, 250)
-          : Rect.fromLTWH(250, 650, page.size.width / 2, 250),
+          ? Rect.fromLTWH(220, 680, page.size.width / 2, 250)
+          : Rect.fromLTWH(220, 600, page.size.width / 2, 250),
     );
 
     List<int> bytes = pdfDocument.save();
@@ -436,6 +444,6 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
   getReversePickUpText(bool courierArranged) {
     return courierArranged
         ? "Take print out of this page or write with a pen on a plain paper in the following format and stick on the box: \n1) Service Request Number\n2) To Address\n3) From Address"
-        : "Your pin code is not serviceable for reverse pickup, request you to please pack the product and ship it to our address, click on download shipping label to get the shipping address.\n- Note:\n1)  Please pack the product and stick shipping label on top of it.\n2) If printing facility is not available, please write to-from address on a paper by hand.\n3) After that, send by any courier service to out warehouse";
+        : "Your pin code is not serviceable for reverse pickup, request you to please pack the product and ship it to our address, click on download shipping label to get the shipping address.\n\n- Note:\n\n1)  Please pack the product and stick shipping label on top of it.\n2) If printing facility is not available, please write to-from address on a paper by hand.\n3) After that, send by any courier service to out warehouse";
   }
 }

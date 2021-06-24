@@ -20,6 +20,11 @@ class _ProfileSreenState extends State<ProfileSreen> {
 
   var userPhone = LocalStoragaeService.getUserValue(UserField.Phone);
 
+  var userAddress = LocalStoragaeService.getUserValue(UserField.Address);
+  var userCity = LocalStoragaeService.getUserValue(UserField.City);
+  var userState = LocalStoragaeService.getUserValue(UserField.State);
+  var userPostalCode = LocalStoragaeService.getUserValue(UserField.PostalCode);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -192,6 +197,35 @@ class _ProfileSreenState extends State<ProfileSreen> {
                   ),
                 ),
                 height: Get.size.height - 363,
+              ),
+            ),
+            Positioned(
+              top: 240,
+              left: 20,
+              child: Container(
+                color: Colors.white,
+                padding: EdgeInsets.all(10),
+                width: Get.width - 40,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Address",
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    Divider(
+                      color: AppColors.greyTextColor,
+                    ),
+                    Text(
+                      "$userAddress, $userCity, $userState, $userPostalCode",
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

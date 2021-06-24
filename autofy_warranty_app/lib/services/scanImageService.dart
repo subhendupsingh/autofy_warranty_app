@@ -54,6 +54,7 @@ class ScanImageServices {
     // String invoiceText = scanTextFromVisionText(visionText);
     // scanInvoiceData(invoiceText);
     // return invoiceData;
+    return {} as Map<String, String>;
   }
 
   // In this method we have to pass file for recognize vision text.
