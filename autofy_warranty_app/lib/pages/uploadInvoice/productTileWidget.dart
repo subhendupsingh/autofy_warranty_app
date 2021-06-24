@@ -8,7 +8,6 @@ class ProductTileWidget extends StatelessWidget {
   // VoidCallback? callback;
   Map<String, dynamic>? product;
 
-
   ProductTileWidget({@required this.product});
 
   @override
@@ -71,26 +70,26 @@ class ProductTileWidget extends StatelessWidget {
   }
 }
 
-        // IconButton(
-        //               icon: Icon(
-        //                 Icons.zoom_out_map_outlined,
-        //                 color: Colors.black,
-        //               ),
-        //               onPressed: () {
-        //                 Get.defaultDialog(
-        //                   title: "",
-        //                   titleStyle: TextStyle(fontSize: 0),
-        //                   content: CachedNetworkImage(
-        //                     imageUrl: product?["image"],
-        //                     placeholder: (context, url) =>
-        //                         CircularProgressIndicator(
-        //                       valueColor: AlwaysStoppedAnimation(Colors.white),
-        //                     ),
-        //                     errorWidget: (context, url, error) => Icon(
-        //                       Icons.error_outline,
-        //                       color: Colors.red,
-        //                     ),
-        //                   ),
-        //                   barrierDismissible: true,
-        //                 );
-        //               })
+// IconButton(
+//               icon: Icon(
+//                 Icons.zoom_out_map_outlined,
+//                 color: Colors.black,
+//               ),
+//               onPressed: () {
+//                 Get.defaultDialog(
+//                   title: "",
+//                   titleStyle: TextStyle(fontSize: 0),
+//                   content: CachedNetworkImage(
+//                     imageUrl: product?["image"],
+//                     placeholder: (context, url) =>
+//                         CircularProgressIndicator(
+//                       valueColor: AlwaysStoppedAnimation(Colors.white),
+//                     ),
+//                     errorWidget: (context, url, error) => Icon(
+//                       Icons.error_outline,
+//                       color: Colors.red,
+//                     ),
+//                   ),
+//                   barrierDismissible: true,
+//                 );
+//               })

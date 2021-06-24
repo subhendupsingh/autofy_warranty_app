@@ -94,6 +94,7 @@ class ApiController extends GetxController {
   }
 
   getUserProductData() async {
+    print("CALL FOR UPDATE WHEN LOGIN");
     Response userProductResponse;
     int userId = LocalStoragaeService.getUserValue(UserField.Id);
     String token = LocalStoragaeService.getUserValue(UserField.Token);
