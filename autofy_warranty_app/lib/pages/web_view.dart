@@ -7,7 +7,8 @@ import 'package:url_launcher/url_launcher.dart' as urlLauncher;
 
 class WebView extends StatefulWidget {
   String? initialUrl;
-  WebView({@required this.initialUrl});
+  bool launcherWithNotif;
+  WebView({@required this.initialUrl, this.launcherWithNotif = false});
   @override
   _WebViewState createState() => new _WebViewState();
 }
@@ -49,14 +50,17 @@ class _WebViewState extends State<WebView> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Get.offAll(HomePage(startingIndex: 0));
+        if (widget.launcherWithNotif) Get.offAll(HomePage(startingIndex: 0));
         return true;
       },
       child: Scaffold(
         appBar: AppBar(
           leading: BackButton(
             onPressed: () {
-              Get.offAll(HomePage(startingIndex: 0));
+              if (widget.launcherWithNotif)
+                Get.offAll(HomePage(startingIndex: 0));
+              else
+                Get.back();
             },
           ),
           actions: [

@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:autofy_warranty_app/controllers/authController.dart';
 import 'package:autofy_warranty_app/pages/signIn/signInPage.dart';
+import 'package:autofy_warranty_app/pages/web_view.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  bool isChecked = false;
   AuthController authController = Get.find<AuthController>();
 
   TextEditingController nameController = TextEditingController();
@@ -119,6 +121,11 @@ class _SignUpPageState extends State<SignUpPage> {
     return GetBtn(
         btnText: isRegistering ? "Please Wait..." : "SignUp",
         onPressed: () async {
+          if (!isChecked) {
+            Get.snackbar("Please Accept Our Terms & Conditions",
+                "We can't sign you up without that",
+                colorText: Colors.red, backgroundColor: Colors.white);
+          }
           if (isRegistering) return;
           if (_formKey.currentState!.validate()) {
             setState(() {
@@ -171,6 +178,42 @@ class _SignUpPageState extends State<SignUpPage> {
                   buildPhoneNumField(),
                   emptyVerticalBox(height: 15),
                   buildPasswordField(),
+                  emptyVerticalBox(),
+                  Row(
+                    children: [
+                      Checkbox(
+                          value: isChecked,
+                          onChanged: (value) {
+                            setState(() {
+                              isChecked = value!;
+                            });
+                          }),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(
+                            () => WebView(
+                                initialUrl:
+                                    "https://autofystore.com/terms-conditions/"),
+                          );
+                        },
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "Terms & Conditions",
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    decoration: TextDecoration.underline,
+                                    fontWeight: FontWeight.w600),
+                              )
+                            ],
+                            text: "I agree to Autofy's ",
+                            style: TextStyle(color: Colors.grey[800]),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                   emptyVerticalBox(),
                   buildSubmitButton(),
                   emptyVerticalBox(),
