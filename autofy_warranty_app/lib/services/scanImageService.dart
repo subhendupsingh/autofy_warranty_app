@@ -49,11 +49,11 @@ class ScanImageServices {
   // }
 
   Future scanInvoice(File invoiceImage) async {
-    // invoiceData = {};
+    invoiceData = {};
     // VisionText visionText = await scanImage(invoiceImage);
     // String invoiceText = scanTextFromVisionText(visionText);
     // scanInvoiceData(invoiceText);
-    // return invoiceData;
+    return invoiceData;
   }
 
   // In this method we have to pass file for recognize vision text.
