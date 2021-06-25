@@ -164,37 +164,39 @@ class _ServiceRequestsScreenState extends State<ServiceRequestsScreen> {
       List<ServiceRequestModel> serReqList = isForActiveReqs
           ? ctrl.activeSerReqs.reversed.toList()
           : ctrl.completedSerReqs.reversed.toList();
-      return serReqList.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Lottie.asset(
-                    "assets/lottie/empty_list.json",
-                    height: 250,
+      return ctrl.isReqMade
+          ? serReqList.isEmpty
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Lottie.asset(
+                        "assets/lottie/empty_list.json",
+                        height: 250,
+                      ),
+                      Text(
+                        "Oops..",
+                        style: TextStyle(color: Colors.grey, fontSize: 30),
+                      ),
+                      emptyVerticalBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        child: Text(
+                          "You don't have any service requests as of now, please go to the products section to raise a new request",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.grey, fontSize: 15),
+                        ),
+                      )
+                    ],
                   ),
-                  Text(
-                    "Oops..",
-                    style: TextStyle(color: Colors.grey, fontSize: 30),
-                  ),
-                  emptyVerticalBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                    child: Text(
-                      "You don't have any service requests as of now, please go to the products section to raise a new request",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.grey, fontSize: 15),
-                    ),
-                  )
-                ],
-              ),
-            )
-          : ListView.builder(
-              itemCount: serReqList.length,
-              itemBuilder: (_, index) {
-                return buildServiceRequestTile(serReq: serReqList[index]);
-              },
-            );
+                )
+              : ListView.builder(
+                  itemCount: serReqList.length,
+                  itemBuilder: (_, index) {
+                    return buildServiceRequestTile(serReq: serReqList[index]);
+                  },
+                )
+          : Text("");
     });
   }
 

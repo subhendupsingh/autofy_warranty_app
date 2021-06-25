@@ -13,6 +13,7 @@ class ServiceRequestsController extends GetxController {
   List<ServiceRequestModel> activeSerReqs = <ServiceRequestModel>[];
   List<ServiceRequestModel> completedSerReqs = <ServiceRequestModel>[];
   TrackerResponse? trackerResponse;
+  bool isReqMade = false;
 
   static ServiceRequestsController get to =>
       Get.find<ServiceRequestsController>();
@@ -46,6 +47,7 @@ class ServiceRequestsController extends GetxController {
           activeSerReqs.add(element);
         }
       });
+      isReqMade = true;
       update();
     });
 
