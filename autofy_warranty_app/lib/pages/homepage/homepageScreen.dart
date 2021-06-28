@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     // OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
     OneSignal.shared.setLogLevel(OSLogLevel.error, OSLogLevel.none);
 
-    OneSignal.shared.setAppId("45bf8716-87ec-43a1-9aed-dbb6f8cba67b");
+    OneSignal.shared.setAppId("0438ea5d-d977-4958-ba37-1a42457da637");
 
     // OneSignal.shared.setNotificationWillShowInForegroundHandler(
     //     (OSNotificationReceivedEvent event) {
@@ -49,8 +49,7 @@ class _HomePageState extends State<HomePage> {
         .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
       print(result.notification.additionalData);
       result.notification.additionalData?.forEach((key, value) {
-        if (key == "initialUrl") {
-          print("data has initial url");
+        if (key == "link") {
           Get.offAll(WebView(initialUrl: value));
         }
       });

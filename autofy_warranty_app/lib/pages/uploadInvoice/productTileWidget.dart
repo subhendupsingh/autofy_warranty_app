@@ -33,6 +33,28 @@ class ProductTileWidget extends StatelessWidget {
                     ),
                   ),
                   emptyVerticalBox(),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text("SKU: ${product!['sku']}"),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0, top: 8),
+                      child: Text(
+                        "Note: Please match SKU code with the SKU code mentioned on MRP sticker on the box of the product",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          fontSize: 12,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ),
+                  ),
+                  emptyVerticalBox(),
                   FlatButton(
                     onPressed: () {
                       Get.back();
