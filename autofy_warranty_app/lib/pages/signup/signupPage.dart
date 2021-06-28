@@ -5,6 +5,7 @@ import 'package:autofy_warranty_app/pages/web_view.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../widgets/btn.dart';
@@ -101,6 +102,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   GetTextField buildPasswordField() {
     return GetTextField(
+      formatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
       isPassword: true,
       hasShadow: true,
       textFieldController: passwordController,
@@ -109,7 +111,7 @@ class _SignUpPageState extends State<SignUpPage> {
         if (value == null) {
           return "The Password can't be empty";
         }
-        if (value.length > 6) {
+        if (value.length >= 6) {
           return null;
         }
         return "Password should be atleast 6 digits long";

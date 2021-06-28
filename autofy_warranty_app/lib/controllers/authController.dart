@@ -37,7 +37,7 @@ class AuthController extends GetxController {
       if (response.statusCode == 200) {
         LocalStoragaeService.updateUserData(response.data);
         getx.Get.off(SignInPage());
-        getx.Get.snackbar("Registraion Successful", "Please log in",
+        getx.Get.snackbar("Registration Successful", "Please log in",
             colorText: Colors.green);
         isRegistrationSuccess = true;
       }

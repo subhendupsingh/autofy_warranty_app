@@ -1,5 +1,6 @@
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class GetTextField extends StatelessWidget {
   final TextEditingController textFieldController;
@@ -14,6 +15,7 @@ class GetTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final IconData? suffixIcon;
   final int maxLines;
+  final List<TextInputFormatter>? formatters;
   GetTextField(
       {required this.textFieldController,
       required this.lableText,
@@ -30,7 +32,8 @@ class GetTextField extends StatelessWidget {
       this.height = 65.0,
       this.onChanged,
       this.suffixIcon,
-      this.maxLines = 1});
+      this.maxLines = 1,
+      this.formatters});
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -43,6 +46,7 @@ class GetTextField extends StatelessWidget {
         shadowColor: Colors.white70,
         child: ListTile(
           title: TextFormField(
+            inputFormatters: formatters ?? [],
             maxLines: maxLines,
             controller: textFieldController,
             validator: validatorFun,
