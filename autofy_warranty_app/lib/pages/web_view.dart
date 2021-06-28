@@ -50,29 +50,17 @@ class _WebViewState extends State<WebView> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-<<<<<<< HEAD
-        Get.offAll(HomePage(
-          startingIndex: 0,
-        ));
-=======
         if (widget.launcherWithNotif) Get.offAll(HomePage(startingIndex: 0));
->>>>>>> c98575610a76e290f9350027799b3c505ef93745
         return true;
       },
       child: Scaffold(
         appBar: AppBar(
           leading: BackButton(
             onPressed: () {
-<<<<<<< HEAD
-              Get.offAll(HomePage(
-                startingIndex: 0,
-              ));
-=======
               if (widget.launcherWithNotif)
                 Get.offAll(HomePage(startingIndex: 0));
               else
                 Get.back();
->>>>>>> c98575610a76e290f9350027799b3c505ef93745
             },
           ),
           actions: [
