@@ -60,7 +60,7 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
               right: 15,
               left: 15,
               top: 25,
-              bottom: 20,
+              bottom: 5,
             ),
             width: Get.size.width,
             height: Get.size.height < Get.size.width

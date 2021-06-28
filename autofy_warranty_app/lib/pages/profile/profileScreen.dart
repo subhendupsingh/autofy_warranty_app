@@ -31,160 +31,169 @@ class _ProfileSreenState extends State<ProfileSreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          color: AppColors.primaryColor,
-          child: Column(
-            children: [
-              buildTopPart(),
-              buildBottomPart(),
-            ],
-          ),
+      backgroundColor: Colors.grey.shade200,
+      body: Container(
+        color: Colors.grey.shade200,
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                buildTopPart(),
+                buildBottomPart(),
+              ],
+            ),
+            Positioned(
+              bottom: -10,
+              child: Container(
+                width: Get.width,
+                child: Column(
+                  children: [
+                    GetBtn(
+                      width: 150,
+                      btnText: "Logout",
+                      onPressed: () {
+                        Get.defaultDialog(
+                          title: "\nAlert",
+                          content: Column(
+                            children: [
+                              Text("Are you sure you want to logout?"),
+                              ButtonBar(
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: Text(
+                                      "Cancel",
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                      AuthController.to.logOut();
+                                    },
+                                    child: Text("Logout"),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                    buildSocialMediaBtn()
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget buildBottomPart() {
-    return Container(
-      color: Colors.grey.shade200,
-      width: Get.size.width,
-      height: Get.height - 360,
-      padding: EdgeInsets.only(top: 20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          buildAddress(),
-          Column(
-            children: [
-              GetBtn(
-                width: 150,
-                btnText: "Logout",
-                onPressed: () {
-                  Get.defaultDialog(
-                    title: "\nAlert",
-                    content: Column(
-                      children: [
-                        Text("Are you sure you want to logout?"),
-                        ButtonBar(
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                Get.back();
-                              },
-                              child: Text(
-                                "Cancel",
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Get.back();
-                                AuthController.to.logOut();
-                              },
-                              child: Text("Logout"),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-              buildSocialMediaBtn()
-            ],
-          ),
-        ],
+    return SingleChildScrollView(
+      physics: AlwaysScrollableScrollPhysics(),
+      child: Container(
+        width: Get.size.width,
+        padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+        child: buildAddress(),
       ),
     );
   }
 
   buildTopPart() {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.topCenter,
-          margin: EdgeInsets.only(top: 20),
-          child: ClipOval(
-            child: SvgPicture.network(
-              "https://avatars.dicebear.com/api/micah/$userName.svg",
-              height: 90,
-              width: 90,
-              semanticsLabel: "UserProfile",
-              placeholderBuilder: (context) => CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  AppColors.secondaryColor,
+    return Container(
+      color: AppColors.primaryColor,
+      child: Column(
+        children: [
+          Container(
+            alignment: Alignment.topCenter,
+            margin: EdgeInsets.only(top: 20),
+            child: ClipOval(
+              child: SvgPicture.network(
+                "https://avatars.dicebear.com/api/micah/$userName.svg",
+                height: 90,
+                width: 90,
+                semanticsLabel: "UserProfile",
+                placeholderBuilder: (context) => CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    AppColors.secondaryColor,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        emptyVerticalBox(),
-        Container(
-          alignment: Alignment.topCenter,
-          child: Text(
-            userName,
-            style: TextStyle(
-              color: AppColors.secondaryColor,
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        emptyVerticalBox(height: 10),
-        Container(
-          alignment: Alignment.topCenter,
-          child: Text(
-            "+91 " + userPhone,
-            style: TextStyle(
-              color: AppColors.secondaryColor,
-              fontSize: 16,
-            ),
-          ),
-        ),
-        Container(
-          child: Text(
-            userEmail,
-            style: TextStyle(
-              color: AppColors.secondaryColor,
-              fontSize: 16,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0, right: 8.0, bottom: 2.0),
-          child: GestureDetector(
-            onTap: () async {
-              await Get.to(() => UpdateProfileScreen());
-              setState(() {
-                userName =
-                    LocalStoragaeService.getUserValue(UserField.Name) ?? "";
-                userEmail =
-                    LocalStoragaeService.getUserValue(UserField.Email) ?? "";
-                userPhone =
-                    LocalStoragaeService.getUserValue(UserField.Phone) ?? "";
-                userAddress =
-                    LocalStoragaeService.getUserValue(UserField.Address) ?? "";
-                userCity =
-                    LocalStoragaeService.getUserValue(UserField.City) ?? "";
-                userState =
-                    LocalStoragaeService.getUserValue(UserField.State) ?? "";
-                userPostalCode =
-                    LocalStoragaeService.getUserValue(UserField.PostalCode) ??
-                        "";
-              });
-            },
-            child: Container(
-              alignment: Alignment.topRight,
-              child: Icon(
-                Icons.mode_edit,
-                color: AppColors.lightGreyTextColor,
-                size: 25,
+          emptyVerticalBox(),
+          Container(
+            alignment: Alignment.topCenter,
+            child: Text(
+              userName,
+              style: TextStyle(
+                color: AppColors.secondaryColor,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
-        ),
-      ],
+          emptyVerticalBox(height: 10),
+          Container(
+            alignment: Alignment.topCenter,
+            child: Text(
+              "+91 " + userPhone,
+              style: TextStyle(
+                color: AppColors.secondaryColor,
+                fontSize: 16,
+              ),
+            ),
+          ),
+          Container(
+            child: Text(
+              userEmail,
+              style: TextStyle(
+                color: AppColors.secondaryColor,
+                fontSize: 16,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0, right: 8.0, bottom: 2.0),
+            child: GestureDetector(
+              onTap: () async {
+                await Get.to(() => UpdateProfileScreen());
+                setState(() {
+                  userName =
+                      LocalStoragaeService.getUserValue(UserField.Name) ?? "";
+                  userEmail =
+                      LocalStoragaeService.getUserValue(UserField.Email) ?? "";
+                  userPhone =
+                      LocalStoragaeService.getUserValue(UserField.Phone) ?? "";
+                  userAddress =
+                      LocalStoragaeService.getUserValue(UserField.Address) ??
+                          "";
+                  userCity =
+                      LocalStoragaeService.getUserValue(UserField.City) ?? "";
+                  userState =
+                      LocalStoragaeService.getUserValue(UserField.State) ?? "";
+                  userPostalCode =
+                      LocalStoragaeService.getUserValue(UserField.PostalCode) ??
+                          "";
+                });
+              },
+              child: Container(
+                alignment: Alignment.topRight,
+                child: Icon(
+                  Icons.mode_edit,
+                  color: AppColors.lightGreyTextColor,
+                  size: 25,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

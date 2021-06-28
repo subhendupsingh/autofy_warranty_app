@@ -17,7 +17,7 @@ class _UserProductsState extends State<UserProducts> {
   @override
   void initState() {
     ApiController apiController = ApiController();
-    apiController.getUserProductData();
+    apiController.getUserProductData(isShow: true);
 
     super.initState();
   }
