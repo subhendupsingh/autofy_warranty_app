@@ -125,6 +125,7 @@ class _SignUpPageState extends State<SignUpPage> {
             Get.snackbar("Please Accept Our Terms & Conditions",
                 "We can't sign you up without that",
                 colorText: Colors.red, backgroundColor: Colors.white);
+            return;
           }
           if (isRegistering) return;
           if (_formKey.currentState!.validate()) {
