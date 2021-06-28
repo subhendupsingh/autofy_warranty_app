@@ -342,7 +342,9 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
               GetBtn(
                 btnText: "SHOW ALL REQUESTS",
                 onPressed: () async {
-                  Get.offAll(HomePage(startingIndex: 1));
+                  Get.offAll(HomePage(
+                    startingIndex: 1,
+                  ));
                 },
               ),
             ],

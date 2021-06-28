@@ -95,6 +95,7 @@ class ApiController extends GetxController {
 
   getUserProductData() async {
     print("CALL FOR UPDATE WHEN LOGIN");
+    await EasyLoading.show(status: "Fetching Data...");
     Response userProductResponse;
     int userId = LocalStoragaeService.getUserValue(UserField.Id);
     String token = LocalStoragaeService.getUserValue(UserField.Token);
@@ -115,6 +116,8 @@ class ApiController extends GetxController {
       );
     } catch (e) {
       print(e);
+    } finally {
+      await EasyLoading.dismiss();
     }
   }
 
@@ -141,6 +144,7 @@ class ApiController extends GetxController {
     } catch (e) {
       print(e);
     }
+
     controller.isLoading.value = false;
     return userProductWarrentyInfo;
   }

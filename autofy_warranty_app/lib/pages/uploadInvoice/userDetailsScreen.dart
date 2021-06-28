@@ -431,14 +431,18 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
               GetBtn(
                 btnText: "SHOW ALL PRODUCTS",
                 onPressed: () {
-                  Get.offAll(HomePage(startingIndex: 0));
+                  Get.offAll(HomePage(
+                    startingIndex: 0,
+                  ));
                 },
               ),
               emptyVerticalBox(),
               GetBtn(
                 btnText: "GO TO PROFILE",
                 onPressed: () {
-                  Get.offAll(HomePage(startingIndex: 3));
+                  Get.offAll(HomePage(
+                    startingIndex: 3,
+                  ));
                 },
               ),
             ],

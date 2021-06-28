@@ -54,31 +54,33 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Padding(
-          padding:
-              const EdgeInsets.only(right: 15, left: 15, top: 25, bottom: 20),
-          child: SingleChildScrollView(
-            child: Container(
-              width: Get.size.width,
-              height: Get.size.height < Get.size.width
-                  ? Get.size.height + 77
-                  : Get.size.height - 190,
-              child: Stack(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      buildSerialCodeComponent(context),
-                      emptyVerticalBox(height: 70),
-                      buildUploadInvoice(),
-                    ],
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: buildNextBtn(),
-                  ),
-                ],
-              ),
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.only(
+              right: 15,
+              left: 15,
+              top: 25,
+              bottom: 20,
+            ),
+            width: Get.size.width,
+            height: Get.size.height < Get.size.width
+                ? Get.size.height + 127
+                : Get.size.height - 190,
+            child: Stack(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    buildSerialCodeComponent(context),
+                    emptyVerticalBox(height: 60),
+                    buildUploadInvoice(),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: buildNextBtn(),
+                ),
+              ],
             ),
           ),
         ),

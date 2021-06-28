@@ -200,47 +200,45 @@ class _ServiceRequestsScreenState extends State<ServiceRequestsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          backgroundColor: Colors.grey[200],
-          appBar: AppBar(
-            title: Text("Repair Requests"),
-            centerTitle: true,
-            backgroundColor: AppColors.primaryColor,
-            bottom: TabBar(
-              indicatorColor: Colors.white,
-              tabs: [
-                Tab(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.check_box_outline_blank),
-                      emptyHorizontalBox(width: 10),
-                      Text("Active")
-                    ],
-                  ),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: Colors.grey[200],
+        appBar: AppBar(
+          title: Text("Repair Requests"),
+          centerTitle: true,
+          backgroundColor: AppColors.primaryColor,
+          bottom: TabBar(
+            indicatorColor: Colors.white,
+            tabs: [
+              Tab(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.check_box_outline_blank),
+                    emptyHorizontalBox(width: 10),
+                    Text("Active")
+                  ],
                 ),
-                Tab(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.check_box),
-                      emptyHorizontalBox(width: 10),
-                      Text("Past")
-                    ],
-                  ),
+              ),
+              Tab(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.check_box),
+                    emptyHorizontalBox(width: 10),
+                    Text("Past")
+                  ],
                 ),
-              ],
-            ),
-          ),
-          body: TabBarView(
-            children: [
-              buildSerReqsList(isForActiveReqs: true),
-              buildSerReqsList(isForActiveReqs: false),
+              ),
             ],
           ),
+        ),
+        body: TabBarView(
+          children: [
+            buildSerReqsList(isForActiveReqs: true),
+            buildSerReqsList(isForActiveReqs: false),
+          ],
         ),
       ),
     );
