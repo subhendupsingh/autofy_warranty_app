@@ -171,7 +171,7 @@ class _ServiceRequestsScreenState extends State<ServiceRequestsScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Lottie.asset(
-                        "assets/lottie/empty_list.json",
+                        "assets/lottie/smiley.json",
                         height: 250,
                       ),
                       Text(
@@ -182,7 +182,7 @@ class _ServiceRequestsScreenState extends State<ServiceRequestsScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: Text(
-                          "You don't have any service requests as of now, please go to the products section to raise a new request",
+                          "Hey! rejoice. All your Autofy products are working just fine",
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.grey, fontSize: 15),
                         ),
