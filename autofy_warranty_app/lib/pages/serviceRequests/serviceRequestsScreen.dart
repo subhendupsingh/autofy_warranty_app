@@ -20,10 +20,10 @@ class _ServiceRequestsScreenState extends State<ServiceRequestsScreen> {
   @override
   initState() {
     super.initState();
-    if (ServiceRequestsController.to.activeSerReqs.isEmpty) {
-      ServiceRequestsController.to.getAllServiceRequests();
-    } else {
+    if (ServiceRequestsController.to.isReqMade) {
       ServiceRequestsController.to.getAllServiceRequests(hidden: true);
+    } else {
+      ServiceRequestsController.to.getAllServiceRequests();
     }
   }
 
@@ -175,14 +175,14 @@ class _ServiceRequestsScreenState extends State<ServiceRequestsScreen> {
                         height: 250,
                       ),
                       Text(
-                        "Oops..",
+                        "Rejoice!",
                         style: TextStyle(color: Colors.grey, fontSize: 30),
                       ),
                       emptyVerticalBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: Text(
-                          "Hey! rejoice. All your Autofy products are working just fine",
+                          "All your Autofy products are working just fine",
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.grey, fontSize: 15),
                         ),

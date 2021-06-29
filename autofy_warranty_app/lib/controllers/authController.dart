@@ -36,9 +36,20 @@ class AuthController extends GetxController {
 
       if (response.statusCode == 200) {
         LocalStoragaeService.updateUserData(response.data);
-        getx.Get.off(SignInPage());
-        getx.Get.snackbar("Registration Successful", "Please log in",
-            colorText: Colors.green);
+
+        getx.Get.snackbar(
+          "Registration Successful",
+          "Please log in",
+          backgroundColor: Colors.white,
+          duration: Duration(seconds: 5),
+          colorText: Colors.green,
+          mainButton: TextButton(
+            onPressed: () {
+              getx.Get.off(SignInPage());
+            },
+            child: Text("Login"),
+          ),
+        );
         isRegistrationSuccess = true;
       }
     } on DioError catch (e) {
