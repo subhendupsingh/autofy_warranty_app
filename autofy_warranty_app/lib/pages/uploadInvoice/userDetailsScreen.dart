@@ -79,6 +79,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   String? portal;
   Map<String, dynamic>? product;
   String? warrantyCode;
+  bool isPortalEmpty = false,
+      isProductEmpty = false,
+      isInvoiceDateEmpty = false;
 
   void unfocusTextField() => FocusScope.of(context).unfocus();
 
@@ -120,6 +123,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                     style: TextStyle(color: Colors.grey[700]),
                     onChanged: (String? newValue) {
                       portalController.text = newValue!;
+                      setState(() {
+                        isPortalEmpty = false;
+                      });
                     },
                     items: <String>[
                       'Amazon',
@@ -133,6 +139,16 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       );
                     }).toList(),
                   ),
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Positioned(
+                bottom: 0,
+                child: Text(
+                  isPortalEmpty ? "Please select a portal" : "",
+                  style: TextStyle(color: Colors.red, fontSize: 12),
                 ),
               ),
             ],
@@ -151,38 +167,105 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
           borderRadius: BorderRadius.circular(AppRadius.commonRadius),
         ),
         shadowColor: Colors.white70,
-        child: ListTile(
-          title: GestureDetector(
-            onTap: () async {
-              var selectedProduct = await Get.to(() => ProductSearchScreen());
-              if (selectedProduct != null) {
-                product = selectedProduct;
-                productController.text = product!["title"];
-              }
-            },
-            child: TextFormField(
-              validator: (value) {
-                if (product == null) {
-                  Get.snackbar("All fields must be filled",
-                      "Please fill all fields to proceed further",
-                      colorText: Colors.red, backgroundColor: Colors.white);
-                  return;
-                }
-                return null;
-              },
-              controller: productController,
-              enabled: false,
-              decoration: InputDecoration(
-                enabled: false,
-                hintText: "Tap to select product",
-                border: InputBorder.none,
-                hintStyle: TextStyle(
-                  fontSize: AppTexts.inputFieldTextSize,
-                  color: Colors.grey[700],
+        child: Stack(
+          children: [
+            ListTile(
+              title: GestureDetector(
+                onTap: () async {
+                  var selectedProduct =
+                      await Get.to(() => ProductSearchScreen());
+                  if (selectedProduct != null) {
+                    product = selectedProduct;
+                    isProductEmpty = false;
+                    productController.text = product!["title"];
+                    setState(() {});
+                  }
+                },
+                child: TextFormField(
+                  validator: (value) {
+                    if (product == null) {
+                      setState(() {
+                        isProductEmpty = true;
+                      });
+
+                      return;
+                    }
+                    return null;
+                  },
+                  controller: productController,
+                  enabled: false,
+                  decoration: InputDecoration(
+                    enabled: false,
+                    hintText: "Tap to select product",
+                    border: InputBorder.none,
+                    hintStyle: TextStyle(
+                      fontSize: AppTexts.inputFieldTextSize,
+                      color: Colors.grey[700],
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
+            SizedBox(
+              height: 5,
+            ),
+            Positioned(
+              bottom: 0,
+              left: 15,
+              child: Text(
+                isProductEmpty ? "Please select a product" : "",
+                style: TextStyle(color: Colors.red, fontSize: 12),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  buildInvoicePicer() {
+    return SizedBox(
+      height: 65,
+      child: Card(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.commonRadius),
+        ),
+        shadowColor: Colors.white70,
+        child: Stack(
+          children: [
+            InkWell(
+              onTap: () {
+                unfocusTextField();
+                _selectDate();
+              },
+              child: GetTextField(
+                validatorFun: (value) {
+                  if (invoiceDateController.text.isEmpty) {
+                    isInvoiceDateEmpty = true;
+                    setState(() {});
+                    return;
+                  }
+                  return null;
+                },
+                textFieldController: invoiceDateController,
+                suffixIcon: Icons.calendar_today_rounded,
+                lableText: "Invoice Date",
+                isEnabled: false,
+              ),
+            ),
+            // SizedBox(
+            //   height: 5,
+            // ),
+            Positioned(
+              bottom: 0,
+              left: 15,
+              child: Text(
+                isInvoiceDateEmpty ? "Please select invoice data" : "",
+                style: TextStyle(color: Colors.red, fontSize: 12),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -192,9 +275,11 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
+        firstDate: DateTime(
+            DateTime.now().year - 2, DateTime.now().month, DateTime.now().day),
+        lastDate: DateTime.now());
     if (picked != null) {
+      isInvoiceDateEmpty = false;
       invoiceDateController.text = formatDate(picked);
       setState(() {});
     }
@@ -288,23 +373,24 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                               }
                               return null;
                             }),
-                        GestureDetector(
-                          onTap: () {
-                            unfocusTextField();
-                            _selectDate();
-                          },
-                          child: GetTextField(
-                              textFieldController: invoiceDateController,
-                              suffixIcon: Icons.calendar_today_rounded,
-                              lableText: "Invoice Date",
-                              isEnabled: false,
-                              validatorFun: (value) {
-                                if (invoiceDateController.text.isEmpty) {
-                                  return "Please fill in the invoice date";
-                                }
-                                return null;
-                              }),
-                        ),
+                        buildInvoicePicer(),
+                        // InkWell(
+                        //   onTap: () {
+                        //     unfocusTextField();
+                        //     _selectDate();
+                        //   },
+                        //   child: GetTextField(
+                        //       textFieldController: invoiceDateController,
+                        //       suffixIcon: Icons.calendar_today_rounded,
+                        //       lableText: "Invoice Date",
+                        //       isEnabled: false,
+                        //       validatorFun: (value) {
+                        //         if (value!.isEmpty) {
+                        //           return "Please fill in the invoice date";
+                        //         }
+                        //         return null;
+                        //       }),
+                        // ),
                         emptyVerticalBox(),
                         Text(
                           '   Address Information:',
@@ -347,6 +433,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                         GetTextField(
                             textFieldController: postalCodeController,
                             lableText: "Postal Code",
+                            inputType: TextInputType.number,
                             validatorFun: (value) {
                               if (value!.isEmpty) {
                                 return "Please fill in your postal code";
@@ -363,7 +450,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                   child: GetBtn(
                     btnText: "Submit",
                     onPressed: () async {
-                      print(warrantyCode);
                       if (_formKey.currentState!.validate()) {
                         ApiService apiController = Get.find<ApiService>();
                         String res =
@@ -388,6 +474,15 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                             "Warranty activation request has been sent for approval.",
                           );
                         }
+                      }
+                      if (portalController.text.isEmpty) {
+                        setState(() {
+                          isPortalEmpty = true;
+                        });
+                      } else {
+                        setState(() {
+                          isPortalEmpty = false;
+                        });
                       }
                     },
                     height: 45,
