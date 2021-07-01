@@ -10,7 +10,11 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class HomePage extends StatefulWidget {
   final int startingIndex;
-  HomePage({Key? key, required this.startingIndex}) : super(key: key);
+
+  HomePage({
+    Key? key,
+    required this.startingIndex,
+  }) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -55,6 +59,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   int _currentIndex = 0;
+
   final List<Widget> listOfScreens = [
     UserProducts(),
     ServiceRequestsScreen(),

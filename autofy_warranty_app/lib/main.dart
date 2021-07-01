@@ -47,7 +47,9 @@ class MyApp extends StatelessWidget {
       title: 'Autofy',
       home: LocalStoragaeService.getUserValue(UserField.Token) == null
           ? SignInPage()
-          : HomePage(startingIndex: 0),
+          : HomePage(
+              startingIndex: 0,
+            ),
     );
   }
 }

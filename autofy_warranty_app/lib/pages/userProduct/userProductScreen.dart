@@ -16,10 +16,9 @@ class UserProducts extends StatefulWidget {
 class _UserProductsState extends State<UserProducts> {
   @override
   void initState() {
-    EasyLoading.show(status: "Fetching Data...");
     ApiController apiController = ApiController();
-    apiController.getUserProductData();
-    EasyLoading.dismiss();
+    apiController.getUserProductData(isShow: true);
+
     super.initState();
   }
 

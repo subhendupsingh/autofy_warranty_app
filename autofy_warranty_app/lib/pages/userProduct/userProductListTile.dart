@@ -54,7 +54,9 @@ class BuildUserProductListTile extends StatelessWidget {
             children: [
               buildUserProductFunctionBtn(
                 iconData: Icons.handyman_outlined,
-                title: "Repair",
+                title: userProductModel.numberOfRepairRequestsLeft == 0
+                    ? "Warranty Claimed"
+                    : "Repair",
                 onPreesed: () {
                   Get.to(
                     () => RepairProductScreen(
@@ -102,10 +104,13 @@ class BuildUserProductListTile extends StatelessWidget {
                 color: Colors.white,
               ),
               emptyHorizontalBox(width: 10),
-              Text(
-                title,
-                style: TextStyle(
-                  color: AppColors.secondaryColor,
+              Flexible(
+                flex: 1,
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    color: AppColors.secondaryColor,
+                  ),
                 ),
               ),
             ],
@@ -114,7 +119,7 @@ class BuildUserProductListTile extends StatelessWidget {
               ? userProductModel.showRepairButton == true
                   ? AppColors.primaryColor
                   : AppColors.greyTextColor
-              : AppColors.primaryColor,
+              : AppColors.greyTextColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(6),
           ),
@@ -132,13 +137,6 @@ class BuildUserProductListTile extends StatelessWidget {
             children: [
               TextSpan(
                 text: "\nPurchase Date: ${userProductModel.purchaseDate}",
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              TextSpan(
-                text:
-                    "\nRemaining attempts: ${userProductModel.numberOfRepairRequestsLeft}",
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -166,13 +164,16 @@ class BuildUserProductListTile extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-            Text(
-              userProductModel.warrantyStatus!,
-              style: TextStyle(
-                color: userProductModel.warrantyStatus! == "Active"
-                    ? AppColors.successColor
-                    : AppColors.primaryColor,
-                fontWeight: FontWeight.bold,
+            Flexible(
+              flex: 1,
+              child: Text(
+                userProductModel.warrantyStatus!,
+                style: TextStyle(
+                  color: userProductModel.warrantyStatus! == "Active"
+                      ? AppColors.successColor
+                      : AppColors.primaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             emptyHorizontalBox(width: 5),
