@@ -5,6 +5,7 @@ import 'package:autofy_warranty_app/pages/web_view.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../widgets/btn.dart';
@@ -101,6 +102,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   GetTextField buildPasswordField() {
     return GetTextField(
+      formatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
       isPassword: true,
       hasShadow: true,
       textFieldController: passwordController,
@@ -109,10 +111,10 @@ class _SignUpPageState extends State<SignUpPage> {
         if (value == null) {
           return "The Password can't be empty";
         }
-        if (value.length > 6) {
+        if (value.length >= 6) {
           return null;
         }
-        return "Password should be atleast 6 digits long";
+        return "Password should be 6 characters long or more";
       },
     );
   }
@@ -133,15 +135,24 @@ class _SignUpPageState extends State<SignUpPage> {
               isRegistering = true;
             });
             final AuthController authController = AuthController();
-            await authController.registerUser({
+            bool isSuccess = await authController.registerUser({
               "email": emailController.text.trim(),
               "name": nameController.text.trim(),
               "password": passwordController.text.trim(),
               "phone": phoneController.text.trim(),
             });
-            setState(() {
-              isRegistering = false;
-            });
+            if (mounted) {
+              if (isSuccess) {
+                emailController.clear();
+                nameController.clear();
+                passwordController.clear();
+                phoneController.clear();
+              }
+
+              setState(() {
+                isRegistering = false;
+              });
+            }
           }
         });
   }
@@ -156,71 +167,74 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color.fromRGBO(248, 248, 248, 1),
-        body: SingleChildScrollView(
-          physics: ScrollPhysics(),
-          child: Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  emptyVerticalBox(height: 100),
-                  buildSignUpText(),
-                  emptyVerticalBox(height: 40),
-                  buildNameField(),
-                  emptyVerticalBox(height: 15),
-                  buildEmailField(),
-                  emptyVerticalBox(height: 15),
-                  buildPhoneNumField(),
-                  emptyVerticalBox(height: 15),
-                  buildPasswordField(),
-                  emptyVerticalBox(),
-                  Row(
-                    children: [
-                      Checkbox(
-                          value: isChecked,
-                          onChanged: (value) {
-                            setState(() {
-                              isChecked = value!;
-                            });
-                          }),
-                      GestureDetector(
-                        onTap: () {
-                          Get.to(
-                            () => WebView(
-                                initialUrl:
-                                    "https://autofystore.com/terms-conditions/"),
-                          );
-                        },
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: "Terms & Conditions",
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    decoration: TextDecoration.underline,
-                                    fontWeight: FontWeight.w600),
-                              )
-                            ],
-                            text: "I agree to Autofy's ",
-                            style: TextStyle(color: Colors.grey[800]),
+      child: AbsorbPointer(
+        absorbing: isRegistering,
+        child: Scaffold(
+          backgroundColor: Color.fromRGBO(248, 248, 248, 1),
+          body: SingleChildScrollView(
+            physics: ScrollPhysics(),
+            child: Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    emptyVerticalBox(height: 100),
+                    buildSignUpText(),
+                    emptyVerticalBox(height: 40),
+                    buildNameField(),
+                    emptyVerticalBox(height: 15),
+                    buildEmailField(),
+                    emptyVerticalBox(height: 15),
+                    buildPhoneNumField(),
+                    emptyVerticalBox(height: 15),
+                    buildPasswordField(),
+                    emptyVerticalBox(),
+                    Row(
+                      children: [
+                        Checkbox(
+                            value: isChecked,
+                            onChanged: (value) {
+                              setState(() {
+                                isChecked = value!;
+                              });
+                            }),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(
+                              () => WebView(
+                                  initialUrl:
+                                      "https://autofystore.com/terms-conditions/"),
+                            );
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: "Terms & Conditions",
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.w600),
+                                )
+                              ],
+                              text: "I agree to Autofy's ",
+                              style: TextStyle(color: Colors.grey[800]),
+                            ),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
-                  emptyVerticalBox(),
-                  buildSubmitButton(),
-                  emptyVerticalBox(),
-                  signInLink,
-                  emptyVerticalBox(),
-                ],
+                        )
+                      ],
+                    ),
+                    emptyVerticalBox(),
+                    buildSubmitButton(),
+                    emptyVerticalBox(),
+                    signInLink,
+                    emptyVerticalBox(),
+                  ],
+                ),
               ),
             ),
           ),
