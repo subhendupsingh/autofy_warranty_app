@@ -410,6 +410,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                               if (value!.isEmpty) {
                                 return "Please fill in your address";
                               }
+                              if (value.length < 20) {
+                                return "An address of atleast 20 characters long should be provided";
+                              }
                               return null;
                             }),
                         GetTextField(
@@ -437,6 +440,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                             validatorFun: (value) {
                               if (value!.isEmpty) {
                                 return "Please fill in your postal code";
+                              }
+                              if (value.length != 6) {
+                                return "Enter a valid postal code";
                               }
                               return null;
                             }),
