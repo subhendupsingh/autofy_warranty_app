@@ -12,6 +12,7 @@ class ResetScrController extends GetxController {
       TextEditingController();
   String otpByUser = "";
   int start = 180;
+  int min = 3, sec = 0;
   bool _isLoading = false;
   String pageFinder = "phoneNoScreen", passwordForReset = "";
   PageController get pageController => this._pageController;
@@ -62,6 +63,9 @@ class ResetScrController extends GetxController {
           timer.cancel();
         } else {
           start--;
+          double tm = start / 60;
+          min = tm.toInt();
+          sec = start % 60;
         }
         update();
       },

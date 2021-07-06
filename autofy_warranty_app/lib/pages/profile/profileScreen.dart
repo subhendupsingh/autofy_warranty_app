@@ -5,10 +5,14 @@ import 'package:autofy_warranty_app/pages/widgets/link.dart';
 import 'package:autofy_warranty_app/services/localStorageService.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:io' show Platform;
+import 'package:url_launcher/url_launcher.dart' as urlLauncher;
 
 class ProfileSreen extends StatefulWidget {
   @override
@@ -99,7 +103,13 @@ class _ProfileSreenState extends State<ProfileSreen> {
       child: Container(
         width: Get.size.width,
         padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-        child: buildAddress(),
+        child: Column(
+          children: [
+            buildAddress(),
+            emptyVerticalBox(),
+            buildReportBug(),
+          ],
+        ),
       ),
     );
   }
@@ -262,7 +272,11 @@ class _ProfileSreenState extends State<ProfileSreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              launch(
+                'https://www.facebook.com/autofyautomotive/',
+              );
+            },
             icon: FaIcon(
               FontAwesomeIcons.facebook,
               color: AppColors.primaryColor,
@@ -270,7 +284,9 @@ class _ProfileSreenState extends State<ProfileSreen> {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              launch('https://instagram.com/autofystore');
+            },
             icon: FaIcon(
               FontAwesomeIcons.instagram,
               color: AppColors.primaryColor,
@@ -278,13 +294,69 @@ class _ProfileSreenState extends State<ProfileSreen> {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              launch('https://www.linkedin.com/company/autofyauto/');
+            },
             icon: FaIcon(
               FontAwesomeIcons.linkedin,
               color: AppColors.primaryColor,
               size: 30,
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  buildReportBug() {
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.all(10),
+      width: Get.width - 40,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Facing Isuue",
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+          Divider(
+            color: AppColors.greyTextColor,
+          ),
+          GetLink(
+            linkText: "Report a bug",
+            onTapped: () async {
+              String msg = "";
+              msg += "User Email : " +
+                  LocalStoragaeService.getUserValue(UserField.Email)
+                      .toString() +
+                  "\n";
+
+              DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+              if (Platform.isIOS) {
+                IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+                msg += "Device Model: " + iosInfo.model! + "\n";
+              } else if (Platform.isAndroid) {
+                AndroidDeviceInfo androidDeviceInfo =
+                    await deviceInfo.androidInfo;
+                msg += "Device Model: " + androidDeviceInfo.model! + "\n";
+              }
+              msg += "Mobile No : " +
+                  LocalStoragaeService.getUserValue(UserField.Phone)
+                      .toString() +
+                  "\n";
+              msg += "*--TYPE YOUR ISSUE BELOW--*\n";
+
+              var whatsappUrl = "whatsapp://send?phone=919999933907&text=$msg";
+              await urlLauncher.canLaunch(whatsappUrl)
+                  ? urlLauncher.launch(whatsappUrl)
+                  : urlLauncher.launch(
+                      "https://wa.me/919999933907?text=$msg",
+                    );
+            },
+          )
         ],
       ),
     );

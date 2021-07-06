@@ -78,7 +78,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             textFieldController: nameController,
                             lableText: "Name",
                             validatorFun: (value) {
-                              if (value!.isEmpty) {
+                              if (value!.trim().isEmpty) {
                                 return "Name can't be emtpy";
                               }
                               return null;
@@ -99,9 +99,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             textFieldController: phoneController,
                             lableText: "Phone",
                             validatorFun: (value) {
-                              if (value!.isEmpty) {
+                              if (value!.trim().isEmpty) {
                                 return "Phone number can't be emtpy";
-                              }
+                              } else if (value.trim().length != 10)
+                                return "Invalid Mobile No";
                               return null;
                             },
                           ),
@@ -111,7 +112,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             height: 125,
                             maxLines: 5,
                             validatorFun: (value) {
-                              if (value!.isEmpty) {
+                              if (value!.trim().isEmpty) {
                                 return "Address can't be emtpy";
                               }
                               return null;
@@ -121,9 +122,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             textFieldController: cityController,
                             lableText: "City",
                             validatorFun: (value) {
-                              if (value!.isEmpty) {
+                              if (value!.trim().isEmpty) {
                                 return "City can't be emtpy";
-                              }
+                              } else if (value.trim().length < 2)
+                                return "Invalid City";
                               return null;
                             },
                           ),
@@ -131,9 +133,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             textFieldController: stateController,
                             lableText: "State",
                             validatorFun: (value) {
-                              if (value!.isEmpty) {
+                              if (value!.trim().isEmpty) {
                                 return "State can't be emtpy";
-                              }
+                              } else if (value.trim().length < 2)
+                                return "Invalid state";
                               return null;
                             },
                           ),
@@ -141,9 +144,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             textFieldController: postalController,
                             lableText: "Postal Code",
                             validatorFun: (value) {
-                              if (value!.isEmpty) {
+                              if (value!.trim().isEmpty) {
                                 return "Postal Code can't be emtpy";
-                              }
+                              } else if (value.trim().length < 6)
+                                return "Invalid Postal Code";
                               return null;
                             },
                           ),
@@ -160,16 +164,18 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                   UserField.Id.asString:
                                       LocalStoragaeService.getUserValue(
                                           UserField.Id),
-                                  UserField.Name.asString: nameController.text,
+                                  UserField.Name.asString:
+                                      nameController.text.trim(),
                                   UserField.Phone.asString:
-                                      phoneController.text,
+                                      phoneController.text.trim(),
                                   UserField.Address.asString:
-                                      addressController.text,
-                                  UserField.City.asString: cityController.text,
+                                      addressController.text.trim(),
+                                  UserField.City.asString:
+                                      cityController.text.trim(),
                                   UserField.State.asString:
-                                      stateController.text,
+                                      stateController.text.trim(),
                                   UserField.PostalCode.asString:
-                                      postalController.text,
+                                      postalController.text.trim(),
                                 };
                                 Map<dynamic, dynamic> result =
                                     await apiController

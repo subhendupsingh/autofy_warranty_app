@@ -36,6 +36,7 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
 
   final FocusNode fourthFocusNode = FocusNode();
 
+  String preCode = "";
   @override
   void initState() {
     Get.put(UploadInvoiceController());
@@ -60,21 +61,39 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
               right: 15,
               left: 15,
               top: 25,
-              bottom: 5,
+              bottom: 0,
             ),
             width: Get.size.width,
             height: Get.size.height < Get.size.width
                 ? Get.size.height + 127
-                : Get.size.height - 190,
+                : Get.size.height - 160,
             child: Stack(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    buildSerialCodeComponent(context),
-                    emptyVerticalBox(height: 60),
-                    buildUploadInvoice(),
-                  ],
+                SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      buildSerialCodeComponent(context),
+                      emptyVerticalBox(),
+                      buildUploadInvoice(),
+                      Center(
+                        child: Text(
+                          "DEMO INVOICE",
+                          style: TextStyle(
+                            fontSize: AppTexts.normalTextSize,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Image.asset(
+                          'assets/billDemo.jpg',
+                          height: 260,
+                        ),
+                      ),
+                      emptyVerticalBox(height: 60),
+                    ],
+                  ),
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -106,7 +125,8 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
                   : controller.isCodeLenError
                       ? buildDangerMsg(
                           "Warranty code should be of 16 Characters")
-                      : buildDangerMsg("Warranty code is not validated")
+                      : buildDangerMsg(
+                          "Looks like you are entering incorrect Warranty code. Please check the warranty card and re-enter the correct code or email us on support@autofystore.com with this screenshot & your warranty card photo")
               : Container()
         ],
       ),
@@ -199,12 +219,14 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
           child: WarrantyCodeTextField(
             lableText: 'xxxx',
             textFieldController: firstTextEditingController,
+            enable: !controller.validatedSuccessfully,
             maxLength: 4,
             focusNode: firstFocusNode,
             border: controller.validatedSuccessfully,
             onChanged: (val) {
               if (val.length == 4) {
                 FocusScope.of(context).requestFocus(secondFocusNode);
+                validateCode(controller);
               }
             },
           ),
@@ -213,12 +235,14 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
           child: WarrantyCodeTextField(
             lableText: 'xxxx',
             textFieldController: secondTextEditingController,
+            enable: !controller.validatedSuccessfully,
             maxLength: 4,
             focusNode: secondFocusNode,
             border: controller.validatedSuccessfully,
             onChanged: (val) {
               if (val.length == 4) {
                 FocusScope.of(context).requestFocus(thirdFocusNode);
+                validateCode(controller);
               } else if (val.length == 0) {
                 FocusScope.of(context).requestFocus(firstFocusNode);
               }
@@ -228,13 +252,15 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
         Expanded(
           child: WarrantyCodeTextField(
             lableText: 'xxxx',
+            enable: !controller.validatedSuccessfully,
             textFieldController: thirdTextEditingController,
             maxLength: 4,
             focusNode: thirdFocusNode,
             border: controller.validatedSuccessfully,
-            onChanged: (val) {
+            onChanged: (val) async {
               if (val.length == 4) {
                 FocusScope.of(context).requestFocus(fourthFocusNode);
+                validateCode(controller);
               } else if (val.length == 0) {
                 FocusScope.of(context).requestFocus(secondFocusNode);
               }
@@ -245,6 +271,7 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
           child: WarrantyCodeTextField(
             lableText: 'xxxx',
             textFieldController: fourthTextEditingController,
+            enable: !controller.validatedSuccessfully,
             maxLength: 4,
             focusNode: fourthFocusNode,
             border: controller.validatedSuccessfully,
@@ -254,27 +281,7 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
               } else if (val.length == 4) {
                 controller.isCodeLenError = false;
                 controller.showValidateWarrantyMsg = false;
-                String code = firstTextEditingController.text.toString() +
-                    "-" +
-                    secondTextEditingController.text.toString() +
-                    "-" +
-                    thirdTextEditingController.text.toString() +
-                    "-" +
-                    fourthTextEditingController.text.toString();
-                controller.isLoading = true;
-
-                String msg =
-                    await ValidateSerialCode.validateSerialCode(code: code);
-
-                if (msg == "Warranty code is valid.") {
-                  controller.validatedSuccessfully = true;
-                  controller.showValidateWarrantyMsg = true;
-                  controller.warrantyCode = code;
-                } else {
-                  controller.validatedSuccessfully = false;
-                  controller.showValidateWarrantyMsg = true;
-                }
-                controller.isLoading = false;
+                await validateCode(controller);
               } else if (val.length < 4) {
                 controller.validatedSuccessfully = false;
                 controller.isCodeLenError = true;
@@ -292,13 +299,13 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Upload Invoice (PDF,JPG,PNG)",
+            "Upload Invoice (Only .jpg, .jpeg, .png, .pdf supported)",
             style: TextStyle(
               fontSize: AppTexts.normalTextSize,
               fontWeight: FontWeight.bold,
             ),
           ),
-          emptyVerticalBox(height: 10),
+          emptyVerticalBox(height: 20),
           controller.isFileUploading
               ? buildCircularProgcessIndicator()
               : GetBtn(
@@ -359,11 +366,14 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
           Icons.dangerous,
           color: AppColors.dangerColor,
         ),
-        Text(
-          text,
-          style: TextStyle(
-            color: AppColors.dangerColor,
-            fontSize: AppTexts.normalTextSize,
+        Flexible(
+          flex: 1,
+          child: Text(
+            text,
+            style: TextStyle(
+              color: AppColors.dangerColor,
+              fontSize: AppTexts.normalTextSize,
+            ),
           ),
         ),
       ],
@@ -389,5 +399,35 @@ class _RegisterWarrantyState extends State<RegisterWarranty> {
         )
       ],
     );
+  }
+
+  Future validateCode(controller) async {
+    String code = firstTextEditingController.text.toString() +
+        "-" +
+        secondTextEditingController.text.toString() +
+        "-" +
+        thirdTextEditingController.text.toString() +
+        "-" +
+        fourthTextEditingController.text.toString();
+
+    String msg = "";
+    print("code : ${code.length}");
+
+    if (code.length == 19) {
+      controller.isLoading = true;
+      if (preCode != code) {
+        preCode = code;
+        msg = await ValidateSerialCode.validateSerialCode(code: code);
+      }
+      if (msg == "Warranty code is valid.") {
+        controller.validatedSuccessfully = true;
+        controller.showValidateWarrantyMsg = true;
+        controller.warrantyCode = code;
+      } else {
+        controller.validatedSuccessfully = false;
+        controller.showValidateWarrantyMsg = true;
+      }
+      controller.isLoading = false;
+    }
   }
 }

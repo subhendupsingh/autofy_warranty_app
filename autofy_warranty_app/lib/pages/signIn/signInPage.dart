@@ -32,28 +32,37 @@ class SignInPage extends StatelessWidget {
             builder: (val) => Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 30, left: 30, top: 75),
+                  padding: const EdgeInsets.only(right: 30, left: 30, top: 50),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Center(
+                        child: Image.asset(
+                          'assets/autofy.png',
+                          width: 100,
+                          height: 100,
+                        ),
+                      ),
+                      emptyVerticalBox(height: 40),
                       Text(
-                        'Hello \nWelcome to \nAutofy',
+                        'Welcome to \nAutofy',
                         style: TextStyle(
                           fontSize: AppTexts.primaryHeadingTextSize,
                           fontWeight: FontWeight.bold,
                           color: AppColors.primaryColor,
                         ),
                       ),
-                      emptyVerticalBox(height: 50),
+                      emptyVerticalBox(),
                       GetTextField(
                         textFieldController: emailController,
-                        lableText: "Email Address",
+                        lableText: "Email / Phone Number",
                         isEnabled: val.isLoading ? false : true,
                         validatorFun: (email) {
-                          if (email == "") {
-                            return "Please Enter Email...";
-                          } else if (!EmailValidator.validate(email!)) {
-                            return "Please Enter Valid Email...";
+                          if (email!.trim() == "") {
+                            return "Please Enter Email/Phone Number...";
+                          } else if (!EmailValidator.validate(email) &&
+                              email.length < 10) {
+                            return "Invalid Email/Phone Number";
                           }
                         },
                         hasShadow: true,
@@ -68,7 +77,7 @@ class SignInPage extends StatelessWidget {
                           if (password == "") {
                             return "Please Enter Password...";
                           } else if (!password!.length.isGreaterThan(3)) {
-                            return "Password is too small atleast size 8 Charater";
+                            return "Password should be Atleast 6 Chars";
                           }
                         },
                         lableText: "Password",
@@ -104,7 +113,7 @@ class SignInPage extends StatelessWidget {
                                       "Please try after sometime.",
                                     );
                                   } else {
-                                    Get.snackbar("$res", "Thank you");
+                                    Get.snackbar("$res", "");
                                   }
                                 }
                               },
@@ -115,7 +124,7 @@ class SignInPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           GetLink(
-                            linkText: "Forget Your Password?",
+                            linkText: "Forgot Password?",
                             onTapped: () => Get.to(
                               ResetPassword(),
                             ),
