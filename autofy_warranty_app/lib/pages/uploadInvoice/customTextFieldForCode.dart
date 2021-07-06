@@ -9,15 +9,16 @@ class WarrantyCodeTextField extends StatelessWidget {
   final int? maxLength;
   final FocusNode? focusNode;
   final bool border;
+  final bool enable;
 
-  WarrantyCodeTextField({
-    this.textFieldController,
-    this.focusNode,
-    this.lableText,
-    this.maxLength,
-    this.onChanged,
-    this.border = false,
-  });
+  WarrantyCodeTextField(
+      {this.textFieldController,
+      this.focusNode,
+      this.lableText,
+      this.maxLength,
+      this.onChanged,
+      this.border = false,
+      this.enable = false});
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +49,7 @@ class WarrantyCodeTextField extends StatelessWidget {
           maxLength: maxLength,
           focusNode: focusNode,
           onChanged: onChanged,
+          enabled: enable,
           inputFormatters: [UpperCaseTextFormatter()],
           cursorColor: AppColors.primaryColor,
           decoration: InputDecoration(

@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart' as urlLauncher;
 
 class BuildUserProductListTile extends StatelessWidget {
+  GlobalKey _toolTipKey = GlobalKey();
   final UserProductModelForHive userProductModel;
   late final String whatsAppMsg;
   static late String userName, userAddress, userEmail, userPhone;
@@ -178,27 +179,39 @@ class BuildUserProductListTile extends StatelessWidget {
             ),
             emptyHorizontalBox(width: 5),
             userProductModel.warrantyStatus! == "Pending Approval"
-                ? Tooltip(
-                    waitDuration: Duration(seconds: 2),
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      borderRadius: BorderRadius.circular(5),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.greyTextColor,
-                          blurRadius: 2,
-                        )
-                      ],
-                    ),
-                    verticalOffset: 5,
-                    preferBelow: false,
-                    height: 30,
-                    message:
-                        "Your warrenty request is under observation.\nIt activate soon. Thank You.",
-                    child: Icon(
-                      Icons.help,
-                      size: 18,
-                      color: AppColors.greyTextColor,
+                ? GestureDetector(
+                    onTap: () async {
+                      final dynamic tooltip = _toolTipKey.currentState;
+                      tooltip.ensureTooltipVisible();
+                      await Future.delayed(
+                          Duration(
+                            seconds: 6,
+                          ), () {
+                        tooltip.deactivate();
+                      });
+                    },
+                    child: Tooltip(
+                      key: _toolTipKey,
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.greyTextColor,
+                            blurRadius: 2,
+                          )
+                        ],
+                      ),
+                      verticalOffset: 5,
+                      preferBelow: false,
+                      height: 30,
+                      message:
+                          "Hey! don't worry we have your details. If you need any urgent support related to warranty - click the HELP button below",
+                      child: Icon(
+                        Icons.help,
+                        size: 18,
+                        color: AppColors.greyTextColor,
+                      ),
                     ),
                   )
                 : Text(""),

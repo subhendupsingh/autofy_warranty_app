@@ -92,7 +92,9 @@ class OtpScreen extends StatelessWidget {
                     },
                   ),
                   GetLink(
-                    linkText: val.start == 0 ? "" : " in ${val.start}",
+                    linkText: val.start == 0
+                        ? ""
+                        : " in 0${val.min}:${val.sec < 10 ? '0${val.sec}' : '${val.sec}'}",
                     onTapped: () {},
                   ),
                 ],

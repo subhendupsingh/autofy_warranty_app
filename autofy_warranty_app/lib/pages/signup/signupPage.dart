@@ -182,7 +182,15 @@ class _SignUpPageState extends State<SignUpPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    emptyVerticalBox(height: 100),
+                    emptyVerticalBox(height: 30),
+                    Center(
+                      child: Image.asset(
+                        'assets/autofy.png',
+                        width: 100,
+                        height: 100,
+                      ),
+                    ),
+                    emptyVerticalBox(),
                     buildSignUpText(),
                     emptyVerticalBox(height: 40),
                     buildNameField(),

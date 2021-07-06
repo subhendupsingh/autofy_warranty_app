@@ -4,7 +4,6 @@ import 'package:autofy_warranty_app/pages/userProduct/userProductListTile.dart';
 import 'package:autofy_warranty_app/utils/constants.dart';
 import 'package:autofy_warranty_app/utils/helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hive/hive.dart';
 import 'package:lottie/lottie.dart';
 

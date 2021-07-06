@@ -15,7 +15,7 @@ class ResetPasswordService {
       );
       if (response.statusCode == 200) {
         if (response.data!["smssent"]) {
-          print(response.data!["otp"]);
+          // print(response.data!["otp"]);
           userBox.put("userIdForResetPassword", response.data!["userId"]);
           return "OTP Send Successfully";
         }
