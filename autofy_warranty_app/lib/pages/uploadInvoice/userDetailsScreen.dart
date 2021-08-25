@@ -458,6 +458,60 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         ApiService apiController = Get.find<ApiService>();
+
+                        /*Added for issue No. 51*/
+                        Map<String, dynamic> updateLocalData =
+                            Map<String, dynamic>();
+                        String localAddress =
+                            LocalStoragaeService.getUserValue(UserField.Address)
+                                .toString();
+                        String localCity =
+                            LocalStoragaeService.getUserValue(UserField.City)
+                                .toString();
+                        String localState =
+                            LocalStoragaeService.getUserValue(UserField.State)
+                                .toString();
+                        String localPostalCode =
+                            LocalStoragaeService.getUserValue(
+                                    UserField.PostalCode)
+                                .toString();
+
+                        if (localAddress == "null") {
+                          updateLocalData.addAll(
+                            {
+                              UserField.Address.asString:
+                                  addressController.text.trim().toString()
+                            },
+                          );
+                        }
+                        if (localCity == "null") {
+                          updateLocalData.addAll(
+                            {
+                              UserField.City.asString:
+                                  cityController.text.trim().toString()
+                            },
+                          );
+                        }
+                        if (localState == "null") {
+                          updateLocalData.addAll(
+                            {
+                              UserField.State.asString:
+                                  stateController.text.trim().toString()
+                            },
+                          );
+                        }
+                        if (localPostalCode == "null") {
+                          updateLocalData.addAll(
+                            {
+                              UserField.PostalCode.asString:
+                                  postalCodeController.text.trim().toString()
+                            },
+                          );
+                        }
+
+                        LocalStoragaeService.updateUserData(updateLocalData);
+                        /*Complete for issue No. 51*/
+
                         String res =
                             await apiController.activateWarranty(data: {
                           "name": nameController.text.trim().toString(),

@@ -81,7 +81,11 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                   children: [
                     SingleChildScrollView(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        padding: const EdgeInsets.only(
+                          right: 20.0,
+                          left: 20.0,
+                          bottom: 80.0,
+                        ),
                         child: Form(
                           key: _formKey,
                           child: Column(
@@ -97,7 +101,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                                     size: 30,
                                   ),
                                   subtitle: Text(
-                                    "We have autofilled some fields so Please review the fields.",
+                                    "1. We have auto-filled some fields for you; kindly review the same before proceeding.\n\n2. Please verify/edit the address on this screen - the same address will be used for pickup & delivery of the product.",
                                   ),
                                 ),
                               ),
@@ -113,6 +117,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                               GetTextField(
                                 textFieldController: nameController,
                                 lableText: "Name",
+                                hasShadow: true,
                                 validatorFun: (value) {
                                   if (value!.isEmpty) {
                                     return "Name can't be emtpy";
@@ -123,6 +128,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                               GetTextField(
                                   textFieldController: emailController,
                                   lableText: "Email",
+                                  hasShadow: true,
                                   validatorFun: (value) {
                                     if (!value!.isEmail) {
                                       return "Please enter a valid email";
@@ -132,6 +138,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                               GetTextField(
                                   textFieldController: phoneNumberController,
                                   lableText: "Phone Number",
+                                  hasShadow: true,
                                   validatorFun: (value) {
                                     if (!value!.isPhoneNumber) {
                                       return "Please enter a valid phone number";
@@ -183,6 +190,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                               GetTextField(
                                 textFieldController: addressController,
                                 lableText: "Address",
+                                hasShadow: true,
                                 height: 125,
                                 maxLines: 5,
                                 validatorFun: (value) {
@@ -195,6 +203,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                               GetTextField(
                                 textFieldController: cityController,
                                 lableText: "City",
+                                hasShadow: true,
                                 validatorFun: (value) {
                                   if (value!.isEmpty) {
                                     return "Please fill in your city name";
@@ -205,6 +214,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                               GetTextField(
                                 textFieldController: stateController,
                                 lableText: "State",
+                                hasShadow: true,
                                 validatorFun: (value) {
                                   if (value!.isEmpty) {
                                     return "Please fill in your state name";
@@ -215,6 +225,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                               GetTextField(
                                 textFieldController: postalCodeController,
                                 lableText: "Postal Code",
+                                hasShadow: true,
                                 validatorFun: (value) {
                                   if (value!.isEmpty) {
                                     return "Please fill in your postal code";
@@ -248,7 +259,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                                   "state": stateController.value.text,
                                   "postal": postalCodeController.value.text,
                                   "test": true,
-                                  "isCourierAllocated": false,
+                                  "isCourierAllocated": true,
                                 },
                               );
 
@@ -281,7 +292,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
     Get.dialog(
       Center(
         child: Container(
-          height: result["courierArranged"] ? 485 : 680,
+          height: result["courierArranged"] ? 540 : 690,
           width: Get.width - 40,
           padding: EdgeInsets.symmetric(
             horizontal: 20,
@@ -299,7 +310,8 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: "Your service request generated succefully.\n\n",
+                      text:
+                          "Your Product Repair request has been generated successfully.\n\n",
                       style: TextStyle(
                         color: AppColors.successColor,
                         fontWeight: FontWeight.bold,
@@ -307,7 +319,7 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                       ),
                     ),
                     TextSpan(
-                      text: "SRN NO : ",
+                      text: "Service Request Number: \n",
                       style: TextStyle(
                         color: AppColors.successColor,
                         fontSize: 16,
@@ -321,13 +333,119 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    TextSpan(
-                      text: getReversePickUpText(result["courierArranged"]),
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                      ),
-                    ),
+                    result["courierArranged"]
+                        ? TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "Please Click the ",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "Print Shipping Label ",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextSpan(
+                                text:
+                                    "to download Autofy Service Center Details.\n\n",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "NOTE :\n\n",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              TextSpan(
+                                text:
+                                    "1. Pack all accessories of the product - in case of LED foglights pack both lights, switch etc.\n2. After packing, paste Shipping Label on the outer package.\n3. If print is not available, you can write the address & stick on the parcel",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          )
+                        : TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "Your pin code is ",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "NOT ",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextSpan(
+                                text:
+                                    "serviceable for Reverse Pickup, we request you to kindly pack the product safely (to avoid physical damage during transit else warranty would void) & ship it to our warehouse. ",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "CLICK ",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              TextSpan(
+                                text: "the ",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "\"PRINT SHIPPING LABEL\" ",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              TextSpan(
+                                text: "button to get our address details.\n\n",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "NOTE :\n\n",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              TextSpan(
+                                text:
+                                    "1. Pack all accessories of the product - in case of LED foglights pack both lights, switch etc.\n2. After packing, paste Shipping Label on the outer package.\n3. If print is not available, you can write the address & stick on the parcel",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
                   ],
                 ),
               ),
@@ -464,11 +582,13 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
     );
 
     page.graphics.drawString(
-      getReversePickUpText(result["courierArranged"]),
+      result["courierArranged"]
+          ? "Take print out of this page or write with a pen on a plain paper in the following format and stick on the box: \n1) Service Request Number\n2) To Address\n3) From Address"
+          : "Your Product Repair request has been generated successfully. \n\nYour PIN Code is NOT serviceable for Reverse Pickup, we request you to kindly pack the product safely (to avoid physical damage during transit else warranty would void) & ship it to our warehouse. CLICK the \"PRINT SHIPPING LABEL\" button to get our address details.\n\nNote:\n\n1. Pack all accessories of the product - in case of LED foglights pack both lights, switch etc.\n2. After packing, paste Shipping Label on the outer package.\n3. If print is not available, you can write the address & stick on the parcel",
       PdfStandardFont(PdfFontFamily.helvetica, 10, style: PdfFontStyle.bold),
       bounds: result["courierArranged"]
           ? Rect.fromLTWH(220, 680, page.size.width / 2, 250)
-          : Rect.fromLTWH(220, 600, page.size.width / 2, 250),
+          : Rect.fromLTWH(220, 530, page.size.width / 2, 250),
     );
 
     List<int> bytes = pdfDocument.save();
@@ -479,11 +599,5 @@ class _RepairProductScreenState extends State<RepairProductScreen> {
   Future<Uint8List> _readImageData() async {
     final data = await rootBundle.load("assets/autofy.png");
     return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-  }
-
-  getReversePickUpText(bool courierArranged) {
-    return courierArranged
-        ? "Take print out of this page or write with a pen on a plain paper in the following format and stick on the box: \n1) Service Request Number\n2) To Address\n3) From Address"
-        : "Your pin code is not serviceable for reverse pickup, request you to please pack the product and ship it to our address, click on download shipping label to get the shipping address.\n\n- Note:\n\n 1) Please Pack all accessories received with this product.\n\n2)  Please pack the product and stick shipping label on top of it.\n\n3) If printing facility is not available, please write to-from address on a paper by hand.\n\n4) After that, send by any courier service to out warehouse";
   }
 }

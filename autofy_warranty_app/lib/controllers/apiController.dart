@@ -93,7 +93,7 @@ class ApiController extends GetxController {
     }
   }
 
-  getUserProductData({bool isShow = false}) async {
+  Future getUserProductData({bool isShow = false}) async {
     print("CALL FOR UPDATE WHEN LOGIN");
     if (isShow) await EasyLoading.show(status: "Fetching Data...");
     Response userProductResponse;

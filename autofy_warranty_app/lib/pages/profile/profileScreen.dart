@@ -52,41 +52,8 @@ class _ProfileSreenState extends State<ProfileSreen> {
                 width: Get.width,
                 child: Column(
                   children: [
-                    GetBtn(
-                      width: 150,
-                      btnText: "Logout",
-                      onPressed: () {
-                        Get.defaultDialog(
-                          title: "\nAlert",
-                          content: Column(
-                            children: [
-                              Text("Are you sure you want to logout?"),
-                              ButtonBar(
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Get.back();
-                                    },
-                                    child: Text(
-                                      "Cancel",
-                                      style: TextStyle(color: Colors.grey),
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Get.back();
-                                      AuthController.to.logOut();
-                                    },
-                                    child: Text("Logout"),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                    buildSocialMediaBtn()
+                    // buildLogoutBtn(),
+                    buildSocialMediaBtn(),
                   ],
                 ),
               ),
@@ -94,6 +61,43 @@ class _ProfileSreenState extends State<ProfileSreen> {
           ],
         ),
       ),
+    );
+  }
+
+  GetBtn buildLogoutBtn() {
+    return GetBtn(
+      width: 150,
+      btnText: "Logout",
+      onPressed: () {
+        Get.defaultDialog(
+          title: "\nAlert",
+          content: Column(
+            children: [
+              Text("Are you sure you want to logout?"),
+              ButtonBar(
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Get.back();
+                      AuthController.to.logOut();
+                    },
+                    child: Text("Logout"),
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -105,7 +109,7 @@ class _ProfileSreenState extends State<ProfileSreen> {
         padding: EdgeInsets.only(top: 20, left: 20, right: 20),
         child: Column(
           children: [
-            buildAddress(),
+            buildAmazonLink(),
             emptyVerticalBox(),
             buildReportBug(),
           ],
@@ -140,7 +144,7 @@ class _ProfileSreenState extends State<ProfileSreen> {
           Container(
             alignment: Alignment.topCenter,
             child: Text(
-              userName,
+              userName ?? "",
               style: TextStyle(
                 color: AppColors.secondaryColor,
                 fontSize: 22,
@@ -152,7 +156,7 @@ class _ProfileSreenState extends State<ProfileSreen> {
           Container(
             alignment: Alignment.topCenter,
             child: Text(
-              "+91 " + userPhone,
+              "+91 " + userPhone.toString(),
               style: TextStyle(
                 color: AppColors.secondaryColor,
                 fontSize: 16,
@@ -161,7 +165,7 @@ class _ProfileSreenState extends State<ProfileSreen> {
           ),
           Container(
             child: Text(
-              userEmail,
+              userEmail ?? "",
               style: TextStyle(
                 color: AppColors.secondaryColor,
                 fontSize: 16,
@@ -207,60 +211,34 @@ class _ProfileSreenState extends State<ProfileSreen> {
     );
   }
 
-  buildAddress() {
-    return Container(
-      color: Colors.white,
-      padding: EdgeInsets.all(10),
-      width: Get.width - 40,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Address",
-            style: TextStyle(
-              fontSize: 18,
+  buildAmazonLink() {
+    return GestureDetector(
+      onTap: () {
+        launch("https://amzn.to/2VhZWCd");
+      },
+      child: Container(
+        color: Colors.white,
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        width: Get.width - 40,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FaIcon(
+              FontAwesomeIcons.amazon,
+              color: AppColors.primaryColor,
+              size: 36,
             ),
-          ),
-          Divider(
-            color: AppColors.greyTextColor,
-          ),
-          userAddress == ""
-              ? GetLink(
-                  linkText: "Add New Address",
-                  onTapped: () async {
-                    await Get.to(() => UpdateProfileScreen());
-                    setState(() {
-                      userName =
-                          LocalStoragaeService.getUserValue(UserField.Name) ??
-                              "";
-                      userEmail =
-                          LocalStoragaeService.getUserValue(UserField.Email) ??
-                              "";
-                      userPhone =
-                          LocalStoragaeService.getUserValue(UserField.Phone) ??
-                              "";
-                      userAddress = LocalStoragaeService.getUserValue(
-                              UserField.Address) ??
-                          "";
-                      userCity =
-                          LocalStoragaeService.getUserValue(UserField.City) ??
-                              "";
-                      userState =
-                          LocalStoragaeService.getUserValue(UserField.State) ??
-                              "";
-                      userPostalCode = LocalStoragaeService.getUserValue(
-                              UserField.PostalCode) ??
-                          "";
-                    });
-                  },
-                )
-              : Text(
-                  "$userAddress, $userCity, $userState, $userPostalCode",
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-        ],
+            emptyHorizontalBox(width: 15),
+            Text(
+              "Browse More Autofy Products",
+              style: TextStyle(
+                color: AppColors.primaryColor,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -272,10 +250,13 @@ class _ProfileSreenState extends State<ProfileSreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           IconButton(
-            onPressed: () {
-              launch(
-                'https://www.facebook.com/autofyautomotive/',
-              );
+            onPressed: () async {
+              printError(info: "CALL");
+              await canLaunch(
+                      'fb://facewebmodal/f?href=https://www.facebook.com/autofyautomotive/')
+                  ? launch(
+                      'fb://facewebmodal/f?href=https://www.facebook.com/autofyautomotive/')
+                  : launch('https://www.facebook.com/autofyautomotive/');
             },
             icon: FaIcon(
               FontAwesomeIcons.facebook,
@@ -284,8 +265,10 @@ class _ProfileSreenState extends State<ProfileSreen> {
             ),
           ),
           IconButton(
-            onPressed: () {
-              launch('https://instagram.com/autofystore');
+            onPressed: () async {
+              await canLaunch('instagram://user?username=autofystore')
+                  ? launch('instagram://user?username=autofystore')
+                  : launch('https://instagram.com/autofystore');
             },
             icon: FaIcon(
               FontAwesomeIcons.instagram,
@@ -303,61 +286,75 @@ class _ProfileSreenState extends State<ProfileSreen> {
               size: 30,
             ),
           ),
+          IconButton(
+            onPressed: () {
+              launch('https://amzn.to/2VhZWCd');
+            },
+            icon: FaIcon(
+              FontAwesomeIcons.amazon,
+              color: AppColors.primaryColor,
+              size: 30,
+            ),
+          ),
         ],
       ),
     );
   }
 
   buildReportBug() {
-    return Container(
-      color: Colors.white,
-      padding: EdgeInsets.all(10),
-      width: Get.width - 40,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Facing Isuue",
-            style: TextStyle(
-              fontSize: 18,
+    return GestureDetector(
+      onTap: () async {
+        String msg = "";
+        msg += "User Email : " +
+            LocalStoragaeService.getUserValue(UserField.Email).toString() +
+            "\n";
+
+        DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+        if (Platform.isIOS) {
+          IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+          msg += "Device Model: " + iosInfo.model! + "\n";
+        } else if (Platform.isAndroid) {
+          AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
+          msg += "Device Model: " + androidDeviceInfo.model! + "\n";
+        }
+        msg += "Mobile No : " +
+            LocalStoragaeService.getUserValue(UserField.Phone).toString() +
+            "\n";
+        msg += "*--TYPE YOUR ISSUE BELOW--*\n";
+
+        var whatsappUrl = "whatsapp://send?phone=919999933907&text=$msg";
+        await urlLauncher.canLaunch(whatsappUrl)
+            ? urlLauncher.launch(whatsappUrl)
+            : urlLauncher.launch(
+                "https://wa.me/919999933907?text=$msg",
+              );
+      },
+      child: Container(
+        color: Colors.white,
+        padding: EdgeInsets.all(10),
+        width: Get.width - 40,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Facing Issue?",
+              style: TextStyle(
+                fontSize: 18,
+              ),
             ),
-          ),
-          Divider(
-            color: AppColors.greyTextColor,
-          ),
-          GetLink(
-            linkText: "Report a bug",
-            onTapped: () async {
-              String msg = "";
-              msg += "User Email : " +
-                  LocalStoragaeService.getUserValue(UserField.Email)
-                      .toString() +
-                  "\n";
-
-              DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-              if (Platform.isIOS) {
-                IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-                msg += "Device Model: " + iosInfo.model! + "\n";
-              } else if (Platform.isAndroid) {
-                AndroidDeviceInfo androidDeviceInfo =
-                    await deviceInfo.androidInfo;
-                msg += "Device Model: " + androidDeviceInfo.model! + "\n";
-              }
-              msg += "Mobile No : " +
-                  LocalStoragaeService.getUserValue(UserField.Phone)
-                      .toString() +
-                  "\n";
-              msg += "*--TYPE YOUR ISSUE BELOW--*\n";
-
-              var whatsappUrl = "whatsapp://send?phone=919999933907&text=$msg";
-              await urlLauncher.canLaunch(whatsappUrl)
-                  ? urlLauncher.launch(whatsappUrl)
-                  : urlLauncher.launch(
-                      "https://wa.me/919999933907?text=$msg",
-                    );
-            },
-          )
-        ],
+            Divider(
+              color: AppColors.greyTextColor,
+            ),
+            Text(
+              "Report a bug",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: AppTexts.linkTextSize,
+                color: AppColors.primaryColor,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

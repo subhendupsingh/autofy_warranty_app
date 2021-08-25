@@ -1,3 +1,4 @@
+import 'package:autofy_warranty_app/controllers/authController.dart';
 import 'package:autofy_warranty_app/pages/profile/profileScreen.dart';
 import 'package:autofy_warranty_app/pages/serviceRequests/serviceRequestsScreen.dart';
 import 'package:autofy_warranty_app/pages/uploadInvoice/uploadInvoiceScreen.dart';
@@ -76,9 +77,71 @@ class _HomePageState extends State<HomePage> {
 
   buildAppBar() {
     return AppBar(
-      title: Text(appBarTitles[_currentIndex]),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Image.asset(
+            "assets/autofywhite.png",
+            width: 40,
+            height: 40,
+          ),
+          Text(appBarTitles[_currentIndex]),
+          Text("          "),
+        ],
+      ),
       backgroundColor: AppColors.primaryColor,
       centerTitle: true,
+      actions: _currentIndex == 3
+          ? [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: InkWell(
+                    onTap: () {
+                      Get.defaultDialog(
+                        title: "\nAlert",
+                        content: Column(
+                          children: [
+                            Text("Are you sure you want to logout?"),
+                            ButtonBar(
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: Text(
+                                    "Cancel",
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                    AuthController.to.logOut();
+                                  },
+                                  child: Text(
+                                    "Logout",
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Logout",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ]
+          : [],
     );
   }
 
@@ -126,6 +189,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     // print("+++++++++++++++++++++++++++++++++build ran");
     // if (initialUrl != "") return WebView(initialUrl: initialUrl);
+
     return Scaffold(
       key: scaffoldKey,
       appBar: _currentIndex == 1 ? null : buildAppBar(),
