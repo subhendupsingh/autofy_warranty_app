@@ -207,7 +207,18 @@ class _ServiceRequestsScreenState extends State<ServiceRequestsScreen> {
       child: Scaffold(
         backgroundColor: Colors.grey[200],
         appBar: AppBar(
-          title: Text("Repair Requests"),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image.asset(
+                "assets/autofywhite.png",
+                width: 40,
+                height: 40,
+              ),
+              Text("Repair Requests"),
+              Text("          "),
+            ],
+          ),
           centerTitle: true,
           backgroundColor: AppColors.primaryColor,
           bottom: TabBar(

@@ -58,13 +58,15 @@ class BuildUserProductListTile extends StatelessWidget {
                 title: userProductModel.numberOfRepairRequestsLeft == 0
                     ? "Warranty Claimed"
                     : "Repair",
-                onPreesed: () {
-                  Get.to(
-                    () => RepairProductScreen(
-                      warrantyCode: userProductModel.warrantyCode ?? "",
-                    ),
-                  );
-                },
+                onPreesed: userProductModel.numberOfRepairRequestsLeft == 0
+                    ? () {}
+                    : () {
+                        Get.to(
+                          () => RepairProductScreen(
+                            warrantyCode: userProductModel.warrantyCode ?? "",
+                          ),
+                        );
+                      },
               ),
               buildHelpBtn(
                 () async {

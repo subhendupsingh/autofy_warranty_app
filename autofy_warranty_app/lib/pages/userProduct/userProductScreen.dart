@@ -13,13 +13,7 @@ class UserProducts extends StatefulWidget {
 }
 
 class _UserProductsState extends State<UserProducts> {
-  @override
-  void initState() {
-    ApiController apiController = ApiController();
-    apiController.getUserProductData(isShow: true);
-
-    super.initState();
-  }
+  ApiController apiController = ApiController();
 
   final Box<UserProductModelForHive> userProductBox =
       Hive.box(BoxNames.userProductBoxName);
@@ -47,11 +41,18 @@ class _UserProductsState extends State<UserProducts> {
               ],
             ),
           )
-        : ListView.builder(
-            itemBuilder: (context, index) => BuildUserProductListTile(
-              userProductModel: userProductBox.get(index)!,
-            ),
-            itemCount: userProductBox.length,
-          );
+        : FutureBuilder(
+            future: apiController.getUserProductData(isShow: true),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Container();
+              }
+              return ListView.builder(
+                itemBuilder: (context, index) => BuildUserProductListTile(
+                  userProductModel: userProductBox.get(index)!,
+                ),
+                itemCount: userProductBox.length,
+              );
+            });
   }
 }
